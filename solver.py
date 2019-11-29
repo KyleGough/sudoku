@@ -3,6 +3,7 @@ from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest
 from grid import Grid
 from itertools import chain, combinations
+from colours import tCol
 
 # Checks conflicts in a row.
 def checkRow(g, y):
@@ -215,9 +216,13 @@ def xwingSolve(g, k, n, rows, cols):
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
-                    msg = "Reduced cell (" + str(x+1) + "," + str(y+1) + ") from " + str(valid) + " to "
+                    msg = tCol.HEADER + "X-Wing" + tCol.ENDC + " - "
+                    msg += "Reduced cell " + tCol.HEADER + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
+                    msg += tCol.WARNING + str(valid) + tCol.ENDC + " to "
                     valid.discard(n)
-                    msg += str(valid) + " using X-Wing at rows:" + str(rows) + " cols:" + str(cols)
+                    msg += tCol.WARNING + str(valid) + tCol.ENDC
+                    msg += " using X-Wing at rows " + tCol.OKBLUE + str(rows) + tCol.ENDC
+                    msg += ", cols " + tCol.OKBLUE + str(cols) + tCol.ENDC
                     g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         
@@ -240,7 +245,7 @@ def strategicSolver(g):
         found = False
 
         if (g.isFilled()):
-            print("[ SOLVED ]")
+            print("[" + tCol.OKGREEN, "SOLVED IN", g.move - 1, "MOVES", tCol.ENDC + "]")
             return g, True
         
         # Heuristic 1.
@@ -308,4 +313,5 @@ if __name__ == "__main__":
 
     # Solves the puzzle.
     g = updateAllValid(g)
-    g = strategicSolver(g)
+    g, success = strategicSolver(g)
+    g.printClean()
