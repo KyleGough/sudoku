@@ -26,10 +26,15 @@ class Grid:
         self.valid = [list(i) for i in zip(*self.valid)]
 
     # Logs a move that yields information.
-    def log(self, v, msg):
+    def logMove(self, v, msg):
         if (self.verbose >= v):
             print("[ MOVE", self.move, "]", msg)
         self.move += 1
+    
+    # Logs information.
+    def log(self, v, msg):
+        if (self.verbose >= v):
+            print(msg)
 
     # Checks if the grid has been filled.
     def isFilled(self):

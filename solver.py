@@ -1,3 +1,4 @@
+import sys
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest
 from grid import Grid
@@ -44,7 +45,7 @@ def h1(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            g.log(0, str(value) + " in cell " + str(x+1) + str(y+1) + " due to ruleset. [H1]")
+            g.logMove(0, str(value) + " in cell " + str(x+1) + str(y+1) + " due to ruleset. [H1]")
             return g, True
     return g, False
 
@@ -74,7 +75,7 @@ def sectorSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.log(0, "Sector set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, "Sector set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -102,7 +103,7 @@ def columnSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.log(0, "Column set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, "Column set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -130,7 +131,7 @@ def rowSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.log(0, "Row set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, "Row set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -217,7 +218,7 @@ def xwingSolve(g, k, n, rows, cols):
                     msg = "Reduced cell (" + str(x+1) + "," + str(y+1) + ") from " + str(valid) + " to "
                     valid.discard(n)
                     msg += str(valid) + " using X-Wing at rows:" + str(rows) + " cols:" + str(cols)
-                    g.log(0, msg)
+                    g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         
     return g, success
@@ -232,16 +233,17 @@ def updateAllValid(g):
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g):
     found = True
-    g.log(0, "Initial Configuration.")
+    g.logMove(0, "Initial Configuration.")
 
     while (found):
         #g.printClean()
+        found = False
+
         if (g.isFilled()):
             print("[ SOLVED ]")
             return g, True
         
         # Heuristic 1.
-        found = False
         g, found = h1(g)
         if (found):
             continue
@@ -250,7 +252,6 @@ def strategicSolver(g):
             return g, False
 
         # Heuristic 2.
-        found = False
         g, found = h2(g)
         if (found):
             continue
@@ -259,14 +260,12 @@ def strategicSolver(g):
             return g, False
 
         # X-Wing along columns.
-        found = False
         g, found = xwing(g, 2)
         if (found):
             continue
         if (g.error):
             print("X-Wing failed.")
             return g, False
-        found = False
 
         #X-Wing along rows.
         g.transpose()
@@ -294,15 +293,19 @@ def strategicSolver(g):
 
 
 if __name__ == "__main__":
+    # Grid Tests.
     g = easyGridTest()
     g = intermediateGridTest()
     g = difficultGridTest()
     g = xwingGridTest()
     #g = swordfishGridTest()
 
+    # Command Line arguments.
+    print("Command Line Arguments")
+    if (len(sys.argv) - 1 >= 1):
+        g.verbose = int(sys.argv[1])
+        print("Verbose set to:", sys.argv[1])
+
+    # Solves the puzzle.
     g = updateAllValid(g)
-    g = strategicSolver(g)    
-
-
-    #X-wing
-    #Swordfish
+    g = strategicSolver(g)
