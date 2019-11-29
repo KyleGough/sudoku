@@ -5,8 +5,10 @@ class Grid:
         self.size = 9
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
-        self.error = False
-        self.transposed = False
+        self.error = False # Error has occurred in the grid.
+        self.transposed = False # Is the grid transposed.
+        self.move = 0 # Current move.
+        self.verbose = 0 # How much information to print.
 
     # Clones the grid object.
     def clone(self):
@@ -22,6 +24,16 @@ class Grid:
         self.transposed = not self.transposed
         self.grid = [list(i) for i in zip(*self.grid)]
         self.valid = [list(i) for i in zip(*self.valid)]
+
+    # Logs a move that yields information.
+    def log(self, v, msg):
+        if (self.verbose >= v):
+            print("[ MOVE", self.move, "]", msg)
+        self.move += 1
+
+    # Checks if the grid has been filled.
+    def isFilled(self):
+        return (sum(x.count(0) for x in self.grid) == 0)
 
     # Prints basic grid info.
     def printInfo(self):

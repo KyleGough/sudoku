@@ -44,7 +44,7 @@ def h1(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            print(value, "- in cell ", x+1, y+1, "due to ruleset. [H1]")
+            g.log(0, str(value) + " in cell " + str(x+1) + str(y+1) + " due to ruleset. [H1]")
             return g, True
     return g, False
 
@@ -74,7 +74,7 @@ def sectorSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        print("Sector set cover inconsistency in cell", x+1, y+1, "from", oldValid, "to", newValid, "[H2]")
+                        g.log(0, "Sector set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -102,7 +102,7 @@ def columnSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        print("Column set cover inconsistency in cell", x+1, y+1, "from", oldValid, "to", newValid, "[H2]")
+                        g.log(0, "Column set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -130,7 +130,7 @@ def rowSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        print("Row set cover inconsistency in cell", x+1, y+1, "from", oldValid, "to", newValid, "[H2]")
+                        g.log(0, "Row set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
                         return g, True
     return g, False
 
@@ -199,7 +199,7 @@ def xwing(g, k):
             
             # Detects an X-Wing.
             if (len(cols) == k and len(rows) == k):
-                print("X-Wing of value", i, "found at rows:", rows, "cols:", cols)
+                g.log(1, "X-Wing of value " + str(i) + " found at rows:" + str(rows) + " cols:" + str(cols))
                 g, success =  xwingSolve(g, k, i, rows, cols)
                 if (success):
                     return g, success
@@ -214,9 +214,10 @@ def xwingSolve(g, k, n, rows, cols):
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
-                    print("Reduced cell", x, y, "from", valid, "to", end=' ')
+                    msg = "Reduced cell (" + str(x+1) + "," + str(y+1) + ") from " + str(valid) + " to "
                     valid.discard(n)
-                    print(valid, "using X-Wing at rows:", rows, "cols:", cols)
+                    msg += str(valid) + " using X-Wing at rows:" + str(rows) + " cols:" + str(cols)
+                    g.log(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         
     return g, success
@@ -228,15 +229,16 @@ def updateAllValid(g):
         g.updateCellValid(x, y, poss)
     return g
 
-#
+# Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g):
     found = True
-    move = 0
+    g.log(0, "Initial Configuration.")
 
     while (found):
-        print("[ MOVE", move, "]")
-        g.printClean()
-        move += 1
+        #g.printClean()
+        if (g.isFilled()):
+            print("[ SOLVED ]")
+            return g, True
         
         # Heuristic 1.
         found = False
