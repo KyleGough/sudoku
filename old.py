@@ -1,4 +1,46 @@
 
+#
+# Structure for example could be: X-Wing, Swordfish, Jellyfish, etc.
+def xwing(g, k):
+    # Row candidates for X-Wing.
+    candidates = set()
+    candidateColumns = []
+
+    # Iterate over rows.
+    for y in range(g.size):
+        # Count empty cells in the row.
+        empty = 0
+        columns = set()
+        for x in range(g.size):
+            if (g.get(y,x) == 0):#***
+                empty += 1
+                columns.add(x)
+        # Add as X-Wing candidate.
+        if (empty == k):
+            candidates.add(y)
+            candidateColumns.append(columns)
+
+    print(candidates)
+    print(candidateColumns)
+
+    ys = candidates
+    if (len(ys) == k):
+        xs = candidateColumns[0]
+        count = candidateColumns.count(xs)
+        if (count == len(candidateColumns)):######
+            # Possible values that can occupy all cells of the structure.
+            candidateValues = {1,2,3,4,5,6,7,8,9}
+            for a in xs:
+                for b in ys:
+                    candidateValues = candidateValues.intersection(g.getValid(b,a))#***
+            if (len(candidateValues) == 1):
+                print("X-Wing found.")
+                g, success = xwingExecute(g, xs, ys, k, candidateValues.pop())
+                return g, success
+            
+    return g, False
+
+
 ###8 moves beforehand
 ###30 moves with h4
 def h3(g):

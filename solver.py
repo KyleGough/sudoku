@@ -182,62 +182,43 @@ def xwing2(g, k):
                 count += 1
         # If restricted in at least k columns.
         if (count > k):
-            rows = []
+            rowList = []
             for a in range(g.size):
-                rows.append([c[1] for c in candidates[a] if c[0] == i])
-            print(rows)
+                rowList.append([c[1] for c in candidates[a] if c[0] == i])
+            print(rowList)
 
-            ###
+            # Coordinates of the X-Wing.
+            cols = []
+            rows = []
+
+            # Detects occurences across columns.
             for p in range(g.size):
-                if (len(rows[p]) == k):
-                    print(rows[p], "occurs", rows.count(rows[p]))
-                    if (rows.count(rows[p]) == k):
-                        print("X-Wing Found")
-                        print("at rows:", rows[p], "cols:", p)
-                        return g, False
+                if (len(rowList[p]) == k):
+                    print(rowList[p], "occurs", rowList.count(rowList[p]))
+                    if (rowList.count(rowList[p]) == k):
+                        cols.append(p)
+                        rows = rowList[p]
+            
+            # Detects an X-Wing.
+            if (len(cols) == k and len(rows) == k):
+                print("X-Wing found at rows:", rows, "cols:", cols)
+                return xwingSolve(g, k, i, rows, cols)
                 
     return g, False
 
 #
-# Structure for example could be: X-Wing, Swordfish, Jellyfish, etc.
-def xwing(g, k):
-    # Row candidates for X-Wing.
-    candidates = set()
-    candidateColumns = []
-
-    # Iterate over rows.
-    for y in range(g.size):
-        # Count empty cells in the row.
-        empty = 0
-        columns = set()
+def xwingSolve(g, k, n, rows, cols):
+    for y in rows:
         for x in range(g.size):
-            if (g.get(y,x) == 0):#***
-                empty += 1
-                columns.add(x)
-        # Add as X-Wing candidate.
-        if (empty == k):
-            candidates.add(y)
-            candidateColumns.append(columns)
-
-    print(candidates)
-    print(candidateColumns)
-
-    ys = candidates
-    if (len(ys) == k):
-        xs = candidateColumns[0]
-        count = candidateColumns.count(xs)
-        if (count == len(candidateColumns)):######
-            # Possible values that can occupy all cells of the structure.
-            candidateValues = {1,2,3,4,5,6,7,8,9}
-            for a in xs:
-                for b in ys:
-                    candidateValues = candidateValues.intersection(g.getValid(b,a))#***
-            if (len(candidateValues) == 1):
-                print("X-Wing found.")
-                g, success = xwingExecute(g, xs, ys, k, candidateValues.pop())
-                return g, success
-            
-    return g, False
+            if (not x in cols and g.get(x,y) == 0):
+                valid = g.getValid(x,y)
+                if (n in valid):
+                    print("Reduced cell", x, y, "from", valid, "to", end=' ')
+                    valid.discard(n)
+                    print(valid, "using X-Wing at rows:", rows, "cols:", cols)
+                    g.updateCellValid(x,y,valid)
+                    
+    return g, True
 
 #
 def xwingExecute(g, xs, ys, k, n):
