@@ -158,7 +158,7 @@ def xwing(g, k):
         empty = 0
         columns = set()
         for x in range(g.size):
-            if (g.get(x,y) == 0):
+            if (g.get(y,x) == 0):#***
                 empty += 1
                 columns.add(x)
         # Add as X-Wing candidate.
@@ -178,7 +178,7 @@ def xwing(g, k):
             candidateValues = {1,2,3,4,5,6,7,8,9}
             for a in xs:
                 for b in ys:
-                    candidateValues = candidateValues.intersection(g.getValid(a,b))
+                    candidateValues = candidateValues.intersection(g.getValid(b,a))#***
             if (len(candidateValues) == 1):
                 print("X-Wing found.")
                 g, success = xwingExecute(g, xs, ys, k, candidateValues.pop())
@@ -191,11 +191,11 @@ def xwingExecute(g, xs, ys, k, n):
     for y in range(g.size):
         for x in xs:
             if (not y in ys):
-                valid = g.getValid(x,y)
+                valid = g.getValid(y,x)#***
                 # Updates valid values conflicting with the X-Wing.
                 print("Cell ", x, y, "removed possibility of ", n, "due to X-Wing")                
                 valid.discard(n)
-                g.updateCellValid(x,y,valid)
+                g.updateCellValid(y,x,valid)#***
     return g, True
 
 # Updates the valid cells for every cell on the board.
@@ -243,13 +243,13 @@ def strategicSolver(g):
             return g, False
 
         # Swordfish.
-        found = False
-        g, found = xwing(g, 3)
-        if (found):
-            continue
-        if (g.error):
-            print("Swordfish failed.")
-            return g, False
+        #found = False
+        #g, found = xwing(g, 3)
+        #if (found):
+        #    continue
+        #if (g.error):
+        #    print("Swordfish failed.")
+        #    return g, False
 
         # Exhausted Possibilities.
         print("Exhausted Search. [EX]")
