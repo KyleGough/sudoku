@@ -143,6 +143,8 @@ def h2(g):
     g, success = sectorSetCover(g)
     return g, success
 
+###xwing value may nit have already been there, only show print if previous present.
+
 #
 # Structure for example could be: X-Wing, Swordfish, Jellyfish, etc.
 def xwing(g, k):
@@ -183,9 +185,9 @@ def xwing(g, k):
                 return g, success
             
     return g, False
+
 #
 def xwingExecute(g, xs, ys, k, n):
-
     for y in range(g.size):
         for x in xs:
             if (not y in ys):
@@ -260,7 +262,7 @@ if __name__ == "__main__":
     g = intermediateGridTest()
     g = difficultGridTest()
     g = xwingGridTest()
-    g = swordfishGridTest()
+    #g = swordfishGridTest()
 
     g = updateAllValid(g)
     g = strategicSolver(g)    
