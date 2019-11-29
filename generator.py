@@ -34,10 +34,62 @@ def intermediateGridTest():
       [0,0,0,0,4,3,0,6,0]]
     return g
 
-def randomGrid():
-    return
-    
+# Impossible level sudoku.
+# Requires multiple heuristics to solve.
+def difficultGridTest():
+    g = Grid()
+    g.grid = [
+        [0,7,0,0,0,0,0,9,0],
+        [0,0,0,0,5,0,4,0,2],
+        [0,0,0,0,0,0,0,3,0],
+        [6,0,0,0,1,3,2,0,0],
+        [0,0,9,0,8,0,0,0,0],
+        [0,3,1,0,0,6,0,0,0],
+        [4,6,0,0,0,0,0,0,1],
+        [0,0,8,0,0,4,6,0,0],
+        [0,0,0,0,3,5,0,0,0]]
+    return g
+
+# X-Wing sudoku.
+# Requires use of X-wing to solve.
+def xwingGridTest():
+    g = Grid()
+    g.grid = [
+        [1,4,0,0,0,2,0,9,6],
+        [0,0,5,0,0,0,4,0,2],
+        [0,2,0,0,0,8,0,0,1],
+        [0,0,0,6,0,0,5,0,0],
+        [0,0,0,4,1,3,0,0,0],
+        [0,0,9,0,0,5,0,0,0],
+        [5,0,0,8,0,0,0,4,0],
+        [6,0,4,0,0,0,1,0,0],
+        [9,8,0,1,0,0,0,2,5]]
+    return g
+
+# Swordfish sudoku.
+# Requires use of the Swordfish strategy to solve.
+def swordfishGridTest():
+    g = Grid()
+    g.grid = [
+        [5,0,0,0,0,1,0,2,9],
+        [0,0,0,0,0,9,0,0,0],
+        [0,6,3,2,0,0,0,0,0],
+        [0,0,2,3,0,0,0,8,0],
+        [1,0,0,0,5,0,0,0,4],
+        [0,3,0,0,0,7,9,0,0],
+        [0,0,0,0,0,5,4,6,0],
+        [0,0,0,7,0,0,0,0,0],
+        [3,2,0,6,0,0,0,0,5]]
+    return g
+
 
 if __name__ == "__main__":
-    g = intermediateGridTest()
-    g.printClean()
+    print("Easy Test")
+    easyGridTest().printClean()
+    print("Intermediate Test")
+    intermediateGridTest().printClean()
+    print("X-Wing Test")
+    xwingGridTest().printClean()
+    print("Impossible Test")
+    difficultGridTest.printClean()
+    
