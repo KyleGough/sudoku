@@ -6,6 +6,7 @@ class Grid:
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
         self.error = False
+        self.transposed = False
 
     # Clones the grid object.
     def clone(self):
@@ -15,6 +16,12 @@ class Grid:
         cp.valid = [row[:] for row in self.valid]
         cp.error = self.error
         return cp
+
+    # Transposes the grid and valid grid.
+    def transpose(self):
+        self.transposed = not self.transposed
+        self.grid = [list(i) for i in zip(*self.grid)]
+        self.valid = [list(i) for i in zip(*self.valid)]
 
     # Prints basic grid info.
     def printInfo(self):

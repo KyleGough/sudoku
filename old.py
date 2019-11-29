@@ -1,4 +1,15 @@
 
+def xwingExecute(g, xs, ys, k, n):
+    for y in range(g.size):
+        for x in xs:
+            if (not y in ys):
+                valid = g.getValid(y,x)#***
+                # Updates valid values conflicting with the X-Wing.
+                print("Cell ", x, y, "removed possibility of ", n, "due to X-Wing")                
+                valid.discard(n)
+                g.updateCellValid(y,x,valid)#***
+    return g, True
+    
 #
 # Structure for example could be: X-Wing, Swordfish, Jellyfish, etc.
 def xwing(g, k):

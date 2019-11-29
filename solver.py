@@ -143,8 +143,8 @@ def h2(g):
     g, success = sectorSetCover(g)
     return g, success
 
-###xwing value may nit have already been there, only show print if previous present.
-def xwing2(g, k):
+# Detects an X-Wing in the grid.
+def xwing(g, k):
     candidates = []
     candidateValues = []
 
@@ -169,7 +169,7 @@ def xwing2(g, k):
                 values.add(i)
         # Value/Row Pair.
         a = [a for a in allOccurences if a[0] in values]
-        print(values, a)
+        #print(values, a)
         candidates.append(a)
         candidateValues.append(values)
     
@@ -181,11 +181,10 @@ def xwing2(g, k):
             if (i in candidateValues[a]):         
                 count += 1
         # If restricted in at least k columns.
-        if (count > k):
+        if (count >= k):
             rowList = []
             for a in range(g.size):
                 rowList.append([c[1] for c in candidates[a] if c[0] == i])
-            print(rowList)
 
             # Coordinates of the X-Wing.
             cols = []
@@ -194,22 +193,24 @@ def xwing2(g, k):
             # Detects occurences across columns.
             for p in range(g.size):
                 if (len(rowList[p]) == k):
-                    print(rowList[p], "occurs", rowList.count(rowList[p]))
                     if (rowList.count(rowList[p]) == k):
                         cols.append(p)
                         rows = rowList[p]
             
             # Detects an X-Wing.
             if (len(cols) == k and len(rows) == k):
-                print("X-Wing found at rows:", rows, "cols:", cols)
-                return xwingSolve(g, k, i, rows, cols)
+                print("X-Wing of value", i, "found at rows:", rows, "cols:", cols)
+                g, success =  xwingSolve(g, k, i, rows, cols)
+                if (success):
+                    return g, success
                 
     return g, False
 
-#
+# Reduces valid values for cells conflicting with an X-Wing.
 def xwingSolve(g, k, n, rows, cols):
-    for y in rows:
-        for x in range(g.size):
+    success = False
+    for x in range(g.size):
+        for y in rows:
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
@@ -217,20 +218,8 @@ def xwingSolve(g, k, n, rows, cols):
                     valid.discard(n)
                     print(valid, "using X-Wing at rows:", rows, "cols:", cols)
                     g.updateCellValid(x,y,valid)
-                    
-    return g, True
-
-#
-def xwingExecute(g, xs, ys, k, n):
-    for y in range(g.size):
-        for x in xs:
-            if (not y in ys):
-                valid = g.getValid(y,x)#***
-                # Updates valid values conflicting with the X-Wing.
-                print("Cell ", x, y, "removed possibility of ", n, "due to X-Wing")                
-                valid.discard(n)
-                g.updateCellValid(y,x,valid)#***
-    return g, True
+                    success = True         
+    return g, success
 
 # Updates the valid cells for every cell on the board.
 def updateAllValid(g):
@@ -267,9 +256,20 @@ def strategicSolver(g):
             print("Heuristic 2 failed.")
             return g, False
 
-        # X-Wing.
+        # X-Wing along columns.
         found = False
-        g, found = xwing2(g, 2)
+        g, found = xwing(g, 2)
+        if (found):
+            continue
+        if (g.error):
+            print("X-Wing failed.")
+            return g, False
+        found = False
+
+        #X-Wing along rows.
+        g.transpose()
+        g, found = xwing(g, 2)
+        g.transpose()
         if (found):
             continue
         if (g.error):
