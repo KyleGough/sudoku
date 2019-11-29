@@ -144,6 +144,59 @@ def h2(g):
     return g, success
 
 ###xwing value may nit have already been there, only show print if previous present.
+def xwing2(g, k):
+    candidates = []
+    candidateValues = []
+
+    # Iterate over rows to find candidates.
+    for x in range(g.size):
+        allOccurences = []
+        # Iterate over columns.
+        for y in range(g.size):
+            if (g.get(x,y) == 0):
+                # Merges all valid values across the column.
+                valid = g.getValid(x,y)
+                for v in valid:
+                    allOccurences.append([v,y])
+        # Values that occur k-times in a column.
+        values = set()
+        for i in range(1,10):
+            count = 0
+            for j in allOccurences:
+                if (j[0] == i):
+                    count += 1
+            if (count == k):
+                values.add(i)
+        # Value/Row Pair.
+        a = [a for a in allOccurences if a[0] in values]
+        print(values, a)
+        candidates.append(a)
+        candidateValues.append(values)
+    
+    # Identify which values can occur in the X-Wing.
+    for i in range(1,10):
+        count = 0
+        # Count if a value occurs k times in a column, for at least k rows.
+        for a in range(g.size):
+            if (i in candidateValues[a]):         
+                count += 1
+        # If restricted in at least k columns.
+        if (count > k):
+            rows = []
+            for a in range(g.size):
+                rows.append([c[1] for c in candidates[a] if c[0] == i])
+            print(rows)
+
+            ###
+            for p in range(g.size):
+                if (len(rows[p]) == k):
+                    print(rows[p], "occurs", rows.count(rows[p]))
+                    if (rows.count(rows[p]) == k):
+                        print("X-Wing Found")
+                        print("at rows:", rows[p], "cols:", p)
+                        return g, False
+                
+    return g, False
 
 #
 # Structure for example could be: X-Wing, Swordfish, Jellyfish, etc.
@@ -235,7 +288,7 @@ def strategicSolver(g):
 
         # X-Wing.
         found = False
-        g, found = xwing(g, 2)
+        g, found = xwing2(g, 2)
         if (found):
             continue
         if (g.error):
