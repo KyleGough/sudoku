@@ -311,7 +311,15 @@ if __name__ == "__main__":
         g.verbose = int(sys.argv[1])
         print("Verbose set to:", sys.argv[1])
 
+    # Initial Grid.
+    print()
+    print("[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
+    g.printClean()
+    print()
+
     # Solves the puzzle.
     g = updateAllValid(g)
     g, success = strategicSolver(g)
+    print()
+    print("[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
     g.printClean()
