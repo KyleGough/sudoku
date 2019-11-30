@@ -1,4 +1,5 @@
 from copy import deepcopy
+from colours import tCol
 
 class Grid:
     def __init__(self):
@@ -28,7 +29,7 @@ class Grid:
     # Logs a move that yields information.
     def logMove(self, v, msg):
         if (self.verbose >= v):
-            print("[ MOVE", self.move, "]", msg)
+            print("[" + tCol.OKBLUE, "MOVE", self.move, tCol.ENDC + "]", msg)
         self.move += 1
     
     # Logs information.
@@ -42,8 +43,8 @@ class Grid:
 
     # Prints basic grid info.
     def printInfo(self):
-        print("Size:", self.size)
-        print("Correct:", self.correct)
+        print(tCol.OKBLUE + "Size:", tCol.ENDC + self.size)
+        print(tCol.OKBLUE + "Correct:", tCol.ENDC + self.correct)
         print(self.grid)
 
     # Prints the grid contents.
