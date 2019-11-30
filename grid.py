@@ -5,11 +5,20 @@ class Grid:
     def __init__(self):
         self.size = 9
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
+        self.solution = [[0 for i in range(self.size)] for j in range(self.size)]
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.move = 0 # Current move.
         self.verbose = 0 # How much information to print.
+
+    # Checks the current grid against the set solution.
+    def checkSolution(self):
+        for x, y in self.cells():
+            value = self.get(x,y)
+            if (value != 0 and self.solution[x][y] != value):
+                return False
+        return True
 
     # Clones the grid object.
     def clone(self):

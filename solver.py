@@ -47,8 +47,8 @@ def checkCell(g, x, y):
     # Possibilities.
     return {1,2,3,4,5,6,7,8,9} - conflicts
 
-# Heuristic 1 - Uses solo candidate and unique candidate technques.
-def h1(g):
+# Solo Candidate - Where a cell has only one possibility.
+def soloCandidate(g):
     # Iterate over each non-filled cell.
     for x, y in g.unfilledCells():
         valid = g.getValid(x,y)
@@ -57,10 +57,21 @@ def h1(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            g.logMove(0, tCol.HEADER + "Ruleset" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
+            g.logMove(0, tCol.HEADER + "Solo Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
             return g, True
     return g, False
 
+#
+def getSetCoverName(newValid, oldValid):
+    if (len(newValid) + 2 == len(oldValid)):
+        return "Naked/Hidden Pairs"
+    elif (len(newValid) + 3 == len(oldValid)):
+        return "Naked/Hidden Triples"
+    elif (len(newValid) + 4 == len(oldValid)):
+        return "Naked/Hidden Quads"
+    else:
+        return "Set Cover Inconsistency"
+                
 # Sector Set Cover.
 def sectorSetCover(g):
     for x, y in g.unfilledCells():
@@ -87,7 +98,8 @@ def sectorSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + "Sector Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        g.logMove(0, tCol.HEADER + getSetCoverName(newValid, oldValid) + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        print(valid)###
                         return g, True
     return g, False
 
@@ -115,7 +127,7 @@ def columnSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + "Column Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        g.logMove(0, tCol.HEADER + getSetCoverName(newValid, oldValid) + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -143,7 +155,7 @@ def rowSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + "Row Set Cover Inconsistency" + tCol.ENDC + " Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        g.logMove(0, tCol.HEADER + getSetCoverName(newValid, oldValid) + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -246,41 +258,54 @@ def updateAllValid(g):
         g.updateCellValid(x, y, poss)
     return g
 
+# Tests the grid against the rules and set solution.
+def testGrid(g):
+        if (g.error):
+            print("Incorrect value inserted inconsistent with rules.")
+            return False
+        elif (not g.checkSolution):
+            print("Incorrect value inserted inconsistent with solution.")
+            return False
+        else:
+            return True
+
 # Solves a sudoku by applying a list of strategies until new information is obtained.
-def strategicSolver(g):
+def strategicSolver(g, show):
     found = True
-    g.logMove(0, "Initial Configuration.")
+    g.logMove(0, tCol.HEADER + "Initial Configuration" + tCol.ENDC)
 
     while (found):
-        #g.printClean()
         found = False
 
+        # Displays the grid after each move.
+        if (show == "True"):
+            print(show)
+            g.printClean()
+
+        # Prints solution if the grid gets filled.
         if (g.isFilled()):
             print("[" + tCol.OKGREEN, "SOLVED IN", g.move - 1, "MOVES", tCol.ENDC + "]")
             return g, True
         
-        # Heuristic 1.
-        g, found = h1(g)
+        # Solo Candidate.
+        g, found = soloCandidate(g)
         if (found):
             continue
-        if (g.error):
-            print("Heuristic 1 failed.")
+        if (not testGrid(g)):
             return g, False
-
+        
         # Heuristic 2.
         g, found = h2(g)
         if (found):
             continue
-        if (g.error):
-            print("Heuristic 2 failed.")
+        if (not testGrid(g)):
             return g, False
 
         # X-Wing along columns.
         g, found = xsj(g, 2)
         if (found):
             continue
-        if (g.error):
-            print("X-Wing (COLUMN) failed.")
+        if (not testGrid(g)):
             return g, False
 
         #X-Wing along rows.
@@ -289,16 +314,14 @@ def strategicSolver(g):
         g.transpose()
         if (found):
             continue
-        if (g.error):
-            print("X-Wing (ROW) failed.")
+        if (not testGrid(g)):
             return g, False
        
         # Swordfish along columns.
         g, found = xsj(g, 3)
         if (found):
             continue
-        if (g.error):
-            print("Swordfish (COLUMN) failed.")
+        if (not testGrid(g)):
             return g, False
 
         # Swordfish along rows.
@@ -307,16 +330,14 @@ def strategicSolver(g):
         g.transpose()
         if (found):
             continue
-        if (g.error):
-            print("Swordfish (ROW) failed.")
+        if (not testGrid(g)):
             return g, False
 
         # Jellyfish along columns.
         g, found = xsj(g, 4)
         if (found):
             continue
-        if (g.error):
-            print("Jellyfish (COLUMN) failed.")
+        if (not testGrid(g)):
             return g, False
 
         # Jellyfish along rows.
@@ -325,12 +346,11 @@ def strategicSolver(g):
         g.transpose()
         if (found):
             continue
-        if (g.error):
-            print("Swordfish (ROW) failed.")
+        if (not testGrid(g)):
             return g, False
 
         # Exhausted Possibilities.
-        print("Exhausted Search. [EX]")
+        print("[" + tCol.FAIL + " EXHAUSTED SEARCH " + tCol.ENDC + "]")
 
     return g, True
 
@@ -346,9 +366,13 @@ if __name__ == "__main__":
 
     # Command Line arguments.
     print("Command Line Arguments")
+    show = False
     if (len(sys.argv) - 1 >= 1):
         g.verbose = int(sys.argv[1])
         print("Verbose set to:", sys.argv[1])
+    if (len(sys.argv) - 1 >= 2):
+        show = sys.argv[2]
+        print("Show grid set to:", sys.argv[2])
 
     # Initial Grid.
     print()
@@ -358,7 +382,7 @@ if __name__ == "__main__":
 
     # Solves the puzzle.
     g = updateAllValid(g)
-    g, success = strategicSolver(g)
+    g, success = strategicSolver(g, show)
     print()
     print("[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
     g.printClean()
