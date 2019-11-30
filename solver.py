@@ -1,25 +1,12 @@
+from __future__ import absolute_import
 import sys
+import techniques as t
 from grid import Grid
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
 from generator import pointingPairsGridTest
 from gridInit import init
-from soloCandidate import soloCandidate
-from hiddenCandidate import hiddenCandidate
-from subsetCover import subsetCover
-from xsj import xwing, swordfish, jellyfish, getStructureName
 from colours import tCol
-
-# Tests the grid against the rules and set solution.
-def testGrid(g):
-        if (g.error):
-            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
-            return False
-        elif (not g.checkSolution):
-            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
-            return False
-        else:
-            return True
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g, show):
@@ -47,12 +34,12 @@ def strategicSolver(g, show):
 
         # Order of strategies.
         strats = [
-            soloCandidate,
-            hiddenCandidate,
-            subsetCover,
-            xwing,
-            swordfish,
-            jellyfish
+            t.soloCandidate,
+            t.hiddenCandidate,
+            t.subsetCover,
+            t.xwing,
+            t.swordfish,
+            t.jellyfish
         ]
 
         # Executes each strategy in order.
@@ -60,7 +47,7 @@ def strategicSolver(g, show):
             g, found = func(g)
             if (found):
                 break
-            if (not testGrid(g)):
+            if (not g.testGrid()):
                 return g, False
 
         # Exhausted Possibilities.

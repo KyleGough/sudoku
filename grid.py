@@ -21,6 +21,18 @@ class Grid:
                 return False
         return True
 
+    
+    # Tests the grid against the rules and set solution.
+    def testGrid(self):
+        if (self.error):
+            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
+            return False
+        elif (not self.checkSolution):
+            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
+            return False
+        else:
+            return True
+
     # Clones the grid object.
     def clone(self):
         cp = Grid()
