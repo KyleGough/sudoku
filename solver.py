@@ -1,6 +1,7 @@
 import sys
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
+from generator import pointingPairsGridTest
 from grid import Grid
 from itertools import chain, combinations
 from colours import tCol
@@ -431,6 +432,7 @@ if __name__ == "__main__":
     g = xwingGridTest()
     g = swordfishGridTest()
     g = jellyfishGridTest()
+    g = pointingPairsGridTest()
 
     # Command Line arguments.
     print("Command Line Arguments")

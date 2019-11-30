@@ -119,6 +119,21 @@ def jellyfishGridTest():
         [7,4,8,9,5,3,2,6,1]]
     return g
 
+# Pointing Pairs sudoku.
+# Requires use of pointing pairs strategy.
+def pointingPairsGridTest():
+    g = Grid()
+    g.grid = [
+        [0,0,9,0,0,0,7,0,0],
+        [1,0,0,0,0,6,0,0,0],
+        [0,0,0,2,0,4,1,0,5],
+        [9,0,0,0,4,0,0,0,6],
+        [0,8,0,1,0,7,0,3,0],
+        [3,0,0,0,2,0,0,0,1],
+        [6,0,5,4,0,2,0,0,0],
+        [0,0,0,3,0,0,0,0,2],
+        [0,0,7,0,0,0,5,0,0]]
+    return g
 
 if __name__ == "__main__":
     print("Easy Test")
@@ -131,5 +146,7 @@ if __name__ == "__main__":
     swordfishGridTest().printClean()
     print("Jellyfish Test")
     jellyfishGridTest().printClean()
+    print("Pointing Pairs Test")
+    pointingPairsGridTest().printClean()
     print("Impossible Test")
     difficultGridTest.printClean()   
