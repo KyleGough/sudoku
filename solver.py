@@ -3,6 +3,7 @@ from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest
 from grid import Grid
 from itertools import chain, combinations
+from colours import tCol
 
 # Checks conflicts in a row.
 def checkRow(g, y):
@@ -45,7 +46,7 @@ def h1(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            g.logMove(0, str(value) + " in cell " + str(x+1) + str(y+1) + " due to ruleset. [H1]")
+            g.logMove(0, tCol.HEADER + "Ruleset" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
             return g, True
     return g, False
 
@@ -75,7 +76,7 @@ def sectorSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, "Sector set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, tCol.HEADER + "Sector Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -103,7 +104,7 @@ def columnSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, "Column set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, tCol.HEADER + "Column Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -131,7 +132,7 @@ def rowSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, "Row set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, tCol.HEADER + "Row Set Cover Inconsistency" + tCol.ENDC + " Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -215,9 +216,13 @@ def xwingSolve(g, k, n, rows, cols):
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
-                    msg = "Reduced cell (" + str(x+1) + "," + str(y+1) + ") from " + str(valid) + " to "
+                    msg = tCol.HEADER + "X-Wing" + tCol.ENDC + " - "
+                    msg += "Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
+                    msg += tCol.WARNING + str(valid) + tCol.ENDC + " to "
                     valid.discard(n)
-                    msg += str(valid) + " using X-Wing at rows:" + str(rows) + " cols:" + str(cols)
+                    msg += tCol.WARNING + str(valid) + tCol.ENDC
+                    msg += " using X-Wing at rows " + tCol.OKBLUE + str(rows) + tCol.ENDC
+                    msg += ", cols " + tCol.OKBLUE + str(cols) + tCol.ENDC
                     g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         
@@ -240,7 +245,7 @@ def strategicSolver(g):
         found = False
 
         if (g.isFilled()):
-            print("[ SOLVED ]")
+            print("[" + tCol.OKGREEN, "SOLVED IN", g.move - 1, "MOVES", tCol.ENDC + "]")
             return g, True
         
         # Heuristic 1.
@@ -308,4 +313,5 @@ if __name__ == "__main__":
 
     # Solves the puzzle.
     g = updateAllValid(g)
-    g = strategicSolver(g)
+    g, success = strategicSolver(g)
+    g.printClean()
