@@ -93,6 +93,22 @@ def swordfishGridTest():
         [3,2,0,6,0,0,0,0,5]]
     return g
 
+# Jellyfish sudoku.
+# Requires use of the Jellyfish strategy to solve.
+def jellyfishGridTest():
+    g = Grid()
+    g.grid = [
+        [0,0,7,0,6,0,0,0,0],
+        [0,5,0,0,2,1,0,7,0],
+        [1,0,0,0,5,7,0,0,6],
+        [7,0,8,6,4,9,0,0,3],
+        [5,0,9,0,7,0,6,0,0],
+        [3,0,0,1,8,5,7,0,9],
+        [8,0,1,5,9,4,0,0,7],
+        [0,0,0,7,3,0,0,1,0],
+        [0,7,0,0,1,0,4,0,0]]
+    return g
+
 
 if __name__ == "__main__":
     print("Easy Test")
@@ -101,6 +117,9 @@ if __name__ == "__main__":
     intermediateGridTest().printClean()
     print("X-Wing Test")
     xwingGridTest().printClean()
+    print("Swordfish Test")
+    swordfishGridTest().printClean()
+    print("Jellyfish Test")
+    jellyfishGridTest().printClean()
     print("Impossible Test")
-    difficultGridTest.printClean()
-    
+    difficultGridTest.printClean()   

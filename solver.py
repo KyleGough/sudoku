@@ -1,9 +1,20 @@
 import sys
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
-from generator import xwingGridTest, swordfishGridTest
+from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
 from grid import Grid
 from itertools import chain, combinations
 from colours import tCol
+
+# Gets the structure name for a given k.
+def getStructureName(k):
+    if (k == 2):
+        return "X-Wing"
+    elif (k == 3):
+        return "Swordfish"
+    elif (k == 4):
+        return "Jellyfish"
+    else:
+        return "NONE"
 
 # Checks conflicts in a row.
 def checkRow(g, y):
@@ -201,7 +212,7 @@ def xwing(g, k):
             
             # Detects an X-Wing.
             if (len(cols) == k and len(rows) == k):
-                g.log(1, "X-Wing of value " + str(i) + " found at rows:" + str(rows) + " cols:" + str(cols))
+                g.log(1, getStructureName(k) + " of value " + str(i) + " found at rows:" + str(rows) + " cols:" + str(cols))
                 g, success =  xwingSolve(g, k, i, rows, cols)
                 if (success):
                     return g, success
@@ -216,12 +227,12 @@ def xwingSolve(g, k, n, rows, cols):
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
-                    msg = tCol.HEADER + "X-Wing" + tCol.ENDC + " - "
+                    msg = tCol.HEADER + getStructureName(k) + tCol.ENDC + " - "
                     msg += "Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
                     msg += tCol.WARNING + str(valid) + tCol.ENDC + " to "
                     valid.discard(n)
                     msg += tCol.WARNING + str(valid) + tCol.ENDC
-                    msg += " using X-Wing at rows " + tCol.OKBLUE + str(rows) + tCol.ENDC
+                    msg += " using " + getStructureName(k) + " at rows " + tCol.OKBLUE + str(rows) + tCol.ENDC
                     msg += ", cols " + tCol.OKBLUE + str(cols) + tCol.ENDC
                     g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
@@ -269,7 +280,7 @@ def strategicSolver(g):
         if (found):
             continue
         if (g.error):
-            print("X-Wing failed.")
+            print("X-Wing (COLUMN) failed.")
             return g, False
 
         #X-Wing along rows.
@@ -279,17 +290,44 @@ def strategicSolver(g):
         if (found):
             continue
         if (g.error):
-            print("X-Wing failed.")
+            print("X-Wing (ROW) failed.")
+            return g, False
+       
+        # Swordfish along columns.
+        g, found = xwing(g, 3)
+        if (found):
+            continue
+        if (g.error):
+            print("Swordfish (COLUMN) failed.")
             return g, False
 
-        # Swordfish.
-        #found = False
-        #g, found = xwing(g, 3)
-        #if (found):
-        #    continue
-        #if (g.error):
-        #    print("Swordfish failed.")
-        #    return g, False
+        # Swordfish along rows.
+        g.transpose()
+        g, found = xwing(g, 3)
+        g.transpose()
+        if (found):
+            continue
+        if (g.error):
+            print("Swordfish (ROW) failed.")
+            return g, False
+
+        # Jellyfish along columns.
+        g, found = xwing(g, 4)
+        if (found):
+            continue
+        if (g.error):
+            print("Jellyfish (COLUMN) failed.")
+            return g, False
+
+        # Jellyfish along rows.
+        g.transpose()
+        g, found = xwing(g, 4)
+        g.transpose()
+        if (found):
+            continue
+        if (g.error):
+            print("Swordfish (ROW) failed.")
+            return g, False
 
         # Exhausted Possibilities.
         print("Exhausted Search. [EX]")
@@ -303,7 +341,8 @@ if __name__ == "__main__":
     g = intermediateGridTest()
     g = difficultGridTest()
     g = xwingGridTest()
-    #g = swordfishGridTest()
+    g = swordfishGridTest()
+    #g = jellyfishGridTest()
 
     # Command Line arguments.
     print("Command Line Arguments")
