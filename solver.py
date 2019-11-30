@@ -46,7 +46,7 @@ def h1(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            g.logMove(0, tCol.HEADER + "Ruleset" + tCol.ENDC + " - Set cell " + tCol.HEADER + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
+            g.logMove(0, tCol.HEADER + "Ruleset" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
             return g, True
     return g, False
 
@@ -76,7 +76,7 @@ def sectorSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + "Sector Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.HEADER + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        g.logMove(0, tCol.HEADER + "Sector Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -104,7 +104,7 @@ def columnSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + "Column Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.WARNING + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
+                        g.logMove(0, tCol.HEADER + "Column Set Cover Inconsistency" + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -132,7 +132,7 @@ def rowSetCover(g):
                     # Checks if valid states have changed.
                     if (newValid != oldValid):
                         g.updateCellValid(x,y,newValid)
-                        g.logMove(0, "Row set cover inconsistency in cell (" + str(x+1) + "," + str(y+1) + ") from " + str(oldValid) + " to " + str(newValid) + " [H2]")
+                        g.logMove(0, tCol.HEADER + "Row Set Cover Inconsistency" + tCol.ENDC + " Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
                         return g, True
     return g, False
 
@@ -217,7 +217,7 @@ def xwingSolve(g, k, n, rows, cols):
                 valid = g.getValid(x,y)
                 if (n in valid):
                     msg = tCol.HEADER + "X-Wing" + tCol.ENDC + " - "
-                    msg += "Reduced cell " + tCol.HEADER + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
+                    msg += "Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
                     msg += tCol.WARNING + str(valid) + tCol.ENDC + " to "
                     valid.discard(n)
                     msg += tCol.WARNING + str(valid) + tCol.ENDC
