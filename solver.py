@@ -61,6 +61,51 @@ def soloCandidate(g):
             return g, True
     return g, False
 
+# Hidden Candidate - In a column where a value is only valid in one position.
+def hiddenCandidateColumn(g):
+    # Finds hidden candidates along columns.
+    for x in range(g.size):
+        # All valid values along the column.
+        valid = []
+        for y in range(g.size):
+            valid.append(g.getValid(x,y))
+        # Checks each value.
+        for i in range(1,10):
+            count = sum([1 for v in valid if i in v])
+            # If a value occurs only once in the column.
+            if (count == 1):
+                for y in range(g.size):
+                    if i in valid[y]:
+                        g.insert(x,y,i)
+                        msg = "row" if g.transposed else "column"
+                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in " + msg)
+                        return g, True
+    return g, False
+
+# Hidden Candidate - In a sector where a value is only valid in one position.
+def hiddenCandidateSector(g):
+    # Set of all 3x3 sector centre points.
+    for a, b in g.sectorCells():
+        # (x,y) is the sector centre point.
+        x = 4 + (3 * a)
+        y = 4 + (3 * b)
+        # All valid values in the 3x3 sector.
+        valid = []
+        for c, d in g.sectorCells():
+            valid.append(g.getValid(x + c, y + d))
+        # Checks each value.
+        for i in range(1,10):
+            count = sum([1 for v in valid if i in v])
+            # If a value occurs once in the sector.
+            if (count == 1):
+                # Finds the cell containing the hidden candidate.
+                for e, f in g.sectorCells():
+                    if (i in g.getValid(x + e, y + f)):
+                        g.insert(x + e, y + f, i)
+                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x + e + 1) + "," + str(y + f + 1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in 3x3 sector")
+                        return g, True
+    return g, False
+
 #
 def getSetCoverName(newValid, oldValid):
     if (len(newValid) + 2 == len(oldValid)):
@@ -261,10 +306,10 @@ def updateAllValid(g):
 # Tests the grid against the rules and set solution.
 def testGrid(g):
         if (g.error):
-            print("Incorrect value inserted inconsistent with rules.")
+            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
             return False
         elif (not g.checkSolution):
-            print("Incorrect value inserted inconsistent with solution.")
+            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
             return False
         else:
             return True
@@ -293,7 +338,30 @@ def strategicSolver(g, show):
             continue
         if (not testGrid(g)):
             return g, False
-        
+
+        # Hidden Candidate along columns.
+        g, found = hiddenCandidateColumn(g)
+        if (found):
+            continue
+        if (not testGrid(g)):
+            return g, False
+
+        # Hidden Candidate along row.
+        g.transpose()
+        g, found = hiddenCandidateColumn(g)
+        g.transpose()
+        if (found):
+            continue
+        if (not testGrid(g)):
+            return g, False
+
+        # Hidden Candidate in 3x3 sector.
+        g, found = hiddenCandidateSector(g)
+        if (found):
+            continue
+        if (not testGrid(g)):
+            return g, False
+
         # Heuristic 2.
         g, found = h2(g)
         if (found):
@@ -367,12 +435,15 @@ if __name__ == "__main__":
     # Command Line arguments.
     print("Command Line Arguments")
     show = False
+    showValid = False
     if (len(sys.argv) - 1 >= 1):
         g.verbose = int(sys.argv[1])
         print("Verbose set to:", sys.argv[1])
     if (len(sys.argv) - 1 >= 2):
         show = sys.argv[2]
         print("Show grid set to:", sys.argv[2])
+    if (len(sys.argv) - 1 >= 3):
+        showValid = sys.argv[3]
 
     # Initial Grid.
     print()
@@ -387,6 +458,7 @@ if __name__ == "__main__":
     print("[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
     g.printClean()
     
-    ###
-    ###print()
-    ###g.printValid()
+    # Shows validities of each cell at the end.
+    if (showValid):
+        print()
+        g.printValid()
