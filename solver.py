@@ -65,7 +65,7 @@ if __name__ == "__main__":
     g = xwingGridTest()
     g = swordfishGridTest()
     g = jellyfishGridTest()
-    g = pointingPairsGridTest()
+    #g = pointingPairsGridTest()
 
     # Command Line arguments.
     print("Command Line Arguments")
