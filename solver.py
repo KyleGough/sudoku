@@ -77,9 +77,6 @@ if __name__ == "__main__":
     if (len(sys.argv) - 1 >= 2):
         show = sys.argv[2]
         print("Show grid set to:", sys.argv[2])
-    if (len(sys.argv) - 1 >= 3):
-        showValid = sys.argv[3]
-        print("Show grid valid set to:", sys.argv[3])
 
     # Initial Grid.
     print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
@@ -91,8 +88,5 @@ if __name__ == "__main__":
     g, success = strategicSolver(g, show)
     print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
     g.printClean()
-    
-    # Shows validities of each cell at the end.
-    if (showValid):
-        print()
-        g.printValid()
+    print()
+    g.printValid()

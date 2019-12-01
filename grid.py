@@ -88,13 +88,21 @@ class Grid:
                     for i in range(j,j+3):
                         if (self.get(x,k) == 0):
                             if (i in self.getValid(x,k)):
-                                print(tCol.WARNING + str(i) + tCol.ENDC, end=' ')
+                                if (((x // 3) + (k // 3)) % 2 == 0):
+                                    print(tCol.WARNING, end='')
+                                else:
+                                    print(tCol.FAIL, end='')    
+                                print(str(i) + tCol.ENDC, end=' ')
                             else:
                                 print(" ", end=' ')
                         elif (i == 5):
-                            print(tCol.OKBLUE + str(self.get(x,k)) + tCol.ENDC, end=' ')
+                            if (((x // 3) + (k // 3)) % 2 == 0):
+                                print(tCol.OKBLUE, end='')
+                            else:
+                                print(tCol.OKGREEN, end='')
+                            print(str(self.get(x,k)) + tCol.ENDC, end=' ')
                         else:
-                            print(" ", end=' ')
+                            print(":", end=' ')
 
                     print(hPt, end=' ')
                 print()
