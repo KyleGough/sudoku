@@ -78,9 +78,27 @@ class Grid:
 
     # Prints valid values of the grid.
     def printValid(self):
-        for y in range(self.size):
-            for x in range(self.size):
-                print(self.getValid(x,y))
+        hSep = tCol.OKGREEN + "█████████████████████████████████████████████████████████████████████████" + tCol.ENDC 
+        hPt = tCol.OKGREEN + "█" + tCol.ENDC 
+        print(hSep)        
+        for k in range(self.size):
+            for j in [1,4,7]:
+                print(hPt, end=' ')
+                for x in range(self.size):
+                    for i in range(j,j+3):
+                        if (self.get(x,k) == 0):
+                            if (i in self.getValid(x,k)):
+                                print(tCol.WARNING + str(i) + tCol.ENDC, end=' ')
+                            else:
+                                print(" ", end=' ')
+                        elif (i == 5):
+                            print(tCol.OKBLUE + str(self.get(x,k)) + tCol.ENDC, end=' ')
+                        else:
+                            print(" ", end=' ')
+
+                    print(hPt, end=' ')
+                print()
+            print(hSep)
 
     # Row rule.
     def ruleRow(self, x, y, n):
