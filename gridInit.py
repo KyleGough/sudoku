@@ -32,7 +32,7 @@ def checkCell(g, x, y):
     return {1,2,3,4,5,6,7,8,9} - conflicts
 
 # Updates the valid cells for every cell on the board.
-def init(g):
+def initGrid(g):
     for x, y in g.unfilledCells():
         poss = checkCell(g, x, y)
         g.updateCellValid(x, y, poss)

@@ -5,7 +5,7 @@ from grid import Grid
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
 from generator import pointingPairsGridTest
-from gridInit import init
+from gridInit import initGrid
 from colours import tCol
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
@@ -37,8 +37,8 @@ def strategicSolver(g, show):
             t.soloCandidate,
             t.hiddenCandidate,
             t.subsetCover,
-            t.xwing,
             t.swordfish,
+            t.xwing,
             t.jellyfish
         ]
 
@@ -56,15 +56,15 @@ def strategicSolver(g, show):
 
     return g, True
 
-
-if __name__ == "__main__":
+# Imports grid, and solves it.
+def init():
     # Grid Tests.
     g = easyGridTest()
     g = intermediateGridTest()
     g = difficultGridTest()
     g = xwingGridTest()
     g = swordfishGridTest()
-    g = jellyfishGridTest()
+    #g = jellyfishGridTest()
     #g = pointingPairsGridTest()
 
     # Command Line arguments.
@@ -77,6 +77,10 @@ if __name__ == "__main__":
     if (len(sys.argv) - 1 >= 2):
         show = sys.argv[2]
         print("Show grid set to:", sys.argv[2])
+    if (len(sys.argv) - 1 >= 3):
+        print("Import grid:", sys.argv[3])
+        if (not g.importGrid(sys.argv[3])):
+            return
 
     # Initial Grid.
     print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
@@ -84,9 +88,12 @@ if __name__ == "__main__":
     print()
 
     # Solves the puzzle.
-    g = init(g)
+    g = initGrid(g)
     g, success = strategicSolver(g, show)
     print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
     g.printClean()
     print()
     g.printValid()
+
+if __name__ == "__main__":
+    init()    
