@@ -13,22 +13,6 @@ class Grid:
         self.it = 0
         self.verbose = 0 # How much information to print.
 
-    # Imports a set grid from a string input.
-    def importGrid(self, gridStr):
-        if (len(gridStr) != self.size * self.size):
-            print("[ " + tCol.FAIL + "Incorrect length of grid input." + tCol.ENDC + " ]")
-            return False
-        c = 0
-        for i in gridStr:
-            try:
-                value = int(i)
-            except:
-                print("[ " + tCol.FAIL + "Invalid character {" + i + "} in grid input." + tCol.ENDC + " ]")
-                return False
-            self.grid[c % self.size][c // self.size] = value
-            c += 1
-        return True
-
     # Checks the current grid against the set solution.
     def checkSolution(self):
         for x, y in self.cells():

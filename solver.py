@@ -51,6 +51,29 @@ def strategicSolver(g, show):
 
     return g, True
 
+# Imports a set grid from a string input.    
+def importGrid(gridStr):
+    g = Grid()
+    size = g.size
+    del g
+
+
+    newGrid = [[0 for i in range(self.size)] for j in range(self.size)]
+
+    if (len(gridStr) != self.size * self.size):
+        print("[ " + tCol.FAIL + "Incorrect length of grid input." + tCol.ENDC + " ]")
+        return newGrid, False
+    c = 0
+    for i in gridStr:
+        try:
+            value = int(i)
+        except:
+            print("[ " + tCol.FAIL + "Invalid character {" + i + "} in grid input." + tCol.ENDC + " ]")
+            return newGrid, False
+        newgrid[c % self.size][c // self.size] = value
+        c += 1
+    return newGrid, True
+
 # Imports test puzzles.
 def importTestGrids():
     directory = os.fsencode("tests/")
@@ -58,13 +81,22 @@ def importTestGrids():
         filename = os.fsdecode(file)
         print(filename)
         if filename.endswith(".txt"): 
-            print("tests/" + filename)
             f = open("tests/" + filename, "r")
-            print(f.read())
-            #split
-            #grid
-            #solution.
-            
+            txtGrid = f.readline()
+            txtSolution = f.readline()
+            # Imports the initial grid and corresponding solution.
+            grid, success = importGrid(txtGrid)
+            if (not success):
+                continue
+            solution, success = importGrid(txtSolution)
+            if (not success):
+                continue
+
+            # Creates a new grid object.
+            g = Grid()
+            g.grid = grid
+            g.solution = solution
+            yield g
         
 # Imports grid, and solves it.
 def init():
@@ -91,18 +123,20 @@ def init():
         if (not g.importGrid(sys.argv[3])):
             return
 
-    # Initial Grid.
-    print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
-    g.printClean()
-    print()
+    ###
+    for g in importTestGrids():
+        # Initial Grid.
+        print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
+        g.printClean()
+        print()
 
-    # Solves the puzzle.
-    g = initGrid(g)
-    g, success = strategicSolver(g, show)
-    print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
-    g.printClean()
-    print()
-    g.printValid()
+        # Solves the puzzle.
+        g = initGrid(g)
+        g, success = strategicSolver(g, show)
+        print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
+        g.printClean()
+        print()
+        g.printValid()
 
 if __name__ == "__main__":
     importTestGrids()
