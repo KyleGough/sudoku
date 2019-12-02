@@ -53,8 +53,6 @@ def sectorSubsetCover(g):
             # Filter permutations of length at least 2.
             perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)]
 
-            print("perm:", perm)
-
             # Test each permutation.
             for p in perm:
                 valid = set()
@@ -62,13 +60,12 @@ def sectorSubsetCover(g):
                     valid.update(g.getValid(cx + i[0], cy + i[1]))
                 if (len(valid) != len(p)):
                     continue
-                    
+
                 # Uses subset cover to eliminate values in other cells of the row.
                 for a, b in g.sectorCells():
                     if (not [a, b] in p and g.get(cx + a, cy + b) == 0):
                         
                         cellValid = g.getValid(cx + a, cy + b)
-                        print("sector" + str(cellValid), end=' ')
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
                         msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
                         msg += str(valid) + tCol.ENDC + " in 3x3 sector"
@@ -81,8 +78,7 @@ def sectorSubsetCover(g):
                             if (v in cellValid):
                                 removed = True
                                 cellValid.discard(v)
-                                
-                        print(cellValid, removed, valid)
+                        # Update cell.            
                         if (removed):
                             g.updateCellValid(cx + a, cy + b, cellValid)
                             msg += tCol.WARNING + str(cellValid) + tCol.ENDC
@@ -95,6 +91,7 @@ def sectorSubsetCover(g):
     return g, success
 
 # Subset cover along rows.
+# Complexity: O(y * perm(X) * x)###
 def rowSubsetCover(g):
     success = False
     # Iterate over rows.
@@ -136,12 +133,10 @@ def rowSubsetCover(g):
                     # Removes possible values if in v.
                     removed = False
                     for v in valid:
-                        print(v)
-                        print(cellValid)
                         if (v in cellValid):
                             removed = True
                             cellValid.discard(v)
-                    
+                    # Update cell.
                     if (removed):
                         msg += tCol.WARNING + str(cellValid) + tCol.ENDC
                         g.updateCellValid(x, y, cellValid)
