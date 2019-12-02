@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import sys
+import os
 import techniques as t
 from grid import Grid
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
@@ -50,6 +51,21 @@ def strategicSolver(g, show):
 
     return g, True
 
+# Imports test puzzles.
+def importTestGrids():
+    directory = os.fsencode("tests/")
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        print(filename)
+        if filename.endswith(".txt"): 
+            print("tests/" + filename)
+            f = open("tests/" + filename, "r")
+            print(f.read())
+            #split
+            #grid
+            #solution.
+            
+        
 # Imports grid, and solves it.
 def init():
     # Grid Tests.
@@ -89,4 +105,5 @@ def init():
     g.printValid()
 
 if __name__ == "__main__":
+    importTestGrids()
     init()    
