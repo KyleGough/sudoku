@@ -62,10 +62,10 @@ def init():
     #g = easyGridTest()
     #g = intermediateGridTest()
     #g = difficultGridTest()
-    #g = xwingGridTest()
+    g = xwingGridTest()
     #g = swordfishGridTest()
     #g = jellyfishGridTest()
-    g = pointingPairsGridTest()
+    #g = pointingPairsGridTest()
 
     # Command Line arguments.
     show = False
