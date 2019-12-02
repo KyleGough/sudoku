@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import sys
 import os
 import techniques as t
+import queue
 from grid import Grid
 from generator import easyGridTest, intermediateGridTest, difficultGridTest
 from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
@@ -53,33 +54,32 @@ def strategicSolver(g, show):
 
 # Imports a set grid from a string input.    
 def importGrid(gridStr):
-    g = Grid()
-    size = g.size
-    del g
+    size = 9
+    newGrid = [[0 for i in range(9)] for j in range(9)]
 
-
-    newGrid = [[0 for i in range(self.size)] for j in range(self.size)]
-
-    if (len(gridStr) != self.size * self.size):
+    if (len(gridStr) < size * size):
         print("[ " + tCol.FAIL + "Incorrect length of grid input." + tCol.ENDC + " ]")
         return newGrid, False
     c = 0
+    gridStr = gridStr[0:81]
     for i in gridStr:
         try:
             value = int(i)
         except:
             print("[ " + tCol.FAIL + "Invalid character {" + i + "} in grid input." + tCol.ENDC + " ]")
             return newGrid, False
-        newgrid[c % self.size][c // self.size] = value
+        newGrid[c % size][c // size] = value
         c += 1
     return newGrid, True
 
 # Imports test puzzles.
 def importTestGrids():
+    # Test puzzle directory.
     directory = os.fsencode("tests/")
+
+    # Iterate over files in the directory.
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
-        print(filename)
         if filename.endswith(".txt"): 
             f = open("tests/" + filename, "r")
             txtGrid = f.readline()
@@ -96,7 +96,7 @@ def importTestGrids():
             g = Grid()
             g.grid = grid
             g.solution = solution
-            yield g
+            yield g, filename
         
 # Imports grid, and solves it.
 def init():
@@ -123,20 +123,39 @@ def init():
         if (not g.importGrid(sys.argv[3])):
             return
 
-    ###
-    for g in importTestGrids():
-        # Initial Grid.
-        print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
-        g.printClean()
-        print()
+    # Tests.
+    testQueue = queue.Queue()
+    for g, filename in importTestGrids():
+        solveGrid(g, filename, show, showValid, testQueue)
+    
+    print("\n[", tCol.WARNING + "Tests" + tCol.ENDC, "]")
+    while not testQueue.empty():
+        t = testQueue.get()
+        if (t[1]):
+            print("[" + tCol.OKGREEN + "Pass" + tCol.ENDC + "]: " + t[0])
+        else:
+            print("[" + tCol.FAIL + "Fail" + tCol.ENDC + "]: " + t[0])
+        
+# Attempts the solve the given grid.
+def solveGrid(g, filename, show, showValid, testQueue):
+    # File Name.
+    print("\n[" + tCol.OKGREEN, filename, tCol.ENDC + "]")
+    
+    # Initial Grid.
+    print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
+    g.printClean()
+    print()
 
-        # Solves the puzzle.
-        g = initGrid(g)
-        g, success = strategicSolver(g, show)
-        print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
-        g.printClean()
-        print()
-        g.printValid()
+    # Solves the puzzle.
+    g = initGrid(g)
+    g, success = strategicSolver(g, show)
+    print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
+    g.printClean()
+    print()
+    g.printValid()
+
+    # Adds to the test queue.
+    testQueue.put([filename, g.isFilled()])
 
 if __name__ == "__main__":
     importTestGrids()
