@@ -11,9 +11,7 @@ from colours import tCol
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g, show):
     found = True
-    print("[", tCol.OKBLUE + "MOVE " + str(g.move) + tCol.ENDC, "]")
     g.logMove(0, tCol.HEADER + "Initial Configuration" + tCol.ENDC)
-    g.it += 1
 
     while (found):
         found = False
@@ -22,10 +20,6 @@ def strategicSolver(g, show):
         if (g.isFilled()):
             print("[" + tCol.OKGREEN, "SOLVED IN", g.move - 1, "MOVES", tCol.ENDC + "]")
             return g, True
-
-        # Print the move count.
-        print("[" + tCol.OKBLUE, "MOVE", g.it, tCol.ENDC + "]")
-        g.it += 1
 
         # Displays the grid after each move.
         if (show == "True"):
@@ -62,8 +56,8 @@ def init():
     #g = easyGridTest()
     #g = intermediateGridTest()
     #g = difficultGridTest()
-    g = xwingGridTest()
-    #g = swordfishGridTest()
+    #g = xwingGridTest()
+    g = swordfishGridTest()
     #g = jellyfishGridTest()
     #g = pointingPairsGridTest()
 

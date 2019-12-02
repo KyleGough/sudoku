@@ -67,7 +67,7 @@ def sectorSubsetCover(g):
                         
                         cellValid = g.getValid(cx + a, cy + b)
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                        msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
+                        msg += " - Using " + tCol.WARNING
                         msg += str(valid) + tCol.ENDC + " in 3x3 sector"
                         msg += ", reduced cell " + tCol.OKBLUE + "(" + str(cx+a+1) + "," + str(cy+b+1) + ")" + tCol.ENDC
                         msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
@@ -124,7 +124,7 @@ def rowSubsetCover(g):
                 if (not x in p and g.get(x,y) == 0):
                     cellValid = g.getValid(x,y)
                     msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                    msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
+                    msg += " - Using " + tCol.WARNING
                     msg += str(valid) + tCol.ENDC + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC

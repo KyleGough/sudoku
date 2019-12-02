@@ -67,14 +67,13 @@ class Grid:
     # Logs a move that yields information.
     def logMove(self, v, msg):
         if (self.verbose >= v):
-            print("[" + tCol.OKBLUE + str(self.move) + tCol.ENDC + "] -", msg)
+            print("[", tCol.OKBLUE + "MOVE " + str(self.move) + tCol.ENDC, "] " + msg)
         self.move += 1
     
     # Logs information.
     def log(self, v, msg):
         if (self.verbose >= v):
-            print("[", tCol.OKBLUE + g.move + tCol.ENDC, "]", msg)
-        self.move += 1
+            print(" - [", tCol.OKBLUE + "INFO" + tCol.ENDC, "]", msg)
 
     # Checks if the grid has been filled.
     def isFilled(self):
