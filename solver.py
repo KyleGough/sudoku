@@ -30,7 +30,7 @@ def strategicSolver(g, show):
         # Displays the grid after each move.
         if (show == "True"):
             print(show)
-            g.printClean()
+            g.printValid()
 
         # Order of strategies.
         strats = [
@@ -62,10 +62,10 @@ def init():
     #g = easyGridTest()
     #g = intermediateGridTest()
     #g = difficultGridTest()
-    g = xwingGridTest()
+    #g = xwingGridTest()
     #g = swordfishGridTest()
     #g = jellyfishGridTest()
-    #g = pointingPairsGridTest()
+    g = pointingPairsGridTest()
 
     # Command Line arguments.
     show = False

@@ -10,7 +10,7 @@ def subsetCover(g):
     g, success = rowSubsetCover(g)
     g.transpose()
     if (success): return g, success
-    #g, success = sectorSubsetCover(g)
+    g, success = sectorSubsetCover(g)
     return g, success
 
 # Returns the structure name for a given n.
@@ -53,6 +53,8 @@ def sectorSubsetCover(g):
             # Filter permutations of length at least 2.
             perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)]
 
+            print("perm:", perm)
+
             # Test each permutation.
             for p in perm:
                 valid = set()
@@ -60,19 +62,17 @@ def sectorSubsetCover(g):
                     valid.update(g.getValid(cx + i[0], cy + i[1]))
                 if (len(valid) != len(p)):
                     continue
-                print("Detect subset of size:", len(p))
-
+                    
                 # Uses subset cover to eliminate values in other cells of the row.
                 for a, b in g.sectorCells():
-                    if (not [cx + a, cy + b] in p and g.get(cx + a, cy + b) == 0):
-                        
+                    if (not [a, b] in p and g.get(cx + a, cy + b) == 0):
                         
                         cellValid = g.getValid(cx + a, cy + b)
                         print("sector" + str(cellValid), end=' ')
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
                         msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
                         msg += str(valid) + tCol.ENDC + " in 3x3 sector"
-                        msg += ", reduced cell " + tCol.OKBLUE + "(" + str(cx+a) + "," + str(cy+b) + ")" + tCol.ENDC
+                        msg += ", reduced cell " + tCol.OKBLUE + "(" + str(cx+a+1) + "," + str(cy+b+1) + ")" + tCol.ENDC
                         msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
                         
                         # Removes possible values if in v.
@@ -80,13 +80,17 @@ def sectorSubsetCover(g):
                         for v in valid:
                             if (v in cellValid):
                                 removed = True
-                                cellValid = cellValid.remove(v)
+                                cellValid.discard(v)
+                                
                         print(cellValid, removed, valid)
                         if (removed):
                             g.updateCellValid(cx + a, cy + b, cellValid)
                             msg += tCol.WARNING + str(cellValid) + tCol.ENDC
                             g.logMove(0, msg)
                             success = True
+
+                if (success):
+                    return g, True
             
     return g, success
 
@@ -136,7 +140,7 @@ def rowSubsetCover(g):
                         print(cellValid)
                         if (v in cellValid):
                             removed = True
-                            cellValid = cellValid.remove(v)
+                            cellValid.discard(v)
                     
                     if (removed):
                         msg += tCol.WARNING + str(cellValid) + tCol.ENDC
