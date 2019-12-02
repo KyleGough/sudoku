@@ -10,7 +10,7 @@ class Grid:
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.move = 0 # Current move.
-        self.it = 0 # Information count.
+        self.it = 0
         self.verbose = 0 # How much information to print.
 
     # Imports a set grid from a string input.
@@ -67,13 +67,14 @@ class Grid:
     # Logs a move that yields information.
     def logMove(self, v, msg):
         if (self.verbose >= v):
-            print(" -", msg)
+            print("[" + tCol.OKBLUE + str(self.move) + tCol.ENDC + "] -", msg)
         self.move += 1
     
     # Logs information.
     def log(self, v, msg):
         if (self.verbose >= v):
-            print(msg)
+            print("[", tCol.OKBLUE + g.move + tCol.ENDC, "]", msg)
+        self.move += 1
 
     # Checks if the grid has been filled.
     def isFilled(self):
