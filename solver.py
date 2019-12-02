@@ -59,26 +59,25 @@ def strategicSolver(g, show):
 # Imports grid, and solves it.
 def init():
     # Grid Tests.
-    g = easyGridTest()
-    g = intermediateGridTest()
-    g = difficultGridTest()
+    #g = easyGridTest()
+    #g = intermediateGridTest()
+    #g = difficultGridTest()
     g = xwingGridTest()
-    g = swordfishGridTest()
+    #g = swordfishGridTest()
     #g = jellyfishGridTest()
     #g = pointingPairsGridTest()
 
     # Command Line arguments.
-    print("Command Line Arguments")
     show = False
     showValid = False
     if (len(sys.argv) - 1 >= 1):
         g.verbose = int(sys.argv[1])
-        print("Verbose set to:", sys.argv[1])
+        print("[" + tCol.OKGREEN + "Verbose" + tCol.ENDC + "]: " + sys.argv[1])
     if (len(sys.argv) - 1 >= 2):
         show = sys.argv[2]
-        print("Show grid set to:", sys.argv[2])
+        print("[" + tCol.OKGREEN + "Show Grid" + tCol.ENDC + "]: " + sys.argv[2])
     if (len(sys.argv) - 1 >= 3):
-        print("Import grid:", sys.argv[3])
+        print("[" + tCol.OKGREEN + "Import Grid" + tCol.ENDC + "]: " + sys.argv[3])
         if (not g.importGrid(sys.argv[3])):
             return
 

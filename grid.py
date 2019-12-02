@@ -20,7 +20,12 @@ class Grid:
             return False
         c = 0
         for i in gridStr:
-            self.grid[c % self.size][c // self.size] = int(i)
+            try:
+                value = int(i)
+            except:
+                print("[ " + tCol.FAIL + "Invalid character {" + i + "} in grid input." + tCol.ENDC + " ]")
+                return False
+            self.grid[c % self.size][c // self.size] = value
             c += 1
         return True
 
