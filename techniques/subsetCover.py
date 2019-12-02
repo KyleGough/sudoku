@@ -4,81 +4,144 @@ from itertools import chain, combinations
 
 # Uses subset cover inconsistencies to eliminate values.
 def subsetCover(g):
-    g, success = columnSetCover(g)
+    g, success = rowSubsetCover(g)
     if (success): return g, success
     g.transpose()
-    g, success = columnSetCover(g)
+    g, success = rowSubsetCover(g)
     g.transpose()
     if (success): return g, success
-    g, success = sectorSetCover(g)
+    #g, success = sectorSubsetCover(g)
     return g, success
 
-# Returns the structure name for a given k.
-def getSetCoverName(newValid, oldValid):
-    if (len(newValid) + 2 == len(oldValid)):
-        return "Subset Cover Pairs"
-    elif (len(newValid) + 3 == len(oldValid)):
-        return "Subset Cover Triples"
-    elif (len(newValid) + 4 == len(oldValid)):
-        return "Subset Cover Quads"
+# Returns the structure name for a given n.
+def getTitleName(n):
+    if (n == 2):
+        return "Subset Cover [Pairs]"
+    elif (n == 3):
+        return "Subset Cover [Triples]"
     else:
-        return "Set Cover Inconsistency"
-          
-# Sector Set Cover.
-def sectorSetCover(g):
-    for x, y in g.unfilledCells():
-        # Sector Midpoint.
-        cx, cy = g.getSectorCoord(x,y)
-        available = []
-        # Compare sector cells.
-        for i, j in g.sectorCells():
-            if ((cx + i != x or cy + j != y) and g.get(cx+i, cy+j) == 0):
-                available.append([cx + i, cy + j])
-        # Requires at least 1 other empty cell.
-        if (len(available) > 1):
-            perm = list(chain.from_iterable(combinations(available, r) for r in range(1, len(available) + 1)))
-            for k in range(len(perm)):
-                combo = perm[k]
-                empty = len(combo)
-                valid = set()
-                for m in range(len(combo)):
-                    valid.update(g.getValid(combo[m][0], combo[m][1]))
-                # Checks for set cover inconsistencies.
-                if (empty > 0 and empty == len(valid)):
-                    oldValid = g.getValid(x,y)
-                    newValid = oldValid - valid
-                    # Checks if valid states have changed.
-                    if (newValid != oldValid):
-                        g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + getSetCoverName(newValid, oldValid) + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
-                        print(valid)###
-                        return g, True
-    return g, False
+        return "Subset Cover [Quads]"
+    
+# Returns the structure.
+def getName(n):
+    if (n == 2):
+        return "pair"
+    elif (n == 3):
+        return "triple"
+    else:
+        return "quad"
 
-# Column Set Cover.
-def columnSetCover(g):
-    for x, y in g.unfilledCells():
-        available = []
-        # Compare column cells.
-        for j in range(g.size):
-            if (j != y and g.get(x,j) == 0):
-                available.append([x,j])
-        # Requires at least 1 other empty cell.
-        if (len(available) > 1):
-            perm = list(chain.from_iterable(combinations(available, r) for r in range(1, len(available) + 1)))
-            for k in range(len(perm)):
-                combo = perm[k]
-                empty = len(combo)
+# Sector subset cover.
+def sectorSubsetCover(g):
+    success = False
+
+    # Iterates over the sector midpoints.
+    for cx in range(1,8,3):
+        for cy in range(1,8,3):
+
+            # Gets the indexes of cells in the sector that are empty.
+            empty = []
+            # Iterate over cells in the sector.
+            for i, j in g.sectorCells():
+                if (g.get(cx + i, cy + j) == 0):
+                    empty.append([i,j])
+            if (len(empty) < 3):
+                continue
+
+            # Permutes the list of empty cells.
+            perm = list(chain.from_iterable(combinations(empty, r) for r in range(len(empty))))
+            # Filter permutations of length at least 2.
+            perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)]
+
+            # Test each permutation.
+            for p in perm:
                 valid = set()
-                for m in range(len(combo)):
-                    valid.update(g.getValid(combo[m][0], combo[m][1]))
-                # Checks for set cover inconsistencies.
-                if (empty > 0 and empty == len(valid)):
-                    oldValid = g.getValid(x,y)
-                    newValid = oldValid - valid
-                    # Checks if valid states have changed.
-                    if (newValid != oldValid):
-                        g.updateCellValid(x,y,newValid)
-                        g.logMove(0, tCol.HEADER + getSetCoverName(newValid, oldValid) + tCol.ENDC + " - Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from " + tCol.WARNING + str(oldValid) + tCol.ENDC + " to " + tCol.WARNING + str(newValid) + tCol.ENDC)
-                        return g, True
-    return g, False
+                for i in p:
+                    valid.update(g.getValid(cx + i[0], cy + i[1]))
+                if (len(valid) != len(p)):
+                    continue
+                print("Detect subset of size:", len(p))
+
+                # Uses subset cover to eliminate values in other cells of the row.
+                for a, b in g.sectorCells():
+                    if (not [cx + a, cy + b] in p and g.get(cx + a, cy + b) == 0):
+                        
+                        
+                        cellValid = g.getValid(cx + a, cy + b)
+                        print("sector" + str(cellValid), end=' ')
+                        msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
+                        msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
+                        msg += str(valid) + tCol.ENDC + " in 3x3 sector"
+                        msg += ", reduced cell " + tCol.OKBLUE + "(" + str(cx+a) + "," + str(cy+b) + ")" + tCol.ENDC
+                        msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
+                        
+                        # Removes possible values if in v.
+                        removed = False
+                        for v in valid:
+                            if (v in cellValid):
+                                removed = True
+                                cellValid = cellValid.remove(v)
+                        print(cellValid, removed, valid)
+                        if (removed):
+                            g.updateCellValid(cx + a, cy + b, cellValid)
+                            msg += tCol.WARNING + str(cellValid) + tCol.ENDC
+                            g.logMove(0, msg)
+                            success = True
+            
+    return g, success
+
+# Subset cover along rows.
+def rowSubsetCover(g):
+    success = False
+    # Iterate over rows.
+    for y in range(g.size):
+        
+        # Gets the indexes of cells in the row that are empty.
+        empty = []
+        # Iterate over cells in a row.
+        for x in range(g.size):
+            if (g.get(x,y) == 0):
+                empty.append(x)
+        if (len(empty) < 3):
+            continue
+
+        # Permutes the list of empty cells.
+        perm = list(chain.from_iterable(combinations(empty, r) for r in range(len(empty))))
+        # Filter permutations of length at least 2.
+        perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)] 
+
+        # Test each permutation.
+        for p in perm:
+            valid = set()
+            for i in p:
+                valid.update(g.getValid(i,y))
+            if (len(valid) != len(p)):
+                continue
+
+            # Uses subset cover to eliminate values in other cells of the row.
+            for x in range(g.size):
+                if (not x in p and g.get(x,y) == 0):
+                    cellValid = g.getValid(x,y)
+                    msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
+                    msg += " - Using " + getName(len(p)) + " " + tCol.WARNING
+                    msg += str(valid) + tCol.ENDC + " in "
+                    msg += "column" if g.transposed else "row"
+                    msg += ", reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC
+                    msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
+                    
+                    # Removes possible values if in v.
+                    removed = False
+                    for v in valid:
+                        print(v)
+                        print(cellValid)
+                        if (v in cellValid):
+                            removed = True
+                            cellValid = cellValid.remove(v)
+                    
+                    if (removed):
+                        msg += tCol.WARNING + str(cellValid) + tCol.ENDC
+                        g.updateCellValid(x, y, cellValid)
+                        g.logMove(0, msg)
+                        success = True
+
+    return g, success
