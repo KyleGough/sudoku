@@ -13,6 +13,6 @@ def soloCandidate(g):
             value = valid.pop()
             # Add value into grid.
             g.insert(x,y,value)
-            g.logMove(0, tCol.HEADER + "Solo Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
+            g.logMove(0, tCol.HEADER + "Solo Candidate" + tCol.ENDC + " - Set cell " + g.printCell(x,y) + " to " + tCol.OKBLUE + str(value) + tCol.ENDC)
             success = True
     return g, success

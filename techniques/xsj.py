@@ -93,13 +93,19 @@ def xsjSolve(g, k, n, rows, cols):
             if (not x in cols and g.get(x,y) == 0):
                 valid = g.getValid(x,y)
                 if (n in valid):
+                    colsM = list(map(lambda x: x + 1, cols))
+                    rowsM = list(map(lambda x: x + 1, rows))
+                    
                     msg = tCol.HEADER + getStructureName(k) + tCol.ENDC + " - "
-                    msg += "Reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " from "
+                    msg += "Reduced cell " + g.printCell(x,y) + " from "
                     msg += tCol.WARNING + str(valid) + tCol.ENDC + " to "
                     valid.discard(n)
                     msg += tCol.WARNING + str(valid) + tCol.ENDC
-                    msg += " using " + getStructureName(k) + " at rows " + tCol.OKBLUE + str(rows) + tCol.ENDC
-                    msg += ", cols " + tCol.OKBLUE + str(cols) + tCol.ENDC
+                    msg += " using " + getStructureName(k) + " at rows " + tCol.OKBLUE
+                    msg += str(colsM) if g.transposed else str(rowsM) 
+                    msg += tCol.ENDC + ", cols " + tCol.OKBLUE
+                    msg += str(rowsM) if g.transposed else str(colsM)
+                    msg += tCol.ENDC
                     g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         

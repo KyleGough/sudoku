@@ -63,6 +63,13 @@ class Grid:
     def isFilled(self):
         return (sum(x.count(0) for x in self.grid) == 0)
 
+    # Prints the cell position, corrects for if the grid is transposed.
+    def printCell(self, x, y):
+        msg = tCol.OKBLUE + "("
+        msg += str(y+1) + "," + str(x+1) if self.transposed else str(x+1) + "," + str(y+1)
+        msg += ")" + tCol.ENDC
+        return msg
+
     # Prints basic grid info.
     def printInfo(self):
         print(tCol.OKBLUE + "Size:", tCol.ENDC + self.size)
