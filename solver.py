@@ -30,12 +30,20 @@ def strategicSolver(g, show):
 
         # Order of strategies.
         strats = [
+            # Cell can only be one possible value.
             t.soloCandidate,
+            # Value can only occur in one cell of a column/row/sector.
             t.hiddenCandidate,
+            # Subsets of pairs/triples/quads to remove possibilities.
             t.subsetCover,
+            # Uses pairs/triples of possible values in a sector that are on
+            # the same row/column to eliminate possibilities in the row/column.
+            t.pointingPairs,
+            # Value restricted in n places along a column in n columns
+            # that all share the same rows. 
+            t.jellyfish, 
             t.swordfish,
-            t.xwing,
-            t.jellyfish
+            t.xwing             
         ]
 
         # Executes each strategy in order.
@@ -57,6 +65,7 @@ def importGrid(gridStr):
     size = 9
     newGrid = [[0 for i in range(9)] for j in range(9)]
 
+    print(len(gridStr))
     if (len(gridStr) < size * size):
         print("[ " + tCol.FAIL + "Incorrect length of grid input." + tCol.ENDC + " ]")
         return newGrid, False
@@ -105,9 +114,9 @@ def init():
     #g = intermediateGridTest()
     #g = difficultGridTest()
     #g = xwingGridTest()
-    g = swordfishGridTest()
+    #g = swordfishGridTest()
     #g = jellyfishGridTest()
-    #g = pointingPairsGridTest()
+    g = pointingPairsGridTest()
 
     # Command Line arguments.
     show = False
@@ -127,7 +136,8 @@ def init():
     testQueue = queue.Queue()
     for g, filename in importTestGrids():
         solveGrid(g, filename, show, showValid, testQueue)
-    
+
+    # Prints the test outcomes.  
     print("\n[", tCol.WARNING + "Tests" + tCol.ENDC, "]")
     while not testQueue.empty():
         t = testQueue.get()
