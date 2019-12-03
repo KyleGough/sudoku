@@ -22,15 +22,6 @@ def getTitleName(n):
     else:
         return "Subset Cover [Quads]"
     
-# Returns the structure.
-def getName(n):
-    if (n == 2):
-        return "pair"
-    elif (n == 3):
-        return "triple"
-    else:
-        return "quad"
-
 # Sector subset cover.
 def sectorSubsetCover(g):
     success = False
@@ -69,7 +60,7 @@ def sectorSubsetCover(g):
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
                         msg += " - Using " + tCol.WARNING
                         msg += str(valid) + tCol.ENDC + " in 3x3 sector"
-                        msg += ", reduced cell " + tCol.OKBLUE + "(" + str(cx+a+1) + "," + str(cy+b+1) + ")" + tCol.ENDC
+                        msg += ", reduced cell " + g.printCell(cx + a, cy + b)
                         msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
                         
                         # Removes possible values if in v.
@@ -127,7 +118,7 @@ def rowSubsetCover(g):
                     msg += " - Using " + tCol.WARNING
                     msg += str(valid) + tCol.ENDC + " in "
                     msg += "column" if g.transposed else "row"
-                    msg += ", reduced cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC
+                    msg += ", reduced cell " + g.printCell(x,y)
                     msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
                     
                     # Removes possible values if in v.

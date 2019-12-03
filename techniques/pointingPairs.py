@@ -69,16 +69,14 @@ def checkRow(g, y, n, cx, cy):
             valid = g.getValid(x, y)
             if (n in valid):
                 msg = tCol.HEADER + "Pointing Pair" + tCol.ENDC
-                msg += " - Reduced cell " + tCol.OKBLUE + "("
-                msg += str(x+1) + "," + str(y+1) + ")" + tCol.ENDC
+                msg += " - Reduced cell " + g.printCell(x,y)
                 msg += " from " + tCol.WARNING + str(valid) + tCol.ENDC
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
                 msg += " to " + tCol.WARNING + str(valid) + tCol.ENDC
-                msg += " using sector " + tCol.OKBLUE + "("
-                msg += str(cx+1) + "," + str(cy+1) + ")" + tCol.ENDC
+                msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 
     return success 
@@ -93,16 +91,14 @@ def checkColumn(g, x, n, cx, cy):
             valid = g.getValid(x, y)
             if (n in valid):
                 msg = tCol.HEADER + "Pointing Pair" + tCol.ENDC
-                msg += " - Reduced cell " + tCol.OKBLUE + "("
-                msg += str(x+1) + "," + str(y+1) + ")" + tCol.ENDC
+                msg += " - Reduced cell " + g.printCell(x,y)
                 msg += " from " + tCol.WARNING + str(valid) + tCol.ENDC
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
                 msg += " to " + tCol.WARNING + str(valid) + tCol.ENDC
-                msg += " using sector " + tCol.OKBLUE + "("
-                msg += str(cx+1) + "," + str(cy+1) + ")" + tCol.ENDC
+                msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 
     return success 

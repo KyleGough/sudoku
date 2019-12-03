@@ -29,7 +29,7 @@ def hiddenCandidateColumn(g):
                     if i in valid[y]:
                         g.insert(x,y,i)
                         msg = "row" if g.transposed else "column"
-                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x+1) + "," + str(y+1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in " + msg)
+                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + g.printCell(x,y) + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in " + msg)
                         success = True
                         break
     return g, success
@@ -55,7 +55,7 @@ def hiddenCandidateSector(g):
                 for e, f in g.sectorCells():
                     if (i in g.getValid(x + e, y + f)):
                         g.insert(x + e, y + f, i)
-                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + tCol.OKBLUE + "(" + str(x + e + 1) + "," + str(y + f + 1) + ")" + tCol.ENDC + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in 3x3 sector")
+                        g.logMove(0, tCol.HEADER + "Hidden Candidate" + tCol.ENDC + " - Set cell " + g.printCell(x + e, y + f) + " to " + tCol.OKBLUE + str(i) + tCol.ENDC + " as only candidate in 3x3 sector")
                         success = True
                         break
     return g, success
