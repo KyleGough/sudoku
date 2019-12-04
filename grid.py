@@ -11,16 +11,13 @@ class Grid:
         self.transposed = False # Is the grid transposed.
         self.move = 0 # Current move.
         self.it = 0
-<<<<<<< HEAD
-        self.verbose = 0 # How much information to print.
-=======
         self.verbose = True
 
     # Checks the current grid against the set solution.
     def checkSolution(self):
         for x, y in self.cells():
             value = self.get(x,y)
-            if (value != 0 and self.solution[x][y] != value):
+            if (value != 0 and self.solution[x][y] != 0 and self.solution[x][y] != value):
                 return False
         return True
 
@@ -39,7 +36,6 @@ class Grid:
             return False
         else:
             return True
->>>>>>> feature/csv-tester
 
     # Checks the current grid against the set solution.
     def checkSolution(self):
@@ -78,21 +74,9 @@ class Grid:
 
     # Logs a move that yields information.
     def logMove(self, v, msg):
-<<<<<<< HEAD
-        if (self.verbose >= v):
-            print("[", tCol.OKBLUE + "MOVE " + str(self.move) + tCol.ENDC, "] " + msg)
-        self.move += 1
-    
-    # Logs information.
-    def log(self, v, msg):
-        if (self.verbose >= v):
-            print(" - [", tCol.OKBLUE + "INFO" + tCol.ENDC, "]", msg)
-
-=======
         self.log("[" + tCol.OKBLUE + " MOVE " + str(self.move) + tCol.ENDC + " ] " + msg)
         self.move += 1
     
->>>>>>> feature/csv-tester
     # Checks if the grid has been filled.
     def isFilled(self):
         return (sum(x.count(0) for x in self.grid) == 0)
