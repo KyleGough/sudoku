@@ -78,7 +78,6 @@ def xsjDetect(g, k):
             
             # Detects an X-Wing/Swordfish/Jellyfish.
             if (len(cols) == k and len(rows) == k):###
-                g.log(1, getStructureName(k) + " of value " + str(i) + " found at rows:" + str(rows) + " cols:" + str(cols))
                 g, success =  xsjSolve(g, k, i, rows, cols)
                 if (success):
                     return g, success

@@ -11,7 +11,7 @@ class Grid:
         self.transposed = False # Is the grid transposed.
         self.move = 0 # Current move.
         self.it = 0
-        self.verbose = 0 # How much information to print.
+        self.verbose = True
 
     # Checks the current grid against the set solution.
     def checkSolution(self):
@@ -21,14 +21,18 @@ class Grid:
                 return False
         return True
 
+    #
+    def log(self, msg):
+        if self.verbose:
+            print(msg)
     
     # Tests the grid against the rules and set solution.
     def testGrid(self):
         if (self.error):
-            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
+            self.log("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
             return False
         elif (not self.checkSolution):
-            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
+            self.log("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
             return False
         else:
             return True
@@ -50,15 +54,9 @@ class Grid:
 
     # Logs a move that yields information.
     def logMove(self, v, msg):
-        if (self.verbose >= v):
-            print("[", tCol.OKBLUE + "MOVE " + str(self.move) + tCol.ENDC, "] " + msg)
+        self.log("[" + tCol.OKBLUE + " MOVE " + str(self.move) + tCol.ENDC + " ] " + msg)
         self.move += 1
     
-    # Logs information.
-    def log(self, v, msg):
-        if (self.verbose >= v):
-            print(" - [", tCol.OKBLUE + "INFO" + tCol.ENDC, "]", msg)
-
     # Checks if the grid has been filled.
     def isFilled(self):
         return (sum(x.count(0) for x in self.grid) == 0)
