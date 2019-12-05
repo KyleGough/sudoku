@@ -37,14 +37,6 @@ class Grid:
         else:
             return True
 
-    # Checks the current grid against the set solution.
-    def checkSolution(self):
-        for x, y in self.cells():
-            value = self.get(x,y)
-            if (value != 0 and self.solution[x][y] != value):
-                return False
-        return True
-
     # Clones the grid object.
     def clone(self):
         cp = Grid()
@@ -75,12 +67,6 @@ class Grid:
         msg += str(y+1) + "," + str(x+1) if self.transposed else str(x+1) + "," + str(y+1)
         msg += ")" + tCol.ENDC
         return msg
-
-    # Prints basic grid info.
-    def printInfo(self):
-        print(tCol.OKBLUE + "Size:", tCol.ENDC + self.size)
-        print(tCol.OKBLUE + "Correct:", tCol.ENDC + self.correct)
-        print(self.grid)
 
     # Prints the grid contents.
     def printClean(self):
@@ -139,7 +125,7 @@ class Grid:
     def ruleSector(self, x, y, n):
         cx, cy = self.getSectorCoord(x,y)
         for i, j in self.sectorCells():
-            if (self.get(cx,cy) == n):
+            if (self.get(cx+i,cy+j) == n):
                 return False
         return True
 
@@ -227,7 +213,7 @@ class Grid:
                 yield i, j
 
     # Gets the centre point coordinate for a sector of a given cell.
-    def getSectorCoord(self, x,y):
+    def getSectorCoord(self, x, y):
         cx = ((x // 3) * 3) + 1
         cy = ((y // 3) * 3) + 1
         return cx, cy

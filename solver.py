@@ -10,9 +10,9 @@ from colours import tCol
 
 class Logger:
     def __init__(self):
-        self.showOutput = True
-        self.showMoves = True # Shows/Hides the moves performed by the solver.
-        self.showErrors = True # Shows/Hides error messages.
+        self.showOutput = False
+        self.showMoves = False # Shows/Hides the moves performed by the solver.
+        self.showErrors = False # Shows/Hides error messages.
         self.showAllGrid = False # Show/Hides the grid after each move.
         self.showGridLarge = False # Show large/small version of the initial and solution grid.
 
@@ -36,6 +36,10 @@ def strategicSolver(g, logger):
         # the same row/column to eliminate possibilities in the row/column.
         # 17-clue test coverage: 77.5%.
         t.pointingPairs,
+        # Uses pairs/triples along a column/row in the same sector to remove
+        # other possibilities in the sector.
+        # 17-clue test coverage: 77.8%.
+        t.boxLineReduction,
         # Value restricted in n places along a column in n columns
         # that all share the same rows.
         # 17-clue test coverage: 77.7% ###RETEST AFTER BOX/LINE REDUCTION###. 
