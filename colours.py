@@ -7,3 +7,14 @@ class tCol:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+    def header(m):
+        return tCol.HEADER + m + tCol.ENDC
+    def okblue(m):
+        return tCol.OKBLUE + m + tCol.ENDC
+    def okgreen(m):
+        return tCol.OKGREEN + m + tCol.ENDC
+    def warning(m):
+        return tCol.WARNING + m + tCol.ENDC
+    def fail(m):
+        return tCol.FAIL + m + tCol.ENDC 

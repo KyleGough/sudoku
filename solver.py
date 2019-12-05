@@ -19,7 +19,7 @@ class Logger:
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g, logger):
-    g.logMove(0, tCol.HEADER + "Initial Configuration" + tCol.ENDC)
+    g.logMove(0, tCol.header("Initial Configuration"))
     found = True
 
     # Order of strategies.
@@ -51,7 +51,7 @@ def strategicSolver(g, logger):
         # Prints solution if the grid gets filled.
         if (g.isFilled()):
             if logger.showOutput:
-                print("[" + tCol.OKGREEN + " SOLVED IN " + str(g.move - 1) + " MOVES " + tCol.ENDC + "]")
+                print("[" + tCol.okgreen(" SOLVED IN " + str(g.move - 1) + " MOVES ") + "]")
             return True
 
         # Displays the grid after each move.
@@ -69,7 +69,7 @@ def strategicSolver(g, logger):
 
         # Exhausted Possibilities. No solution found.
         if (not found and logger.showErrors):
-            print("[" + tCol.FAIL + " EXHAUSTED SEARCH " + tCol.ENDC + "]")
+            print("[" + tCol.fail(" EXHAUSTED SEARCH ") + "]")
 
     return True
 
@@ -80,7 +80,7 @@ def importGrid(gridStr, logger):
 
     if (len(gridStr) < size * size):
         if (logger.showErrors):
-            print("[ " + tCol.FAIL + "Incorrect length of grid input." + tCol.ENDC + " ]")
+            print("[ " + tCol.fail("Incorrect length of grid input.") + " ]")
         return newGrid, False
     c = 0
     gridStr = gridStr[0:81]
@@ -89,7 +89,7 @@ def importGrid(gridStr, logger):
             value = int(i)
         except:
             if (logger.showErrors):
-                print("[ " + tCol.FAIL + "Invalid character {" + i + "} in grid input." + tCol.ENDC + " ]")
+                print("[ " + tCol.fail("Invalid character {" + i + "} in grid input.") + " ]")
             return newGrid, False
         newGrid[c % size][c // size] = value
         c += 1
@@ -139,7 +139,7 @@ def init():
   
     passCount = 0
     failCount = 0
-    print("\n[", tCol.WARNING + "Tests" + tCol.ENDC, "]")
+    print("\n[ " + tCol.warning("Tests") + " ]")
 
     # Analyses test outcomes.
     while not testQueue.empty():
@@ -155,8 +155,8 @@ def init():
 def solveGrid(g, n, logger, testQueue):
     # Initial Grid.
     if logger.showOutput:
-        print("\n[" + tCol.OKGREEN + "Test " + str(n) + tCol.ENDC + "]")        
-        print("\n[" + tCol.OKGREEN + " INITIAL " + tCol.ENDC + "]")
+        print("\n[ " + tCol.okgreen("Test " + str(n)) + " ]")        
+        print("[ " + tCol.okgreen("INITIAL") + " ]")
         if logger.showGridLarge:
             g.printValid()
         else:
@@ -168,7 +168,7 @@ def solveGrid(g, n, logger, testQueue):
     g.verbose = logger.showMoves
     success = strategicSolver(g, logger)
     if logger.showOutput:
-        print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
+        print("\n[ " + tCol.okgreen("SOLUTION") + " ]")
         if logger.showGridLarge:
             g.printValid()
         else:

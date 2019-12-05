@@ -58,10 +58,9 @@ def sectorSubsetCover(g):
                         
                         cellValid = g.getValid(cx + a, cy + b)
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                        msg += " - Using " + tCol.WARNING
-                        msg += str(valid) + tCol.ENDC + " in 3x3 sector"
+                        msg += " - Using " + tCol.warning(str(valid)) + " in 3x3 sector"
                         msg += ", reduced cell " + g.printCell(cx + a, cy + b)
-                        msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
+                        msg += " from " + tCol.warning(str(cellValid)) + " to "
                         
                         # Removes possible values if in v.
                         removed = False
@@ -72,7 +71,7 @@ def sectorSubsetCover(g):
                         # Update cell.            
                         if (removed):
                             g.updateCellValid(cx + a, cy + b, cellValid)
-                            msg += tCol.WARNING + str(cellValid) + tCol.ENDC
+                            msg += tCol.warning(str(cellValid))
                             g.logMove(0, msg)
                             success = True
 
@@ -115,11 +114,10 @@ def rowSubsetCover(g):
                 if (not x in p and g.get(x,y) == 0):
                     cellValid = g.getValid(x,y)
                     msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                    msg += " - Using " + tCol.WARNING
-                    msg += str(valid) + tCol.ENDC + " in "
+                    msg += " - Using " + tCol.warning(str(valid)) + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + g.printCell(x,y)
-                    msg += " from " + tCol.WARNING + str(cellValid) + tCol.ENDC + " to "
+                    msg += " from " + tCol.warning(str(cellValid)) + " to "
                     
                     # Removes possible values if in v.
                     removed = False
@@ -129,7 +127,7 @@ def rowSubsetCover(g):
                             cellValid.discard(v)
                     # Update cell.
                     if (removed):
-                        msg += tCol.WARNING + str(cellValid) + tCol.ENDC
+                        msg += tCol.warning(str(cellValid))
                         g.updateCellValid(x, y, cellValid)
                         g.logMove(0, msg)
                         success = True

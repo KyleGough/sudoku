@@ -68,14 +68,13 @@ def checkRow(g, y, n, cx, cy):
         if (abs(x - cx) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.HEADER + "Pointing Pair" + tCol.ENDC
-                msg += " - Reduced cell " + g.printCell(x,y)
-                msg += " from " + tCol.WARNING + str(valid) + tCol.ENDC
+                msg = tCol.header("Pointing Pair") + " - Reduced cell "
+                msg += g.printCell(x,y) + " from " + tCol.warning(str(valid))
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
-                msg += " to " + tCol.WARNING + str(valid) + tCol.ENDC
+                msg += " to " + tCol.warning(str(valid))
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 
@@ -90,14 +89,13 @@ def checkColumn(g, x, n, cx, cy):
         if (abs(y - cy) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.HEADER + "Pointing Pair" + tCol.ENDC
-                msg += " - Reduced cell " + g.printCell(x,y)
-                msg += " from " + tCol.WARNING + str(valid) + tCol.ENDC
+                msg = tCol.header("Pointing Pair") + " - Reduced cell "
+                msg += g.printCell(x,y) + " from " + tCol.warning(str(valid))
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
-                msg += " to " + tCol.WARNING + str(valid) + tCol.ENDC
+                msg += " to " + tCol.warning(str(valid))
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 
