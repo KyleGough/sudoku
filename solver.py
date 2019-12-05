@@ -5,20 +5,16 @@ import techniques as t
 import queue
 import pandas as pd
 from grid import Grid
-from generator import easyGridTest, intermediateGridTest, difficultGridTest
-from generator import xwingGridTest, swordfishGridTest, jellyfishGridTest
-from generator import pointingPairsGridTest
 from gridInit import initGrid
 from colours import tCol
 
 class Logger:
     def __init__(self):
-        self.showOutput = False
-        self.showMoves = False # Shows/Hides the moves performed by the solver.
-        self.showErrors = False # Shows/Hides error messages.
-        self.showOther = False
+        self.showOutput = True
+        self.showMoves = True # Shows/Hides the moves performed by the solver.
+        self.showErrors = True # Shows/Hides error messages.
         self.showAllGrid = False # Show/Hides the grid after each move.
-        self.showGridLarge = False
+        self.showGridLarge = False # Show large/small version of the initial and solution grid.
 
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
@@ -42,7 +38,7 @@ def strategicSolver(g, logger):
         t.pointingPairs,
         # Value restricted in n places along a column in n columns
         # that all share the same rows.
-        # 17-clue test coverage: ???. 
+        # 17-clue test coverage: 77.7% ###RETEST AFTER BOX/LINE REDUCTION###. 
         t.jellyfish, 
         t.swordfish,
         t.xwing             
@@ -54,9 +50,9 @@ def strategicSolver(g, logger):
 
         # Prints solution if the grid gets filled.
         if (g.isFilled()):
-            if logger.showOther:
+            if logger.showOutput:
                 print("[" + tCol.OKGREEN + " SOLVED IN " + str(g.move - 1) + " MOVES " + tCol.ENDC + "]")
-            return g, True
+            return True
 
         # Displays the grid after each move.
         if (logger.showAllGrid == "True"):
@@ -69,13 +65,13 @@ def strategicSolver(g, logger):
             if (found):
                 break
             if (not g.testGrid()):
-                return g, False
+                return False
 
         # Exhausted Possibilities. No solution found.
         if (not found and logger.showErrors):
             print("[" + tCol.FAIL + " EXHAUSTED SEARCH " + tCol.ENDC + "]")
 
-    return g, True
+    return True
 
 # Imports a set grid from a string input.    
 def importGrid(gridStr, logger):
@@ -129,13 +125,13 @@ def init():
     g = Grid()
     logger = Logger()
 
+    # Argument for csv file.
     if (len(sys.argv) - 1 == 1):
         filename = str(sys.argv[1])
     else:
         print("No input CSV file specified.")
         return    
-    #filename = "datasets/daily-05-12-2019.csv"
-    
+        
     # Test set.
     testQueue = queue.Queue()
     for g, n in importTestGrids(filename, logger):
@@ -152,12 +148,8 @@ def init():
             passCount += 1
         else:
             failCount += 1
-        sys.stdout.write("\r - Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests.\t")
+        sys.stdout.write("\r - Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests. (" + str(round(100 * passCount / (passCount + failCount), 1)) + "%)              ")
         sys.stdout.flush()
-
-    # Prints the test outcomes.
-    #print("Passed: " + str(passCount) + " [ " + str(100 * passCount / (passCount + failCount)) + "% ]")
-    #print("Failed: " + str(failCount) + " [ " + str(100 * failCount / (passCount + failCount)) + "% ]")
 
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue):
@@ -174,7 +166,7 @@ def solveGrid(g, n, logger, testQueue):
     # Solves the puzzle.
     g = initGrid(g)
     g.verbose = logger.showMoves
-    g, success = strategicSolver(g, logger)
+    success = strategicSolver(g, logger)
     if logger.showOutput:
         print("\n[" + tCol.OKGREEN + " SOLUTION " + tCol.ENDC + "]")
         if logger.showGridLarge:
