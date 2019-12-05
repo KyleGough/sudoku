@@ -42,8 +42,13 @@ class Grid:
         cp = Grid()
         cp.size = self.size
         cp.grid = [row[:] for row in self.grid]
+        cp.solution = [row[:] for row in self.solution]
         cp.valid = [row[:] for row in self.valid]
         cp.error = self.error
+        cp.transposed = self.transposed
+        cp.move = self.move
+        cp.it = self.it
+        cp.verbose = self.verbose
         return cp
 
     # Transposes the grid and valid grid.
