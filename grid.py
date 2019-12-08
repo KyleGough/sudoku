@@ -244,7 +244,3 @@ class Grid:
         cx = ((x // 3) * 3) + 1
         cy = ((y // 3) * 3) + 1
         return cx, cy
-
-if __name__ == "__main__":
-    test = Grid()
-    test.printInfo()

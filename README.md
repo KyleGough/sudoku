@@ -29,7 +29,7 @@ Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of 
 
 
 
-##### Subset Cover (Hidden/Unique Pairs/Triples/Quads) #####
+##### Subset Cover (Pairs/Triples/Quads) #####
 
 ``` 
 Subsets of pairs/triples/quads. N cells that cover N different values within a row/column/sector can be used to eliminate possibilites. 2 <= N <= 4.
@@ -62,7 +62,7 @@ Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* u
 ##### X-Wing #####
 
 ``` 
-Values restricted in 2 places along a column in 2 columns that all share the same rows.
+Single value chaining strategy. Values restricted in 2 places along a column in 2 columns that all share the same rows can help eliminate values.
 ```
 
 MORE...

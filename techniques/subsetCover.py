@@ -16,11 +16,11 @@ def subsetCover(g):
 # Returns the structure name for a given n.
 def getTitleName(n):
     if (n == 2):
-        return "Subset Cover [Pairs]"
+        return "Subset Cover (Pairs)"
     elif (n == 3):
-        return "Subset Cover [Triples]"
+        return "Subset Cover (Triples)"
     else:
-        return "Subset Cover [Quads]"
+        return "Subset Cover (Quads)"
     
 # Sector subset cover.
 def sectorSubsetCover(g):
