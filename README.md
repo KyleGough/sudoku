@@ -105,6 +105,19 @@ Datasets of different Sudoku puzzles were tested against the solution in order t
 
 
 
+![image-20191208161251656](/home/kyle/.config/Typora/typora-user-images/image-20191208161251656.png)
+
+
+
+Here is a partially solved Sudoku:
+
+* Cells with only one value (Yellow/Purple) are cells which the value is known to be the value in the cell.
+
+* Cells with one or more values (Blue/Red) are cells which the value could be one of the values in the cell.
+* Different colours are used to differentiate between the 3x3 sectors.
+
+
+
 ## Example Output
 
 

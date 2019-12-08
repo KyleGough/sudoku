@@ -115,17 +115,17 @@ class Grid:
                         if (self.get(x,k) == 0):
                             if (i in self.getValid(x,k)):
                                 if (((x // 3) + (k // 3)) % 2 == 0):
-                                    print(tCol.WARNING, end='')
+                                    print(tCol.OKBLUE, end='')
                                 else:
                                     print(tCol.FAIL, end='')    
                                 print(str(i) + tCol.ENDC, end=' ')
                             else:
-                                print(":", end=' ')
+                                print(".", end=' ')
                         elif (i == 5):
                             if (((x // 3) + (k // 3)) % 2 == 0):
-                                print(tCol.OKBLUE, end='')
+                                print(tCol.WARNING, end='')
                             else:
-                                print(tCol.OKGREEN, end='')
+                                print(tCol.HEADER, end='')
                             print(str(self.get(x,k)) + tCol.ENDC, end=' ')
                         else:
                             print(" ", end=' ')
