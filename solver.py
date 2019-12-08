@@ -42,10 +42,13 @@ def strategicSolver(g, logger):
         t.boxLineReduction,
         # Value restricted in n places along a column in n columns
         # that all share the same rows. 
-        t.jellyfish, 
+        t.jellyfish,
         t.swordfish,
-        t.xwing             
+        t.xwing            
     ]
+
+    # Strategy Statistics.
+    stratStats = [0,0,0,0,0,0,0,0]
 
     # Applies each technique to the puzzle until new information is gained.
     while (found):
@@ -63,8 +66,9 @@ def strategicSolver(g, logger):
 
         # Executes each strategy in order.
         # If information has been gained, repeat from first strategy.
-        for func in strats:
-            g, found = func(g)
+        for i in range(len(strats)):
+            g, found = strats[i](g)
+            stratStats[i] += 1
             if (found):
                 break
             if (not g.testGrid()):
@@ -74,6 +78,7 @@ def strategicSolver(g, logger):
         if (not found and logger.showErrors):
             print("[" + tCol.fail(" EXHAUSTED SEARCH ") + "]")
 
+    print(stratStats)
     return True
 
 # Imports a set grid from a string input.    

@@ -104,8 +104,8 @@ class Grid:
 
     # Prints valid values of the grid.
     def printValid(self):
-        hSep = "█████████████████████████████████████████████████████████████████████████"
-        hPt = tCol.OKGREEN + "█" + tCol.ENDC 
+        hSep = tCol.okgreen("█████████████████████████████████████████████████████████████████████████")
+        hPt = tCol.okgreen("█") 
         print(hSep)        
         for k in range(self.size):
             for j in [1,4,7]:
@@ -120,7 +120,7 @@ class Grid:
                                     print(tCol.FAIL, end='')    
                                 print(str(i) + tCol.ENDC, end=' ')
                             else:
-                                print(" ", end=' ')
+                                print(":", end=' ')
                         elif (i == 5):
                             if (((x // 3) + (k // 3)) % 2 == 0):
                                 print(tCol.OKBLUE, end='')
@@ -128,7 +128,7 @@ class Grid:
                                 print(tCol.OKGREEN, end='')
                             print(str(self.get(x,k)) + tCol.ENDC, end=' ')
                         else:
-                            print(":", end=' ')
+                            print(" ", end=' ')
 
                     print(hPt, end=' ')
                 print()
