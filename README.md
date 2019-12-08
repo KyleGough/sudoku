@@ -12,7 +12,7 @@ A logical Sudoku solver that outputs the techniques and moves required at each s
 ##### Single Candidate #####
 
 ```
-A cell can only be on possible value.
+A cell can only be one possible value.
 ```
 
 Using only this strategy is not sufficient enough to solve any 17-clue Sudokus
@@ -32,7 +32,7 @@ Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of 
 ##### Subset Cover (Hidden/Unique Pairs/Triples/Quads) #####
 
 ``` 
-Subsets of pairs/triples/quads to remove possibilities.
+Subsets of pairs/triples/quads. N cells that cover N different values within a row/column/sector can be used to eliminate possibilites. 2 <= N <= 4.
 ```
 
  Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.6%*.
@@ -100,7 +100,7 @@ Datasets of different Sudoku puzzles were tested against the solution in order t
 - [1 million Simple Sudoku games][1]
   - All Sudokus in this dataset are 'simple'. The solver successfully solves 100% of the items in this dataset.
 - [Gordon Royle's list of all known 17-clue Sudoku puzzles][2]
-  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have. The solver currently solves *78.7%* of the Sudokus in this dataset. Currently the goal is to achieve 80%+ by implementing new strategies. Testing all 49,151 puzzles is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes.
+  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have. The solver currently solves *78.7%* of the Sudokus in this dataset. Currently the goal is to achieve 80%+ accuracy across the whole set by implementing new strategies. Testing all 49,151 puzzles is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes.
 - MORE...
 
 

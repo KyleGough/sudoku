@@ -40,10 +40,10 @@ def boxLineReductionRow(g):
                     if (i in valid):
                         msg = tCol.header("Box/Line Reduction") + " - Reduced cell "
                         msg += g.printCell(s[0] + a, s[1] + b)
-                        msg += " from " + tCol.warning(str(valid)) + " to "
+                        msg += " from " + g.printSet(valid) + " to "
                         valid.discard(i)
                         g.updateCellValid(s[0] + a, s[1] + b, valid)
-                        msg += tCol.warning(str(valid)) + " using "
+                        msg += g.printSet(valid) + " using "
                         msg += "column " if g.transposed else "row "
                         msg += tCol.okblue(str(y))
                         msg += " sector " + g.printCell(s[0], s[1])

@@ -69,12 +69,12 @@ def checkRow(g, y, n, cx, cy, count):
             valid = g.getValid(x, y)
             if (n in valid):
                 msg = tCol.header("Pointing " + "Pair" if count == 2 else "Triple")
-                msg += " - Reduced cell " + g.printCell(x,y) + " from " + tCol.warning(str(valid))
+                msg += " - Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
-                msg += " to " + tCol.warning(str(valid))
+                msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 
@@ -90,12 +90,12 @@ def checkColumn(g, x, n, cx, cy, count):
             valid = g.getValid(x, y)
             if (n in valid):
                 msg = tCol.header("Pointing " + "Pair" if count == 2 else "Triple")
-                msg += " - Reduced cell " + g.printCell(x,y) + " from " + tCol.warning(str(valid))
+                msg += " - Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
 
-                msg += " to " + tCol.warning(str(valid))
+                msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(0, msg)
                 success = True 

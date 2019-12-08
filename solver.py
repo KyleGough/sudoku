@@ -10,11 +10,11 @@ from colours import tCol
 
 class Logger:
     def __init__(self):
-        self.showOutput = False
-        self.showMoves = False # Shows/Hides the moves performed by the solver.
-        self.showErrors = False # Shows/Hides error messages.
-        self.showAllGrid = False # Show/Hides the grid after each move.
-        self.showGridLarge = False # Show large/small version of the initial and solution grid.
+        self.showOutput = True      # Shows main output.
+        self.showMoves = True       # Shows/Hides the moves performed by the solver.
+        self.showErrors = False     # Shows/Hides error messages.
+        self.showAllGrid = False    # Show/Hides the grid after each move.
+        self.showGridLarge = True   # Show large/small version of the initial and solution grid.
 
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
@@ -41,8 +41,7 @@ def strategicSolver(g, logger):
         # 17-clue test coverage: 77.8%.
         t.boxLineReduction,
         # Value restricted in n places along a column in n columns
-        # that all share the same rows.
-        # 17-clue test coverage: 77.7% ###RETEST AFTER BOX/LINE REDUCTION###. 
+        # that all share the same rows. 
         t.jellyfish, 
         t.swordfish,
         t.xwing             
@@ -120,7 +119,7 @@ def importTestGrids(filename, logger):
 
         # Creates a new grid object.
         g = Grid()
-        g.grid = grid
+        g.setGrid(grid)
         if (len(ds.columns) == 2): g.solution = solution
         yield g, n + 1
 

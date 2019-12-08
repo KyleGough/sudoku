@@ -58,9 +58,9 @@ def sectorSubsetCover(g):
                         
                         cellValid = g.getValid(cx + a, cy + b)
                         msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                        msg += " - Using " + tCol.warning(str(valid)) + " in 3x3 sector"
+                        msg += " - Using " + g.printSet(valid) + " in sector"
                         msg += ", reduced cell " + g.printCell(cx + a, cy + b)
-                        msg += " from " + tCol.warning(str(cellValid)) + " to "
+                        msg += " from " + g.printSet(cellValid) + " to "
                         
                         # Removes possible values if in v.
                         removed = False
@@ -71,7 +71,7 @@ def sectorSubsetCover(g):
                         # Update cell.            
                         if (removed):
                             g.updateCellValid(cx + a, cy + b, cellValid)
-                            msg += tCol.warning(str(cellValid))
+                            msg += g.printSet(cellValid)
                             g.logMove(0, msg)
                             success = True
 
@@ -114,10 +114,10 @@ def rowSubsetCover(g):
                 if (not x in p and g.get(x,y) == 0):
                     cellValid = g.getValid(x,y)
                     msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
-                    msg += " - Using " + tCol.warning(str(valid)) + " in "
+                    msg += " - Using " + g.printSet(valid) + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + g.printCell(x,y)
-                    msg += " from " + tCol.warning(str(cellValid)) + " to "
+                    msg += " from " + g.printSet(cellValid) + " to "
                     
                     # Removes possible values if in v.
                     removed = False
@@ -127,7 +127,7 @@ def rowSubsetCover(g):
                             cellValid.discard(v)
                     # Update cell.
                     if (removed):
-                        msg += tCol.warning(str(cellValid))
+                        msg += g.printSet(cellValid)
                         g.updateCellValid(x, y, cellValid)
                         g.logMove(0, msg)
                         success = True

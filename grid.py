@@ -10,8 +10,18 @@ class Grid:
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.move = 0 # Current move.
-        self.it = 0
-        self.verbose = True
+        self.verbose = True # Flas to display moves.
+        self.clues = 0 # Initial numbers on the grid.
+
+    # Sets the grid.
+    def setGrid(self, grid):
+        count = 0
+        self.grid = grid
+        for x in range(self.size):
+            for y in range(self.size):
+                if grid[x][y] != 0:
+                    count += 1
+        self.clues = count
 
     # Checks the current grid against the set solution.
     def checkSolution(self):
@@ -71,6 +81,18 @@ class Grid:
         msg = tCol.OKBLUE + "("
         msg += str(y+1) + "," + str(x+1) if self.transposed else str(x+1) + "," + str(y+1)
         msg += ")" + tCol.ENDC
+        return msg
+
+    # Prints a set.
+    def printSet(self, s):
+        msg = tCol.WARNING + "{"
+        if (len(s) > 0):
+            for i in s:
+                msg += str(i) + ","
+            msg = msg[:-1]            
+        else:
+            msg += "{}"
+        msg += "}" + tCol.ENDC
         return msg
 
     # Prints the grid contents.
