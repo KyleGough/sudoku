@@ -8,6 +8,7 @@ from grid import Grid
 from gridInit import initGrid
 from colours import tCol
 
+
 class Logger:
     def __init__(self):
         self.showOutput = True      # Shows main output.
@@ -47,9 +48,6 @@ def strategicSolver(g, logger):
         t.xwing            
     ]
 
-    # Strategy Statistics.
-    stratStats = [0,0,0,0,0,0,0,0]
-
     # Applies each technique to the puzzle until new information is gained.
     while (found):
         found = False
@@ -57,8 +55,8 @@ def strategicSolver(g, logger):
         # Prints solution if the grid gets filled.
         if (g.isFilled()):
             if logger.showOutput:
-                print("[" + tCol.okgreen(" SOLVED IN " + str(g.move - 1) + " MOVES ") + "]")
-            return True
+                print("[" + tCol.okgreen(" SOLVED IN " + str(g.stats.moves - 1) + " MOVES ") + "]")
+            return g.stats
 
         # Displays the grid after each move.
         if (logger.showAllGrid == "True"):
@@ -68,18 +66,17 @@ def strategicSolver(g, logger):
         # If information has been gained, repeat from first strategy.
         for i in range(len(strats)):
             g, found = strats[i](g)
-            stratStats[i] += 1
             if (found):
+                g.stats.techniqueMoves[i] += 1
                 break
             if (not g.testGrid()):
-                return False
+                return g.stats
 
         # Exhausted Possibilities. No solution found.
         if (not found and logger.showErrors):
             print("[" + tCol.fail(" EXHAUSTED SEARCH ") + "]")
 
-    print(stratStats)
-    return True
+    return g.stats
 
 # Imports a set grid from a string input.    
 def importGrid(gridStr, logger):
@@ -156,8 +153,16 @@ def init():
             passCount += 1
         else:
             failCount += 1
-        sys.stdout.write("\r - Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests. (" + str(round(100 * passCount / (passCount + failCount), 1)) + "%)              ")
-        sys.stdout.flush()
+
+    passRate = round(100 * passCount / (passCount + failCount), 1)
+    if passRate == 100:
+        passRate = tCol.okgreen(str(passRate) + "%")
+    elif passRate > 66:
+        passRate = tCol.warning(str(passRate) + "%")
+    else:
+        passRate = tCol.fail(str(passRate) + "%")
+
+    print("Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests. (" + passRate + ")")
 
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue):
@@ -174,8 +179,12 @@ def solveGrid(g, n, logger, testQueue):
     # Solves the puzzle.
     g = initGrid(g)
     g.verbose = logger.showMoves
-    success = strategicSolver(g, logger)
+    stats = strategicSolver(g, logger)
     if logger.showOutput:
+        # Difficulty analysis.
+        print("\n[ " + tCol.okgreen("DIFFICULTY") + " ]")
+        stats.print()
+        # Solution.
         print("\n[ " + tCol.okgreen("SOLUTION") + " ]")
         if logger.showGridLarge:
             g.printValid()

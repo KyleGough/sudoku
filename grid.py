@@ -1,5 +1,6 @@
 from copy import deepcopy
 from colours import tCol
+from stats import Stats
 
 class Grid:
     def __init__(self):
@@ -9,9 +10,8 @@ class Grid:
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
-        self.move = 0 # Current move.
-        self.verbose = True # Flas to display moves.
-        self.clues = 0 # Initial numbers on the grid.
+        self.verbose = True # Flag to display moves.
+        self.stats = Stats() # Puzzle difficulty analysis.
 
     # Sets the grid.
     def setGrid(self, grid):
@@ -21,7 +21,7 @@ class Grid:
             for y in range(self.size):
                 if grid[x][y] != 0:
                     count += 1
-        self.clues = count
+        self.stats.clues = count
 
     # Checks the current grid against the set solution.
     def checkSolution(self):
@@ -56,9 +56,8 @@ class Grid:
         cp.valid = [row[:] for row in self.valid]
         cp.error = self.error
         cp.transposed = self.transposed
-        cp.move = self.move
-        cp.it = self.it
         cp.verbose = self.verbose
+        cp.stats - self.stats
         return cp
 
     # Transposes the grid and valid grid.
@@ -69,8 +68,8 @@ class Grid:
 
     # Logs a move that yields information.
     def logMove(self, v, msg):
-        self.log("[" + tCol.OKBLUE + " MOVE " + str(self.move) + tCol.ENDC + " ] " + msg)
-        self.move += 1
+        self.log("[" + tCol.OKBLUE + " MOVE " + str(self.stats.moves) + tCol.ENDC + " ] " + msg)
+        self.stats.moves += 1
     
     # Checks if the grid has been filled.
     def isFilled(self):

@@ -16,11 +16,11 @@ def subsetCover(g):
 # Returns the structure name for a given n.
 def getTitleName(n):
     if (n == 2):
-        return "Subset Cover (Pairs)"
+        return "Subset Cover (Pairs):"
     elif (n == 3):
-        return "Subset Cover (Triples)"
+        return "Subset Cover (Triples):"
     else:
-        return "Subset Cover (Quads)"
+        return "Subset Cover (Quads):"
     
 # Sector subset cover.
 def sectorSubsetCover(g):
@@ -57,7 +57,7 @@ def sectorSubsetCover(g):
                     if (not [a, b] in p and g.get(cx + a, cy + b) == 0):
                         
                         cellValid = g.getValid(cx + a, cy + b)
-                        msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
+                        msg = tCol.header(getTitleName(len(p)))
                         msg += " - Using " + g.printSet(valid) + " in sector"
                         msg += ", reduced cell " + g.printCell(cx + a, cy + b)
                         msg += " from " + g.printSet(cellValid) + " to "
@@ -113,7 +113,7 @@ def rowSubsetCover(g):
             for x in range(g.size):
                 if (not x in p and g.get(x,y) == 0):
                     cellValid = g.getValid(x,y)
-                    msg = tCol.HEADER + getTitleName(len(p)) + tCol.ENDC
+                    msg = tCol.header(getTitleName(len(p)))
                     msg += " - Using " + g.printSet(valid) + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + g.printCell(x,y)

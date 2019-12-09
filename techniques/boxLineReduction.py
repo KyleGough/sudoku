@@ -38,7 +38,7 @@ def boxLineReductionRow(g):
                     valid = g.getValid(s[0] + a, s[1] + b)
                     # Remove possibility of i in the sector cells.
                     if (i in valid):
-                        msg = tCol.header("Box/Line Reduction") + " - Reduced cell "
+                        msg = tCol.header("Box/Line Reduction:") + " Reduced cell "
                         msg += g.printCell(s[0] + a, s[1] + b)
                         msg += " from " + g.printSet(valid) + " to "
                         valid.discard(i)
@@ -46,7 +46,7 @@ def boxLineReductionRow(g):
                         msg += g.printSet(valid) + " using "
                         msg += "column " if g.transposed else "row "
                         msg += tCol.okblue(str(y))
-                        msg += " sector " + g.printCell(s[0], s[1])
+                        msg += ", sector " + g.printCell(s[0], s[1])
                         g.logMove(0, msg) 
                         success = True
 

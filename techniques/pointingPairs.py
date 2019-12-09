@@ -68,8 +68,8 @@ def checkRow(g, y, n, cx, cy, count):
         if (abs(x - cx) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.header("Pointing " + "Pair" if count == 2 else "Triple")
-                msg += " - Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
+                msg = tCol.header("Pointing " + "Pair:" if count == 2 else "Triple:")
+                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
@@ -89,8 +89,8 @@ def checkColumn(g, x, n, cx, cy, count):
         if (abs(y - cy) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.header("Pointing " + "Pair" if count == 2 else "Triple")
-                msg += " - Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
+                msg = tCol.header("Pointing " + "Pair:" if count == 2 else "Triple:")
+                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
                 g.updateCellValid(x, y, valid)
