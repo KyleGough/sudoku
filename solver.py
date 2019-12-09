@@ -139,9 +139,15 @@ def init():
         
     # Test set.
     testQueue = queue.Queue()
+    statQueue = queue.Queue()
     for g, n in importTestGrids(filename, logger):
-        solveGrid(g, n, logger, testQueue)
-  
+        solveGrid(g, n, logger, testQueue, statQueue)
+
+    testAnalysis(testQueue)
+    statAnalysis(statQueue)
+    
+# Test Analysis.
+def testAnalysis(testQueue):
     passCount = 0
     failCount = 0
     print("\n[ " + tCol.warning("Tests") + " ]")
@@ -154,6 +160,7 @@ def init():
         else:
             failCount += 1
 
+    # Pass Rate.
     passRate = round(100 * passCount / (passCount + failCount), 1)
     if passRate == 100:
         passRate = tCol.okgreen(str(passRate) + "%")
@@ -162,10 +169,29 @@ def init():
     else:
         passRate = tCol.fail(str(passRate) + "%")
 
+    # Output.
     print("Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests. (" + passRate + ")")
 
+# Stat Analysis.
+def statAnalysis(statQueue):
+    count = 0
+    difficultyTotal = 0
+    clueTotal = 0
+
+    while not statQueue.empty():
+        s = statQueue.get()
+        count += 1
+        difficultyTotal += s.getDifficulty()
+        clueTotal += s.clues
+
+    difficultyAvg = round(difficultyTotal / count, 0)
+    cluesAvg = round(clueTotal / count, 0)
+    print("\n[ " + tCol.warning("Stats") + " ]")
+    print("Average Difficulty: " + str(difficultyAvg))
+    print("Average Clues: " + str(cluesAvg))
+
 # Attempts the solve the given grid.
-def solveGrid(g, n, logger, testQueue):
+def solveGrid(g, n, logger, testQueue, statQueue):
     # Initial Grid.
     if logger.showOutput:
         print("\n[ " + tCol.okgreen("Test " + str(n)) + " ]")        
@@ -193,6 +219,8 @@ def solveGrid(g, n, logger, testQueue):
 
     # Adds to the test queue.
     testQueue.put([n, g.isFilled()])
+    # Adds to the stats queue.
+    statQueue.put(stats)
 
 if __name__ == "__main__":
     init()    
