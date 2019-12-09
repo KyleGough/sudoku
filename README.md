@@ -91,16 +91,20 @@ MORE...
 
 
 
-## Testing ##
+## Bench-marking and Testing ##
 
 
 
 Datasets of different Sudoku puzzles were tested against the solution in order to test completeness, speed and efficiency.
 
+- [Gordon Royle's list of all known 17-clue Sudoku puzzles][2]
+  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have.
+  - The solver currently solves *78.7%* of the Sudokus in this dataset. Currently the goal is to achieve 80%+ accuracy across the whole set by implementing new strategies.
+  - Testing all 49,151 puzzles is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes.
+  - This dataset will be used as the primary benchmark.
+
 - [1 million Simple Sudoku games][1]
   - All Sudokus in this dataset are 'simple'. The solver successfully solves 100% of the items in this dataset.
-- [Gordon Royle's list of all known 17-clue Sudoku puzzles][2]
-  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have. The solver currently solves *78.7%* of the Sudokus in this dataset. Currently the goal is to achieve 80%+ accuracy across the whole set by implementing new strategies. Testing all 49,151 puzzles is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes.
 - MORE...
 
 
