@@ -7,15 +7,7 @@ import pandas as pd
 from grid import Grid
 from gridInit import initGrid
 from colours import tCol
-
-
-class Logger:
-    def __init__(self):
-        self.showOutput = True      # Shows main output.
-        self.showMoves = True       # Shows/Hides the moves performed by the solver.
-        self.showErrors = False     # Shows/Hides error messages.
-        self.showAllGrid = False    # Show/Hides the grid after each move.
-        self.showGridLarge = True   # Show large/small version of the initial and solution grid.
+from logger import Logger
 
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
