@@ -5,7 +5,7 @@ import techniques as t
 import queue
 import pandas as pd
 from grid import Grid
-from gridInit import initGrid
+from init import initGrid
 from colours import tCol
 from logger import Logger
 
@@ -180,7 +180,7 @@ def statAnalysis(statQueue):
     cluesAvg = round(clueTotal / count, 0)
     print("\n[ " + tCol.warning("Stats") + " ]")
     print("Average Difficulty: " + str(difficultyAvg))
-    print("Average Clues: " + str(cluesAvg))
+    print("Average Clues:      " + str(cluesAvg))
 
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue, statQueue):
