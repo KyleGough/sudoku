@@ -1,19 +1,16 @@
-# Logical Sudoku Solver
+# Logical Sudoku Solver (W.I.P.)
+
+A logical Sudoku solver that outputs the techniques and moves required at each step to solve the puzzle. No backtracking or brute forcing will be used. The solver can read *.csv* files to solve multiple puzzles in a batch. Simple difficulty analysis has been implemented based on the number of moves requires, initial clues and technical strategies required to solve the puzzle.
 
 
-A logical Sudoku solver that outputs the techniques and moves required at each step to solve the puzzle. No backtracking or brute forcing will be used. The solver can read .csv files to solve multiple puzzles in a batch.
 
-
-
-## Implemented Techniques ##
+## Strategies/Techniques ##
 
 
 
 ##### Single Candidate #####
 
-```
-A cell can only be one possible value.
-```
+- A cell can only be one possible value.
 
 Using only this strategy is not sufficient enough to solve any 17-clue Sudokus
 
@@ -21,9 +18,7 @@ Using only this strategy is not sufficient enough to solve any 17-clue Sudokus
 
 ##### Hidden Candidate ###
 
-```
-Where a value is only valid in one cell within a column, row or sector. 
-```
+- Where a value is only valid in one cell within a column, row or sector. 
 
 Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudokus were solved.
 
@@ -31,9 +26,7 @@ Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of 
 
 ##### Subset Cover (Pairs/Triples/Quads) #####
 
-``` 
-Subsets of pairs/triples/quads. N cells that cover N different values within a row/column/sector can be used to eliminate possibilites. 2 <= N <= 4.
-```
+- Subsets of pairs/triples/quads. N cells that cover N different values within a row/column/sector can be used to eliminate possibilities. 2 <= N <= 4.
 
  Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.6%*.
 
@@ -41,9 +34,7 @@ Subsets of pairs/triples/quads. N cells that cover N different values within a r
 
 ##### Pointing Pairs #####
 
-```
-Uses pairs or triples of possible values in a sector that are on the same row/column to eliminate possibilities in the same row/column.
-```
+- Uses pairs or triples of possible values in a sector that are on the same row/column to eliminate possibilities in the same row/column.
 
 Implementing the *Pointing Pairs* technique boosted the accuracy by *8.9%* up to *77.5%*. 
 
@@ -51,9 +42,7 @@ Implementing the *Pointing Pairs* technique boosted the accuracy by *8.9%* up to
 
 ##### Box/Line Intersection #####
 
-``` 
-Uses pairs or triples of a value along a row/column that are all in the same sector to remove other possibilities in the sector.
-```
+- Uses pairs or triples of a value along a row/column that are all in the same sector to remove other possibilities in the sector.
 
 Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* up to *77.8%*.
 
@@ -61,37 +50,25 @@ Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* u
 
 ##### X-Wing #####
 
-``` 
-Single value chaining strategy. Values restricted in 2 places along a column in 2 columns that all share the same rows can help eliminate values.
-```
-
-MORE...
-
-
-
-##### Swordfish #####
-
-
-
-##### MORE... #####
+- Single value chaining strategy. Values restricted in 2 places along a column in 2 columns that all share the same rows can help eliminate values.
 
 
 
 ##### Summary #####
 
-| Technique          | Accuracy on 49,151 17-clue dataset |
-| ------------------ | ---------------------------------- |
-| Solo Candidate     | 0.0%                               |
-| Hidden Candidate   | 44.6%                              |
-| Subset Cover       | 68.6%                              |
-| Pointing Pairs     | 77.5%                              |
-| Box/Line Reduction | 77.8%                              |
+| Technique          | Accuracy on Gordon Royle's 49,151 17-clue dataset |
+| ------------------ | ------------------------------------------------- |
+| Solo Candidate     | 0.0%                                              |
+| Hidden Candidate   | 44.6%                                             |
+| Subset Cover       | 68.6%                                             |
+| Pointing Pairs     | 77.5%                                             |
+| Box/Line Reduction | 77.8%                                             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques.*
 
 
 
-## Bench-marking and Testing ##
+## Benchmarking and Testing ##
 
 
 
@@ -105,7 +82,7 @@ Datasets of different Sudoku puzzles were tested against the solution in order t
 
 - [1 million Simple Sudoku games][1]
   - All Sudokus in this dataset are 'simple'. The solver successfully solves 100% of the items in this dataset.
-- MORE...
+  - A subset of 1000 of these puzzles are used to check for errors.
 
 
 
