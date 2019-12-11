@@ -8,11 +8,12 @@ class Grid:
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
         self.solution = [[0 for i in range(self.size)] for j in range(self.size)]
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
+        self.chainColour = [[0 for i in range(self.size)] for j in range(self.size)]
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.verbose = True # Flag to display moves.
         self.stats = Stats() # Puzzle difficulty analysis.
-
+        
     # Sets the grid.
     def setGrid(self, grid):
         count = 0
@@ -54,6 +55,7 @@ class Grid:
         cp.grid = [row[:] for row in self.grid]
         cp.solution = [row[:] for row in self.solution]
         cp.valid = [row[:] for row in self.valid]
+        cp.chainColour = [row[:] for row in self.chainColour]
         cp.error = self.error
         cp.transposed = self.transposed
         cp.verbose = self.verbose
