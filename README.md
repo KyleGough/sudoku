@@ -1,6 +1,6 @@
 # Logical Sudoku Solver (W.I.P.)
 
-A logical Sudoku solver that outputs the techniques and moves required at each step to solve the puzzle. No backtracking or brute forcing will be used. The solver can read *.csv* files to solve multiple puzzles in a batch. Simple difficulty analysis has been implemented based on the number of moves requires, initial clues and technical strategies required to solve the puzzle.
+A logical Sudoku solver that analyses the techniques and moves required at each step to solve the puzzle. No backtracking or brute forcing will be used. The solver can read *.csv* files to solve multiple puzzles in a batch. Simple difficulty analysis has been implemented based on the number of moves requires, initial clues and technical strategies required to solve the puzzle.
 
 
 
