@@ -4,14 +4,14 @@ from itertools import chain, combinations
 
 # Uses subset cover inconsistencies to eliminate values.
 def subsetCover(g):
-    g, success = rowSubsetCover(g)
-    if (success): return g, success
+    success = rowSubsetCover(g)
+    if (success): return success
     g.transpose()
-    g, success = rowSubsetCover(g)
+    success = rowSubsetCover(g)
     g.transpose()
-    if (success): return g, success
-    g, success = sectorSubsetCover(g)
-    return g, success
+    if (success): return success
+    success = sectorSubsetCover(g)
+    return success
 
 # Returns the structure name for a given n.
 def getTitleName(n):
@@ -76,9 +76,9 @@ def sectorSubsetCover(g):
                             success = True
 
                 if (success):
-                    return g, True
+                    return True
             
-    return g, success
+    return success
 
 # Subset cover along rows.
 # Complexity: O(y * perm(X) * x)###
@@ -132,4 +132,4 @@ def rowSubsetCover(g):
                         g.logMove(0, msg)
                         success = True
 
-    return g, success
+    return success

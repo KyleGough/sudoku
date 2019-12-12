@@ -57,7 +57,7 @@ def pointingPairs(g):
                     success = checkColumn(g, cx+1, n, cx, cy, count) or success
                     continue 
                             
-    return g, success
+    return success
 
 
 # Checks along the row.

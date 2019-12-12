@@ -3,11 +3,11 @@ from colours import tCol
 
 # Box/Line Reduction.
 def boxLineReduction(g):
-    g, successRow = boxLineReductionRow(g)
+    successRow = boxLineReductionRow(g)
     g.transpose()
-    g, successCol = boxLineReductionRow(g)
+    successCol = boxLineReductionRow(g)
     g.transpose()
-    return g, (successRow or successCol) 
+    return (successRow or successCol) 
 
 # Performs Box/Line Reduction along grid rows.
 # Complexity: O(i * y * x)
@@ -50,4 +50,4 @@ def boxLineReductionRow(g):
                         g.logMove(0, msg) 
                         success = True
 
-    return g, success
+    return success

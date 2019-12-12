@@ -4,12 +4,12 @@ from colours import tCol
 # Hidden Candidate.
 # Complexity: O(x * y * i)
 def hiddenCandidate(g):
-    g, foundCol = hiddenCandidateColumn(g)
-    g, foundSec = hiddenCandidateSector(g)
+    foundCol = hiddenCandidateColumn(g)
+    foundSec = hiddenCandidateSector(g)
     g.transpose()
-    g, foundRow = hiddenCandidateColumn(g)
+    foundRow = hiddenCandidateColumn(g)
     g.transpose()
-    return g, (foundCol or foundSec or foundRow)
+    return (foundCol or foundSec or foundRow)
 
 # Hidden Candidate - In a column where a value is only valid in one position.
 def hiddenCandidateColumn(g):
@@ -32,7 +32,7 @@ def hiddenCandidateColumn(g):
                         g.logMove(0, tCol.header("Hidden Candidate:") + " Set cell " + g.printCell(x,y) + " to " + tCol.okblue(str(i)) + " as only candidate in " + msg)
                         success = True
                         break
-    return g, success
+    return success
 
 # Hidden Candidate - In a sector where a value is only valid in one position.
 def hiddenCandidateSector(g):
@@ -58,4 +58,4 @@ def hiddenCandidateSector(g):
                         g.logMove(0, tCol.header("Hidden Candidate:") + " Set cell " + g.printCell(x + e, y + f) + " to " + tCol.okblue(str(i)) + " as only candidate in sector")
                         success = True
                         break
-    return g, success
+    return success

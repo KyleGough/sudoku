@@ -16,11 +16,11 @@ def jellyfish(g):
 # Uses either X-Wing, Swordfish or Jellyfish technique.
 # Complexity: O(x * y * n)
 def xsj(g, k):
-    g, foundCol = xsjDetect(g,k)
+    foundCol = xsjDetect(g,k)
     g.transpose()
-    g, foundRow = xsjDetect(g,k)
+    foundRow = xsjDetect(g,k)
     g.transpose()
-    return g, (foundCol or foundRow)
+    return (foundCol or foundRow)
 
 # Detects an X-Wing/Swordfish/Jellyfish in the grid.
 def xsjDetect(g, k):
@@ -78,11 +78,11 @@ def xsjDetect(g, k):
             
             # Detects an X-Wing/Swordfish/Jellyfish.
             if (len(cols) == k and len(rows) == k):###
-                g, success =  xsjSolve(g, k, i, rows, cols)
+                success =  xsjSolve(g, k, i, rows, cols)
                 if (success):
-                    return g, success
+                    return success
                 
-    return g, False
+    return False
 
 # Reduces valid values for cells conflicting with an X-Wing/Swordfish/Jellyfish.
 def xsjSolve(g, k, n, rows, cols):
@@ -108,7 +108,7 @@ def xsjSolve(g, k, n, rows, cols):
                     g.logMove(0, msg)
                     g.updateCellValid(x,y,valid)
                     success = True         
-    return g, success
+    return success
 
 # Gets the structure name for a given k.
 def getStructureName(k):

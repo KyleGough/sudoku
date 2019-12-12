@@ -15,4 +15,4 @@ def soloCandidate(g):
             g.insert(x,y,value)
             g.logMove(0, tCol.header("Solo Candidate:") + " Set cell " + g.printCell(x,y) + " to " + tCol.okblue(str(value)))
             success = True
-    return g, success
+    return success

@@ -21,7 +21,7 @@ def strategicSolver(g, logger):
         t.soloCandidate,
         # Value can only occur in one cell of a column/row/sector.
         # 17-clue test coverage: 44.6%.
-        t.hiddenCandidate, 
+        t.hiddenCandidate,
         # Subsets of pairs/triples/quads to remove possibilities.
         # 17-clue test coverage: 68.6%.
         t.subsetCover, 
@@ -59,7 +59,7 @@ def strategicSolver(g, logger):
         # Executes each strategy in order.
         # If information has been gained, repeat from first strategy.
         for i in range(len(strats)):
-            g, found = strats[i](g)
+            found = strats[i](g)
             if (found):
                 g.stats.techniqueMoves[i] += 1
                 break
