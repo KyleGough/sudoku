@@ -1,39 +1,63 @@
 from grid import Grid
 from colours import tCol
 
+#
 def singlesChain(g):
+    ###
+    for n in range(g.size):
+        singlesChainCheck(g, n)
     return g, False
 
+#
 def singlesChainCheck(g, n):
+    conjugatePairs = findConjugatePairs(g,n)
+    if (len(conjugatePairs) >= 2):
+        ###
+        print()
+        ###
     return g, False
 
-### must find at leasr 2 pairs.
+# Finds all the conjugate pairs with candidate n.
 def findConjugatePairs(g, n):
 
     # List of all conjugate pairs.
     conjugatePairs = []
 
-    # Check columns for pairs.
+    # Check columns for conjugate pairs.
     for x in range(g.size):
         candidateCells = []
         for y in range(g.size):
             if (n in g.getValid(x,y)):
-                candidateCells.append(tuple(x,y))
+                candidateCells.append(tuple([x,y]))
         # Detects a conjugate pair in the column.
         if (len(candidateCells) == 2):
             conjugatePairs.append(candidateCells)
     
-    # Check rows for pairs.
+    # Check rows for conjugate pairs.
     for y in range(g.size):
         candidateCells = []
         for x in range(g.size):
             if (n in g.getValid(x,y)):
-                candidateCells.append(tuple(x,y))
+                candidateCells.append(tuple([x,y]))
         # Detects a conjugate pair in the row.
         if (len(candidateCells) == 2):
             conjugatePairs.append(candidateCells)
 
-    # Check sectors for pairs.
+    # Check sectors for conjugate pairs.
+    for a, b in g.sectorCells():
+        # Maps (a,b) to (x,y), the sector centre point.
+        x = 4 + (3 * a)
+        y = 4 + (3 * b)
+        candidateCells = []
+        for i, j in g.sectorCells():
+            if (n in g.getValid(x + i, y + j)):
+               candidateCells.append(tuple([x,y]))
+        # Detects a conjugate pair in the sector.
+        if (len(candidateCells) == 2):
+            conjugatePairs.append(candidateCells)
+
+    print(conjugatePairs)
+    print(len(conjugatePairs))
 
     return conjugatePairs
 

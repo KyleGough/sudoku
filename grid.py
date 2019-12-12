@@ -121,7 +121,7 @@ class Grid:
                                     print(tCol.FAIL, end='')    
                                 print(str(i) + tCol.ENDC, end=' ')
                             else:
-                                print(".", end=' ')
+                                print("-", end=' ')
                         elif (i == 5):
                             if (((x // 3) + (k // 3)) % 2 == 0):
                                 print(tCol.WARNING, end='')

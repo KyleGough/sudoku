@@ -33,11 +33,13 @@ def strategicSolver(g, logger):
         # other possibilities in the sector.
         # 17-clue test coverage: 77.8%.
         t.boxLineReduction,
+        t.xwing,
+        t.singlesChain
         # Value restricted in n places along a column in n columns
         # that all share the same rows. 
-        t.jellyfish,
-        t.swordfish,
-        t.xwing            
+        #t.jellyfish,
+        #t.swordfish,
+                    
     ]
 
     # Applies each technique to the puzzle until new information is gained.

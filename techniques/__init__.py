@@ -4,3 +4,4 @@ from techniques.subsetCover import subsetCover
 from techniques.xsj import xwing, swordfish, jellyfish, getStructureName
 from techniques.pointingPairs import pointingPairs
 from techniques.boxLineReduction import boxLineReduction
+from techniques.singlesChain import singlesChain
