@@ -4,15 +4,23 @@ from colours import tCol
 #
 def singlesChain(g):
     ###
+    success = False
     for n in range(g.size):
         singlesChainCheck(g, n)
-    return g, False
+    return g, success
 
 #
 def singlesChainCheck(g, n):
     conjugatePairs = findConjugatePairs(g,n)
+    # Must contain at least 2 conjugate pairs to form a chain.
     if (len(conjugatePairs) >= 2):
         ###
+        onList = []
+        offList = []
+        cellQueue = Queue()
+
+
+
         print()
         ###
     return g, False
@@ -61,22 +69,20 @@ def findConjugatePairs(g, n):
 
     return conjugatePairs
 
+
+
+
 #########################################################
 
 # Strong Link/Conjugate Pair.
 # One MUST be true and the other MUST be false.
 # Cannot have both false, or both true.
 
-# Find all conjugate pairs.
-  # Loop over rows.
-  # Loop over columns.
-  # Loop over sectors.
-
 # Add terminology section to the readme file.
+# Remove grid in returns because it should be passed by reference anyways.
+# Calculate big-o complex of other techniques.
 
-
-# Find all conjugate pair cells.
-  # Store in list.
+# Find all conjugate pair cells. DONE
 # Mark first as colour 1
 # Mark corresponding as colour 2.
 # Check both cells to queue.
