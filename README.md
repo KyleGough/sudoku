@@ -48,6 +48,14 @@ Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* u
 
 
 
+##### Singles Chain
+
+* Constructs a connected graph with nodes of alternating colours using conjugate pairs to find either violations in the graph or cells that share the same row/column/sector with cells of both colours.
+
+Implementing the *Singles Chain* technique boosted the accuracy up to *80.9%*.
+
+
+
 ##### X-Wing #####
 
 - Single value chaining strategy. Values restricted in 2 places along a column in 2 columns that all share the same rows can help eliminate values.
@@ -56,15 +64,17 @@ Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* u
 
 ##### Summary #####
 
-| Technique          | Accuracy on Gordon Royle's 49,151 17-clue dataset |
-| ------------------ | ------------------------------------------------- |
-| Solo Candidate     | 0.0%                                              |
-| Hidden Candidate   | 44.6%                                             |
-| Subset Cover       | 68.6%                                             |
-| Pointing Pairs     | 77.5%                                             |
-| Box/Line Reduction | 77.8%                                             |
+| Technique          | Tests Passed ( /49,151) | Accuracy (%) |
+| ------------------ | ----------------------- | ------------ |
+| Solo Candidate     | 0                       | 0.0          |
+| Hidden Candidate   | -                       | 44.6         |
+| Subset Cover       | -                       | 68.6         |
+| Pointing Pairs     | -                       | 77.5         |
+| Box/Line Reduction | -                       | 77.8         |
+| X-Wing             | -                       | -            |
+| Singles Chain      | 39,740                  | 80.9         |
 
-*Note: Accuracy is determined by applying the corresponding technique and all previous techniques.*
+*Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
 
 

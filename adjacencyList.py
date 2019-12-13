@@ -22,21 +22,6 @@ class AdjacencyList:
 
         self.pairs += 1
 
-    # Removes a pair from the graph. ###deprecated###
-    def remove(self, a, b):
-        
-        # Removes relationship a -> b.
-        if a in self._adjacencyList and b in self._adjacencyList[a]:
-            self._adjacencyList[a].remove(b)
-            if (len(self._adjacencyList[a]) == 0):
-                del self._adjacencyList[a]
-
-        # Removes relationship b -> a.
-        if b in self._adjacencyList and a in self._adjacencyList[b]:
-            self._adjacencyList[b].remove(a)
-            if (len(self._adjacencyList[b]) == 0):
-                del self._adjacencyList[b]
-
     # Deletes a key from the graph.
     def delete(self, el):
         if el in self._adjacencyList:
