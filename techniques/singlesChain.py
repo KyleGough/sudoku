@@ -41,16 +41,15 @@ def singlesChainCheck(g, n, conjugatePairs):
             conjugatePairs.remove(chainStart, i)
 
         ### init
-        print("<PRE>")
-        print(conjugatePairs.toString())
-        print(str(offCells))
-        print(str(onCells))
-        print("</PRE>")
+        #print("<PRE>")
+        #print(conjugatePairs.toString())
+        #print(str(offCells))
+        #print(str(onCells))
+        #print("</PRE>")
         ###
 
         while (not cellQueue.empty()):
             c = cellQueue.get()
-            print("Queue item:", str(c))
             links = conjugatePairs.getLinks(c)
             
             if c in onCells:
@@ -59,10 +58,10 @@ def singlesChainCheck(g, n, conjugatePairs):
                         print("VIOLATION")
                         return
                     else:
-                        # Checks l is not in the queue, or has been in the queue.
+                        # Checks l is not coloured.
                         if l not in offCells and l not in onCells:
                             cellQueue.put(l) 
-                        offCells.add(l) #check violation.
+                        offCells.add(l)
                         conjugatePairs.remove(c, l)
             else:
                 for l in links:
@@ -70,11 +69,23 @@ def singlesChainCheck(g, n, conjugatePairs):
                         print("VIOLATION")
                         return
                     else:
-                        # Checks l is not in the queue, or has been in the queue.
+                        # Checks l is not coloured.
                         if l not in offCells and l not in onCells:
                             cellQueue.put(l)
                         onCells.add(l)
                         conjugatePairs.remove(c, l)
+
+        
+
+        # Checks all cells for a violation where a cell can "see" both colours.
+        for x in range(g.size):
+            for y in range(g.size):
+                cell = tuple([x,y])
+                if (n in g.getValid(x,y) and cell not in onCells and cell not in offCells):
+                    print(x,y,n)
+                    if (checkViolation(cell, onCells) and checkViolation(cell, offCells)):
+                        ###
+                        print("BOTH COLOUR VIOLATION AT: ", x, y)
 
         # get item
         # get links
@@ -85,6 +96,7 @@ def singlesChainCheck(g, n, conjugatePairs):
         print(conjugatePairs.toString())
         print(onCells)
         print(offCells)
+        print("###END###")
         print()
 
     return False
