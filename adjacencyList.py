@@ -22,7 +22,7 @@ class AdjacencyList:
 
         self.pairs += 1
 
-    # Removes a pair from the graph.
+    # Removes a pair from the graph. ###deprecated###
     def remove(self, a, b):
         
         # Removes relationship a -> b.
@@ -36,6 +36,11 @@ class AdjacencyList:
             self._adjacencyList[b].remove(a)
             if (len(self._adjacencyList[b]) == 0):
                 del self._adjacencyList[b]
+
+    # Deletes a key from the graph.
+    def delete(self, el):
+        if el in self._adjacencyList:
+            del self._adjacencyList[el]
 
     # Gets the first pair.
     def getFirst(self):

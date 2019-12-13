@@ -3,29 +3,20 @@ from colours import tCol
 from adjacencyList import AdjacencyList
 from queue import Queue
 
-#
+# Performs the singles chain strategy to find violations of colour rules to eliminate candidates.
 def singlesChain(g):
-    ###
     success = False
-    ###for n in range(g.size):
-    n = 5
-    if (n == 5): ###remove this line and line above later.
+    for n in range(g.size):
         conjugatePairs = findConjugatePairs(g,n)
         # Must contain at least 2 conjugate pairs to form a chain.
         if (conjugatePairs.pairs >= 2):
             success = singlesChainCheck(g, n, conjugatePairs) or success
     return success
 
-#
+# Constructs a chain of conjugate pairs with candidate n, to find violations.
 def singlesChainCheck(g, n, conjugatePairs):
 
-    # Make chain until no more connections.
-    # do stuff
-    # if still conjugate pairs (at least 2)
-    # make new chain
-    # repeat until 0 or 1 conjugate pairs left.
     while (conjugatePairs.getSize() >= 2):
-        
         # A cell in a conjugate pair must be either ON or OFF.
         onCells = set() # Cells marked with ON.
         offCells = set() # Cells marked with OFF.
@@ -35,47 +26,40 @@ def singlesChainCheck(g, n, conjugatePairs):
         chainStart, chainStartConnections = conjugatePairs.getFirst()
         # Mark the start of the chain as ON.
         onCells.add(chainStart)
+        # Removes from the adjacency list.
+        conjugatePairs.delete(chainStart)
 
         # Mark cells that form a pair with the start of the chain as OFF.
         for i in chainStartConnections:
             offCells.add(i)
             cellQueue.put(i)
-            conjugatePairs.remove(chainStart, i)
-
-        ### init
-        #print("<PRE>")
-        #print(conjugatePairs.toString())
-        #print(str(offCells))
-        #print(str(onCells))
-        #print("</PRE>")
-        ###
-
+    
+        # Process cell queue to form a singles chain.
         while (not cellQueue.empty()):
             c = cellQueue.get()
             links = conjugatePairs.getLinks(c)
-            print("Queue item: ", str(c), "->", str(links)) ###
-            print("Queue size:", cellQueue.qsize())
             
             for l in links:
-                print("Queue process:", str(l)) ###
                 # Checks l is not coloured.
                 if l not in offCells and l not in onCells:
                     if c in onCells:
+                        offCells.add(l)
+                        # If violation in offCell set, so remove all candidates of cells in the set.
                         if checkViolation(l, offCells):
-                            print("VIOLATION")
-                            return
-                        else:
-                            offCells.add(l) 
+                            removeViolationCells(g, n, offCells)
+                            return True                        
                     else: 
+                        onCells.add(l)
+                        # If violation in onCell set, remove all candidates of cells in the set.
                         if checkViolation(l, onCells):
-                            print("VIOLATION")
-                            return
-                        else:
-                            onCells.add(l)
-
+                            #print("VIOLATION ON", str(l))
+                            #print(str(onCells))
+                            removeViolationCells(g, n, onCells)
+                            return True
                     cellQueue.put(l)
-                    #conjugatePairs.remove(c, l)
 
+            # Removes from the adjacency list.
+            conjugatePairs.delete(c)
 
         # Checks all cells for a violation where a cell can "see" both colours.
         for x in range(g.size):
@@ -86,8 +70,6 @@ def singlesChainCheck(g, n, conjugatePairs):
                 if ((n in valid) and (cell not in onCells) and (cell not in offCells)):
                     # If the cell can "see" both colours then eliminate candidate.
                     if (checkViolation(cell, onCells) and checkViolation(cell, offCells)):
-                        ###
-                        #print("BOTH COLOUR VIOLATION AT: ", x, y)
                         msg = tCol.header("Singles Chain:") + " Reduced cell "
                         msg += g.printCell(x,y) + " from " + g.printSet(valid)
                         valid.discard(n)
@@ -96,17 +78,20 @@ def singlesChainCheck(g, n, conjugatePairs):
                         g.logMove(0, msg) 
                         return True
 
-
-        # delete everything in onells and offcells from adjacency list.
-
-        print(conjugatePairs.toString())
-        print(onCells)
-        print(offCells)
-        print("###END###")
-        print()
-
     return False
 
+# Removes candidate n from all cells in the given coloured set.
+def removeViolationCells(g, n, cellSet):
+    for c in cellSet:
+        x = c[0]
+        y = c[1]
+        valid = g.getValid(x,y)
+        msg = tCol.header("Singles Chain:") + " Reduced cell "
+        msg += g.printCell(x,y) + " from " + g.printSet(valid)
+        valid.discard(n)
+        g.updateCellValid(x, y, valid)
+        msg += " to " + g.printSet(valid) + " due to colour violation."
+        g.logMove(0, msg) 
 
 # Finds all the conjugate pairs with candidate n.
 # Constructs an adjacency list of conjugate pairs.
@@ -155,6 +140,9 @@ def findConjugatePairs(g, n):
 def checkViolation(cell, colourSet):
     # Check each cell in the set.
     for i in colourSet:
+        # Ignore the newly inserted cell.
+        if cell == i:
+            continue
         # Check row for 
         if (cell[0] == i[0]):
             return True
@@ -171,18 +159,3 @@ def checkViolation(cell, colourSet):
                 return True
 
     return False
-
-#########################################################
-
-# Add terminology section to the readme file.
-# Remove grid in returns because it should be passed by reference anyways.
-# Calculate big-o complex of other techniques.
-
-# Find all conjugate pair cells. DONE
-# Mark first as colour 1
-# Mark corresponding as colour 2.
-# Check both cells to queue.
-# Check for other pairs connected.
-
-# METHOD: Check if cell can be coloured (not conflicting with colours elsewhere)
-
