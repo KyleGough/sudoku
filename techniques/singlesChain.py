@@ -7,7 +7,9 @@ from queue import Queue
 def singlesChain(g):
     ###
     success = False
-    for n in range(g.size):
+    ###for n in range(g.size):
+    n = 5
+    if (n == 5): ###remove this line and line above later.
         conjugatePairs = findConjugatePairs(g,n)
         # Must contain at least 2 conjugate pairs to form a chain.
         if (conjugatePairs.pairs >= 2):
@@ -51,47 +53,51 @@ def singlesChainCheck(g, n, conjugatePairs):
         while (not cellQueue.empty()):
             c = cellQueue.get()
             links = conjugatePairs.getLinks(c)
+            print("Queue item: ", str(c), "->", str(links)) ###
+            print("Queue size:", cellQueue.qsize())
             
-            if c in onCells:
-                for l in links:
-                    if checkViolation(l, offCells):
-                        print("VIOLATION")
-                        return
-                    else:
-                        # Checks l is not coloured.
-                        if l not in offCells and l not in onCells:
-                            cellQueue.put(l) 
-                        offCells.add(l)
-                        conjugatePairs.remove(c, l)
-            else:
-                for l in links:
-                    if checkViolation(l, onCells):
-                        print("VIOLATION")
-                        return
-                    else:
-                        # Checks l is not coloured.
-                        if l not in offCells and l not in onCells:
-                            cellQueue.put(l)
-                        onCells.add(l)
-                        conjugatePairs.remove(c, l)
+            for l in links:
+                print("Queue process:", str(l)) ###
+                # Checks l is not coloured.
+                if l not in offCells and l not in onCells:
+                    if c in onCells:
+                        if checkViolation(l, offCells):
+                            print("VIOLATION")
+                            return
+                        else:
+                            offCells.add(l) 
+                    else: 
+                        if checkViolation(l, onCells):
+                            print("VIOLATION")
+                            return
+                        else:
+                            onCells.add(l)
 
-        
+                    cellQueue.put(l)
+                    #conjugatePairs.remove(c, l)
+
 
         # Checks all cells for a violation where a cell can "see" both colours.
         for x in range(g.size):
             for y in range(g.size):
                 cell = tuple([x,y])
-                if (n in g.getValid(x,y) and cell not in onCells and cell not in offCells):
-                    print(x,y,n)
+                valid = g.getValid(x,y)
+                # Checks cells has candidate n and not coloured.
+                if ((n in valid) and (cell not in onCells) and (cell not in offCells)):
+                    # If the cell can "see" both colours then eliminate candidate.
                     if (checkViolation(cell, onCells) and checkViolation(cell, offCells)):
                         ###
-                        print("BOTH COLOUR VIOLATION AT: ", x, y)
+                        #print("BOTH COLOUR VIOLATION AT: ", x, y)
+                        msg = tCol.header("Singles Chain:") + " Reduced cell "
+                        msg += g.printCell(x,y) + " from " + g.printSet(valid)
+                        valid.discard(n)
+                        g.updateCellValid(x, y, valid)
+                        msg += " to " + g.printSet(valid) + " as can see both colours."
+                        g.logMove(0, msg) 
+                        return True
 
-        # get item
-        # get links
-        # colour links opposite to colours.
-        # add links to queue if not already in the queue.
-        # remove from graph.
+
+        # delete everything in onells and offcells from adjacency list.
 
         print(conjugatePairs.toString())
         print(onCells)
