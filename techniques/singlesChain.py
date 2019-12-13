@@ -1,6 +1,7 @@
 from grid import Grid
 from colours import tCol
 from adjacencyList import AdjacencyList
+from queue import Queue
 
 #
 def singlesChain(g):
@@ -10,18 +11,83 @@ def singlesChain(g):
         conjugatePairs = findConjugatePairs(g,n)
         # Must contain at least 2 conjugate pairs to form a chain.
         if (conjugatePairs.pairs >= 2):
-            singlesChainCheck(g, n, conjugatePairs)
-    return g, success
+            success = singlesChainCheck(g, n, conjugatePairs) or success
+    return success
 
 #
 def singlesChainCheck(g, n, conjugatePairs):
-    ###
-    #onCells = set()
-    #offCells = set()
-    print(n)
-    print(conjugatePairs.toString())
-    print()
-    return g, False
+
+    # Make chain until no more connections.
+    # do stuff
+    # if still conjugate pairs (at least 2)
+    # make new chain
+    # repeat until 0 or 1 conjugate pairs left.
+    while (conjugatePairs.getSize() >= 2):
+        
+        # A cell in a conjugate pair must be either ON or OFF.
+        onCells = set() # Cells marked with ON.
+        offCells = set() # Cells marked with OFF.
+        cellQueue = Queue() # Queue of cells to check.
+
+        # Gets an initial conjugate pair to construct a chain.
+        chainStart, chainStartConnections = conjugatePairs.getFirst()
+        # Mark the start of the chain as ON.
+        onCells.add(chainStart)
+
+        # Mark cells that form a pair with the start of the chain as OFF.
+        for i in chainStartConnections:
+            offCells.add(i)
+            cellQueue.put(i)
+            conjugatePairs.remove(chainStart, i)
+
+        ### init
+        print("<PRE>")
+        print(conjugatePairs.toString())
+        print(str(offCells))
+        print(str(onCells))
+        print("</PRE>")
+        ###
+
+        while (not cellQueue.empty()):
+            c = cellQueue.get()
+            print("Queue item:", str(c))
+            links = conjugatePairs.getLinks(c)
+            
+            if c in onCells:
+                for l in links:
+                    if checkViolation(l, offCells):
+                        print("VIOLATION")
+                        return
+                    else:
+                        # Checks l is not in the queue, or has been in the queue.
+                        if l not in offCells and l not in onCells:
+                            cellQueue.put(l) 
+                        offCells.add(l) #check violation.
+                        conjugatePairs.remove(c, l)
+            else:
+                for l in links:
+                    if checkViolation(l, onCells):
+                        print("VIOLATION")
+                        return
+                    else:
+                        # Checks l is not in the queue, or has been in the queue.
+                        if l not in offCells and l not in onCells:
+                            cellQueue.put(l)
+                        onCells.add(l)
+                        conjugatePairs.remove(c, l)
+
+        # get item
+        # get links
+        # colour links opposite to colours.
+        # add links to queue if not already in the queue.
+        # remove from graph.
+
+        print(conjugatePairs.toString())
+        print(onCells)
+        print(offCells)
+        print()
+
+    return False
 
 
 # Finds all the conjugate pairs with candidate n.
@@ -59,7 +125,7 @@ def findConjugatePairs(g, n):
         candidateCells = []
         for i, j in g.sectorCells():
             if (n in g.getValid(x + i, y + j)):
-               candidateCells.append(tuple([x,y]))
+               candidateCells.append(tuple([x + i,y + j]))
         # Detects a conjugate pair in the sector.
         if (len(candidateCells) == 2):
             conjugatePairs.insert(candidateCells[0], candidateCells[1])
@@ -67,16 +133,28 @@ def findConjugatePairs(g, n):
     return conjugatePairs
 
 
-# Checks if a cell can see two oppositely coloured cells.
-def canSee(g, x, y):
-    # iterate over list.
+# Checks if a cell can see another cell in ON or OFF state.
+def checkViolation(cell, colourSet):
+    # Check each cell in the set.
+    for i in colourSet:
+        # Check row for 
+        if (cell[0] == i[0]):
+            return True
+        # Check column.
+        elif (cell[1] == i[1]):
+            return True
+        # Check sector.
+        else:
+            cx = ((cell[0] // 3) * 3) + 1
+            cy = ((cell[1] // 3) * 3) + 1
+            ix = ((i[0] // 3) * 3) + 1
+            iy = ((i[1] // 3) * 3) + 1
+            if (cx == ix and cy == iy):
+                return True
+
     return False
 
 #########################################################
-
-# Strong Link/Conjugate Pair.
-# One MUST be true and the other MUST be false.
-# Cannot have both false, or both true.
 
 # Add terminology section to the readme file.
 # Remove grid in returns because it should be passed by reference anyways.
