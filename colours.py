@@ -1,4 +1,5 @@
 class tCol:
+    # ANSII Colours.
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -8,6 +9,7 @@ class tCol:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+    # Returns a colour formatted string.
     def header(m):
         return tCol.HEADER + m + tCol.ENDC
     def okblue(m):

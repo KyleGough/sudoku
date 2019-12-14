@@ -14,5 +14,4 @@ def xywing(g):
 # 2. Find all bi-value pairs:  two bi-value cells that share one candidate.
 
 
-
-# ERROR IN POINTING PAIRS.
+.

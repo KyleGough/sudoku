@@ -1,3 +1,4 @@
+import math
 from colours import tCol
 
 class Stats:
@@ -15,6 +16,8 @@ class Stats:
 
     def getDifficulty(self):
         difficulty = 0
+        n = 1
         for i in range(len(self.techniqueMoves)):
-            difficulty += (i + 1) * self.techniqueMoves[i]
+            n += math.floor(math.log(i+1,2))
+            difficulty += n * self.techniqueMoves[i]
         return difficulty
