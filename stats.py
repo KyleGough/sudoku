@@ -7,6 +7,7 @@ class Stats:
         self.clues = 0
         self.techniqueMoves = [0,0,0,0,0,0,0,0]
 
+    # Prints sudoku statistics.
     def print(self): 
         msg = "Moves: " + tCol.warning(str(self.moves))
         msg += ", Clues: " + tCol.warning(str(self.clues))
@@ -14,6 +15,7 @@ class Stats:
         msg += ", Difficulty: " + tCol.fail(str(self.getDifficulty()))
         print(msg)
 
+    # Calculates the relative difficulty of the sudoku.
     def getDifficulty(self):
         difficulty = 0
         n = 1

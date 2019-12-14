@@ -124,13 +124,11 @@ def init():
     g = Grid()
     logger = Logger()
 
-    # Argument for csv file.
-    if (len(sys.argv) - 1 == 1):
-        filename = str(sys.argv[1])
-    else:
-        print("No input CSV file specified.")
-        return    
-        
+    # Command Line Arguments.
+    filename = str(sys.argv[1])
+    logger.showOutput = True if (sys.argv[2] == "0") else False
+    logger.showMoves = True if (sys.argv[3] == "0") else False
+
     # Test set.
     testQueue = queue.Queue()
     statQueue = queue.Queue()
@@ -190,10 +188,7 @@ def solveGrid(g, n, logger, testQueue, statQueue):
     if logger.showOutput:
         print("\n[ " + tCol.okgreen("Test " + str(n)) + " ]")        
         print("[ " + tCol.okgreen("INITIAL") + " ]")
-        if logger.showGridLarge:
-            g.printValid()
-        else:
-            g.printClean()
+        g.printGrid()
         print()
 
     # Solves the puzzle.
@@ -206,10 +201,7 @@ def solveGrid(g, n, logger, testQueue, statQueue):
         stats.print()
         # Solution.
         print("\n[ " + tCol.okgreen("SOLUTION") + " ]")
-        if logger.showGridLarge:
-            g.printValid()
-        else:
-            g.printClean()
+        g.printGrid()
 
     # Adds to the test queue.
     testQueue.put([n, g.isFilled()])

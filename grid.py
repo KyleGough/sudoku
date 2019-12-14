@@ -31,11 +31,6 @@ class Grid:
             if (value != 0 and self.solution[x][y] != 0 and self.solution[x][y] != value):
                 return False
         return True
-
-    #
-    def log(self, msg):
-        if self.verbose:
-            print(msg)
     
     # Tests the grid against the rules and set solution.
     def testGrid(self):
@@ -70,7 +65,7 @@ class Grid:
 
     # Logs a move that yields information.
     def logMove(self, v, msg):
-        self.log("[" + tCol.OKBLUE + " MOVE " + str(self.stats.moves) + tCol.ENDC + " ] " + msg)
+        print("[" + tCol.OKBLUE + " MOVE " + str(self.stats.moves) + tCol.ENDC + " ] " + msg)
         self.stats.moves += 1
     
     # Checks if the grid has been filled.
@@ -96,15 +91,8 @@ class Grid:
         msg += "}" + tCol.ENDC
         return msg
 
-    # Prints the grid contents.
-    def printClean(self):
-        for y in range(self.size):
-            for x in range(self.size):
-                print(self.get(x,y), end=" ")
-            print()
-
     # Prints valid values of the grid.
-    def printValid(self):
+    def printGrid(self):
         hSep = tCol.okgreen("█████████████████████████████████████████████████████████████████████████")
         hPt = tCol.okgreen("█") 
         print(hSep)        

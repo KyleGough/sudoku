@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SHOWOUTPUT="1"
+SHOWMOVES="1"
+
+while getopts 'om' OPTION; do
+    case "$OPTION" in
+      o)
+        SHOWOUTPUT="0"
+	;;
+      m)
+	SHOWMOVES="0"
+        ;;
+      ?)
+	echo "Script usage: $(basename $0) [-o] [-m]"
+	exit 1
+	;;
+    esac
+done
+shift "$(($OPTIND -1))"
+
+# No CSV file supplied.
+if [ $# -eq 0 ]
+then
+    echo "No input CSV file supplied."
+elif [ $# -gt 1 ]
+then
+    echo "Too many arguments. Expected 1, Recieved $#."
+else
+  python solver.py $1 $SHOWOUTPUT $SHOWMOVES
+fi
