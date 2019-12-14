@@ -1,12 +1,12 @@
 from grid import Grid
 from colours import tCol
-from adjacencyList import AdjacencyList
+from techniques.conjugatePairs import findConjugatePairs
 from queue import Queue
 
 # Performs the singles chain strategy to find violations of colour rules to eliminate candidates.
 def singlesChain(g):
     success = False
-    for n in range(g.size):
+    for n in range(1,10):
         conjugatePairs = findConjugatePairs(g,n)
         # Must contain at least 2 conjugate pairs to form a chain.
         if (conjugatePairs.pairs >= 2):
@@ -92,49 +92,6 @@ def removeViolationCells(g, n, cellSet):
         g.updateCellValid(x, y, valid)
         msg += " to " + g.printSet(valid) + " due to colour violation."
         g.logMove(0, msg) 
-
-# Finds all the conjugate pairs with candidate n.
-# Constructs an adjacency list of conjugate pairs.
-def findConjugatePairs(g, n):
-
-    # Dictionary of all conjugate pairs.
-    conjugatePairs = AdjacencyList()
-
-    # Check columns for conjugate pairs.
-    for x in range(g.size):
-        candidateCells = []
-        for y in range(g.size):
-            if (n in g.getValid(x,y)):
-                candidateCells.append(tuple([x,y]))
-        # Detects a conjugate pair in the column.
-        if (len(candidateCells) == 2):
-            conjugatePairs.insert(candidateCells[0], candidateCells[1])
-    
-    # Check rows for conjugate pairs.
-    for y in range(g.size):
-        candidateCells = []
-        for x in range(g.size):
-            if (n in g.getValid(x,y)):
-                candidateCells.append(tuple([x,y]))
-        # Detects a conjugate pair in the row.
-        if (len(candidateCells) == 2):
-            conjugatePairs.insert(candidateCells[0], candidateCells[1])
-
-    # Check sectors for conjugate pairs.
-    for a, b in g.sectorCells():
-        # Maps (a,b) to (x,y), the sector centre point.
-        x = 4 + (3 * a)
-        y = 4 + (3 * b)
-        candidateCells = []
-        for i, j in g.sectorCells():
-            if (n in g.getValid(x + i, y + j)):
-               candidateCells.append(tuple([x + i,y + j]))
-        # Detects a conjugate pair in the sector.
-        if (len(candidateCells) == 2):
-            conjugatePairs.insert(candidateCells[0], candidateCells[1])
- 
-    return conjugatePairs
-
 
 # Checks if a cell can see another cell in ON or OFF state.
 def checkViolation(cell, colourSet):

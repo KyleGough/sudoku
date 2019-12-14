@@ -37,11 +37,11 @@ def pointingPairs(g):
                     success = checkRow(g, cy-1, n, cx, cy, count) or success
                     continue
                 # Pair in row cy.
-                elif (count == 2 and ((b1 and b2) or (b1 and b3) or (b2 and b3))) or (count == 3 and a2 and b2 and c2):
+                elif (count == 2 and ((b1 and b2) or (b1 and b3) or (b2 and b3))) or (count == 3 and b1 and b2 and b3):
                     success = checkRow(g, cy, n, cx, cy, count) or success
                     continue
                 # Pair in row cy+1.
-                elif (count == 2 and ((c1 and c2) or (c1 and c3) or (c2 and c3))) or (count == 3 and a3 and b3 and c3):
+                elif (count == 2 and ((c1 and c2) or (c1 and c3) or (c2 and c3))) or (count == 3 and c1 and c2 and c3):
                     success = checkRow(g, cy+1, n, cx, cy, count) or success
                     continue
                 # Pair in column cx-1.
@@ -68,7 +68,7 @@ def checkRow(g, y, n, cx, cy, count):
         if (abs(x - cx) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.header("Pointing " + "Pair:" if count == 2 else "Triple:")
+                msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
                 msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
@@ -82,14 +82,13 @@ def checkRow(g, y, n, cx, cy, count):
 
 # Checks along the column.
 def checkColumn(g, x, n, cx, cy, count):
-
     success = False
     for y in range(g.size):
         # If cell is not in sector.
         if (abs(y - cy) > 1):
             valid = g.getValid(x, y)
             if (n in valid):
-                msg = tCol.header("Pointing " + "Pair:" if count == 2 else "Triple:")
+                msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
                 msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
 
                 valid.discard(n)
