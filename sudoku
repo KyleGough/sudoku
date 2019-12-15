@@ -1,16 +1,21 @@
 #!/bin/bash
 
+# Default parameter values.
 SHOWOUTPUT="1"
 SHOWMOVES="1"
 
+# Checks optional flags.
 while getopts 'om' OPTION; do
     case "$OPTION" in
+      # Show initial grid and final solution.
       o)
         SHOWOUTPUT="0"
 	;;
+      # Show moves.
       m)
 	SHOWMOVES="0"
         ;;
+      # Invalid flag.
       ?)
 	echo "Script usage: $(basename $0) [-o] [-m]"
 	exit 1
@@ -23,9 +28,11 @@ shift "$(($OPTIND -1))"
 if [ $# -eq 0 ]
 then
     echo "No input CSV file supplied."
+# Too many arguments.
 elif [ $# -gt 1 ]
 then
     echo "Too many arguments. Expected 1, Recieved $#."
+# Executes python script.
 else
   python solver.py $1 $SHOWOUTPUT $SHOWMOVES
 fi

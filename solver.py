@@ -28,13 +28,13 @@ def strategicSolver(g, logger):
         # Uses pairs/triples of possible values in a sector that are on
         # the same row/column to eliminate possibilities in the row/column.
         # 17-clue test coverage: 77.5%.
-        t.pointingPairs,
+        #t.pointingPairs,
         # Uses pairs/triples along a column/row in the same sector to remove
         # other possibilities in the sector.
         # 17-clue test coverage: 77.8%.
-        t.boxLineReduction,
-        t.xwing,
-        t.singlesChain
+        #t.boxLineReduction,
+        #t.xwing,
+        #t.singlesChain
         # Value restricted in n places along a column in n columns
         # that all share the same rows. 
         #t.jellyfish,
