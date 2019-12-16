@@ -34,7 +34,7 @@ def sectorSubsetCover(g):
             empty = []
             # Iterate over cells in the sector.
             for i, j in g.sectorCells():
-                if (g.get(cx + i, cy + j) == 0):
+                if (g.get(cx + i, cy + j) == 0) and (len(g.getValid(cx + i, cy + j)) <= 4): ###
                     empty.append([i,j])
             if (len(empty) < 3):
                 continue
@@ -91,7 +91,7 @@ def rowSubsetCover(g):
         empty = []
         # Iterate over cells in a row.
         for x in range(g.size):
-            if (g.get(x,y) == 0):
+            if (g.get(x,y) == 0) and (len(g.getValid(x,y)) <= 4): ###
                 empty.append(x)
         if (len(empty) < 3):
             continue

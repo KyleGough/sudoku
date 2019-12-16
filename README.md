@@ -4,25 +4,32 @@ A logical sudoku solver that outputs detailed descriptions of the techniques and
 
 
 
+
+
 ## Terminology
 
+
+
 * Candidates - *The possible values a cell can be. Various techniques will aim to reduce to number of candidates for each cell using logical reasoning.*
-
 * Simple Sudoku - *A sudoku that can be solved only using the solo candidate and hidden candidate techniques.*
-
 * Minimum Sudoku - *A sudoku where removing a clue from the initial configuration produces a sudoku without a unique solution.*
-
 * Conjugate Pair - *Where a candidate is only valid in exactly two cells within a structure, the two cells form a conjugate pair.*
 
-  
+
+
+
 
 ## Solution Techniques ##
+
+
 
 ##### Solo Candidate #####
 
 The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm.
 
 * Using only this strategy is not sufficient enough to solve any 17-clue sudokus.
+
+
 
 
 
@@ -34,11 +41,15 @@ The *hidden candidate* technique is another simple technique for identifying the
 
 
 
+
+
 ##### Subset Cover (Pairs/Triples/Quads) #####
 
-The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=4* as any subset of size *N* greater than 4 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve. *TODO [COMPLEXITY]*
+The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=4* as any subset of size *N* greater than 4 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve. *TODO [COMPLEXITY O(NxPERMxx)]*
 
 * Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.6%*.
+
+
 
 
 
@@ -50,11 +61,15 @@ The *pointing pairs/triples* technique eliminates candidates within a column or 
 
 
 
+
+
 ##### Box/Line Intersection #####
 
 The *box/line intersection* technique eliminates candidates within a sector. If a candidate value in a column/row only appears within one sector, then that candidate must occur in the sector in that column/row, and so the candidate can be elinianted from the other cells in the same sector. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a column/row must be checked for every column/row.
 
 * Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* up to *77.8%*.
+
+
 
 
 
@@ -66,11 +81,15 @@ The *singles chain* technique firstly identifies for a given candidate all the c
 
 
 
+
+
 ##### X-Wing #####
 
 The *X-Wing* technique is a subset of single value chaining strategies where a candidate is restricted in two cells along a column in two different columns that all share the same rows. The technique can also be expressed as two conjugate pairs joined by two weak links where the four cells form a rectangle. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
 
 * *TODO*
+
+
 
 
 
@@ -80,7 +99,11 @@ I have implemented only a few logical techniques, however there are far more com
 
 
 
+
+
 ## Benchmarking and Testing ##
+
+
 
 ##### Summary #####
 
@@ -88,13 +111,15 @@ I have implemented only a few logical techniques, however there are far more com
 | ------------------ | ----------------------- | ---------------- |
 | Solo Candidate     | 0                       | 0                |
 | Hidden Candidate   | 21905                   | 44.6             |
-| Subset Cover       | -                       | 68.6             |
-| Pointing Pairs     | -                       | -                |
-| Box/Line Reduction | -                       | -                |
-| X-Wing             | -                       | -                |
-| Singles Chain      | 39,740                  | 90.4             |
+| Subset Cover       | 33732                   | 68.6             |
+| Pointing Pairs     | 40970                   | 83.4             |
+| Box/Line Reduction | 41324                   | 84.1             |
+| Singles Chain      | -                       | -                |
+| X-Wing             | 39,740     41348        | 90.4    84.1     |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue sudokus.*
+
+
 
 
 

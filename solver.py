@@ -27,19 +27,18 @@ def strategicSolver(g, logger):
         t.subsetCover, 
         # Uses pairs/triples of possible values in a sector that are on
         # the same row/column to eliminate possibilities in the row/column.
-        # 17-clue test coverage: 77.5%.
-        #t.pointingPairs,
+        # 17-clue test coverage: 83.4%.
+        t.pointingPairs,
         # Uses pairs/triples along a column/row in the same sector to remove
         # other possibilities in the sector.
-        # 17-clue test coverage: 77.8%.
-        #t.boxLineReduction,
-        #t.xwing,
-        #t.singlesChain
+        # 17-clue test coverage: 84.1%.
+        t.boxLineReduction,
+        t.xwing,
+        t.singlesChain,
         # Value restricted in n places along a column in n columns
         # that all share the same rows. 
-        #t.jellyfish,
-        #t.swordfish,
-                    
+        t.jellyfish,
+        t.swordfish                    
     ]
 
     # Applies each technique to the puzzle until new information is gained.
@@ -50,6 +49,7 @@ def strategicSolver(g, logger):
         if (g.isFilled()):
             if logger.showOutput:
                 print("[" + tCol.okgreen(" SOLVED IN " + str(g.stats.moves - 1) + " MOVES ") + "]")
+            g.stats.exitStatus = "SOLVED"
             return g.stats
 
         # Displays the grid after each move.
@@ -64,11 +64,14 @@ def strategicSolver(g, logger):
                 g.stats.techniqueMoves[i] += 1
                 break
             if (not g.testGrid()):
+                g.stats.exitStatus = "ERROR"
                 return g.stats
 
         # Exhausted Possibilities. No solution found.
-        if (not found and logger.showErrors):
-            print("[" + tCol.fail(" EXHAUSTED SEARCH ") + "]")
+        if (not found):
+            g.stats.exitStatus = "EXHAUSTED"
+            if (logger.showErrors):
+                print("[" + tCol.fail(" EXHAUSTED SEARCH ") + "]")
 
     return g.stats
 
@@ -142,27 +145,38 @@ def init():
 def testAnalysis(testQueue):
     passCount = 0
     failCount = 0
+
+    ###
+    totalCount = 0
+    solveCount = 0
+    exhaustCount = 0
+    errorCount = 0
+
     print("\n[ " + tCol.warning("Tests") + " ]")
 
     # Analyses test outcomes.
     while not testQueue.empty():
         t = testQueue.get()
-        if (t[1]):
-            passCount += 1
-        else:
-            failCount += 1
+        
+        totalCount += 1
+        if t[1] == "SOLVED":
+            solveCount += 1
+        elif t[1] == "EXHAUSTED":
+            exhaustCount += 1
+        elif t[1] == "ERROR":
+            errorCount += 1
 
-    # Pass Rate.
-    passRate = round(100 * passCount / (passCount + failCount), 1)
-    if passRate == 100:
-        passRate = tCol.okgreen(str(passRate) + "%")
-    elif passRate > 66:
-        passRate = tCol.warning(str(passRate) + "%")
-    else:
-        passRate = tCol.fail(str(passRate) + "%")
+    solveRate = str(round(100 * solveCount / totalCount, 1))
+    exhaustRate = str(round(100 * exhaustCount / totalCount, 1))
+    errorRate = str(round(100 * errorCount / totalCount, 1))
 
-    # Output.
-    print("Solved " + str(passCount) + " out of " + str(passCount + failCount) + " tests. (" + passRate + ")")
+    solveRate = tCol.okgreen(str(solveRate) + "%") if solveRate == "100.0" else tCol.fail(str(solveRate) + "%")
+    exhaustRate = tCol.okgreen(str(exhaustRate) + "%") if exhaustRate == "0.0" else tCol.fail(str(exhaustRate) + "%")
+    errorRate = tCol.okgreen(str(errorRate) + "%") if errorRate == "0.0" else tCol.fail(str(errorRate) + "%")
+
+    print("Solved:    " + str(solveCount) + " out of " + str(totalCount) + " tests. (" + solveRate + ")")
+    print("Exhausted: " + str(exhaustCount) + " out of " + str(totalCount) + " tests. (" + exhaustRate + ")")
+    print("Error in:  " + str(errorCount) + " out of " + str(totalCount) + " tests. (" + errorRate + ")")
 
 # Stat Analysis.
 def statAnalysis(statQueue):
@@ -204,7 +218,7 @@ def solveGrid(g, n, logger, testQueue, statQueue):
         g.printGrid()
 
     # Adds to the test queue.
-    testQueue.put([n, g.isFilled()])
+    testQueue.put([n, g.stats.exitStatus])
     # Adds to the stats queue.
     statQueue.put(stats)
 
