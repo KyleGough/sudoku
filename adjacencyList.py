@@ -40,6 +40,10 @@ class AdjacencyList:
         else:
             return []
 
+    # Gets a list of all cells in the adjacency list.
+    def getCells(self):
+        return list(self._adjacencyList.keys())
+
     # Outputs the adjacency list as a string.
     def toString(self):
         return str(self._adjacencyList)

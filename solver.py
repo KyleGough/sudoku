@@ -17,28 +17,16 @@ def strategicSolver(g, logger):
 
     # Order of strategies.
     strats = [
-        # Cell can only be one possible value.
         t.soloCandidate,
-        # Value can only occur in one cell of a column/row/sector.
-        # 17-clue test coverage: 44.6%.
         t.hiddenCandidate,
-        # Subsets of pairs/triples/quads to remove possibilities.
-        # 17-clue test coverage: 68.6%.
         t.subsetCover, 
-        # Uses pairs/triples of possible values in a sector that are on
-        # the same row/column to eliminate possibilities in the row/column.
-        # 17-clue test coverage: 83.4%.
         t.pointingPairs,
-        # Uses pairs/triples along a column/row in the same sector to remove
-        # other possibilities in the sector.
-        # 17-clue test coverage: 84.1%.
         t.boxLineReduction,
-        t.xwing,
+        t.xwing, ###
         t.singlesChain,
-        # Value restricted in n places along a column in n columns
-        # that all share the same rows. 
-        t.jellyfish,
-        t.swordfish                    
+        t.jellyfish, ###
+        t.swordfish, ###
+        t.avoidableRect ##
     ]
 
     # Applies each technique to the puzzle until new information is gained.
