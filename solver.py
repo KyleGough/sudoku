@@ -22,8 +22,8 @@ def strategicSolver(g, logger):
         t.subsetCover, 
         t.pointingPairs,
         t.boxLineReduction,
-        t.xwing, ###
-        #t.singlesChain,
+        t.xwing,
+        t.singlesChain,
         #t.avoidableRect ###
     ]
 
