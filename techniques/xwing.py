@@ -8,6 +8,7 @@ def xwing(g):
     success = xwingDetect(g)
     g.transpose()
     success = success or xwingDetect(g)
+    g.transpose()
     return success
 
 # Detects X-Wings with strong links along columns and weak links along rows.

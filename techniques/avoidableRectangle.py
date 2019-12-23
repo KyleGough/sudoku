@@ -3,34 +3,60 @@ from colours import tCol
 
 ### Trivial implementation is O(N^4) -1296
 def avoidableRect(g):
-    count = 0
-    return False
 
-    #1296
+    # Iterates over all rectangles.
     for t in range(g.size - 1):
         for b in range(t + 1, g.size):
             for l in range(g.size - 1):
                 for r in range(l + 1, g.size):
-                    sectors = set()
 
-                    # 3 filled
-                    # 2 boxes
+                    # Sets of cells in the AR.
                     cells = set()
-                    #cells.add(tuple([a,c]))
-                    #cells.add(tuple([b,c]))
-                    #cells.add(tuple([a,d]))
-                    #cells.add(tuple([b,d]))
+                    cells.add(tuple([l,t]))
+                    cells.add(tuple([r,t]))
+                    cells.add(tuple([l,b]))
+                    cells.add(tuple([r,b]))
 
-                    #a = str(l+1)
-                    ##b = str(r+1)
-                    #c = str(t+1)
-                    #d = str(b+1)
-                    #tl = "(" + a + "," + c + ")"
-                    #tr = "(" + b + "," + c + ")"
-                    bl = "(" + a + "," + d + ")"
-                    br = "(" + b + "," + d + ")"
-                    print(tl, tr, bl, br)
-                    count += 1
-                    
-    print(count)
+                    # Count filled cells.
+                    filledCount = 0
+                    values = set()
+                    for c in cells:
+                        value = g.get(c[0], c[1])
+                        if (value == 0):
+                            emptyCell = c
+                        elif (g.clue[c[0]][c[1]] == True):
+                            values.add(value)
+                            filledCount += 1
+
+                    # AR requires 3 filled cells.
+                    if (filledCount != 3):
+                        continue
+
+                    # Filled cells are only 2 values.
+                    if (len(values) != 2):
+                        continue
+
+                    # AR occupies two sectors.
+                    sector = set()  
+                    for c in cells:
+                        cx, cy = g.getSectorCoord(c[0], c[1])                  
+                        sector.add(tuple([cx, cy]))
+                    if (len(sector) != 2):
+                        continue
+
+                    ###
+                    valid = g.getValid(emptyCell[0], emptyCell[1])
+                    msg = tCol.header("Avoidable Rectangle:") + " Reduced cell "
+                    msg += g.printCell(emptyCell[0], emptyCell[1]) + " from "
+                    msg += g.printSet(valid) + " to "
+                    newValid = valid.difference(values)
+                    if (len(valid) != len(newValid)):
+                        g.updateCellValid(emptyCell[0], emptyCell[1], newValid)
+                        msg += g.printSet(newValid) + " using cells"
+                        for c in cells:
+                            msg += " (" + str(c[0]+1) + "," + str(c[1]+1) + ")"
+                        g.logMove(msg)
+                        print(msg)
+                        return True
+  
     return False

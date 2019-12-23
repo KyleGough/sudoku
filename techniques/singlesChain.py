@@ -74,7 +74,7 @@ def singlesChainCheck(g, n, conjugatePairs):
                         msg += g.printCell(x,y) + " from " + g.printSet(valid)
                         valid.discard(n)
                         g.updateCellValid(x, y, valid)
-                        msg += " to " + g.printSet(valid) + " as can see both colours."
+                        msg += " to " + g.printSet(valid) + " as can see both colours"
                         g.logMove(msg) 
                         return True
 
@@ -90,7 +90,7 @@ def removeViolationCells(g, n, cellSet):
         msg += g.printCell(x,y) + " from " + g.printSet(valid)
         valid.discard(n)
         g.updateCellValid(x, y, valid)
-        msg += " to " + g.printSet(valid) + " due to colour violation."
+        msg += " to " + g.printSet(valid) + " due to colour violation"
         g.logMove(msg) 
 
 # Checks if a cell can see another cell in ON or OFF state.

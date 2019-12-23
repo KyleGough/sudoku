@@ -19,12 +19,12 @@ def strategicSolver(g, logger):
     strats = [
         t.soloCandidate,
         t.hiddenCandidate,
-        t.subsetCover, 
+        t.subsetCover,
         t.pointingPairs,
         t.boxLineReduction,
         t.xwing,
         t.singlesChain,
-        #t.avoidableRect ###
+        #t.avoidableRect ### Uniqueness Technique.
     ]
 
     # Applies each technique to the puzzle until new information is gained.

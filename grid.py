@@ -5,10 +5,10 @@ from stats import Stats
 class Grid:
     def __init__(self):
         self.size = 9
+        self.clue = [[False for i in range(self.size)] for j in range(self.size)]
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
         self.solution = [[0 for i in range(self.size)] for j in range(self.size)]
         self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
-        self.chainColour = [[0 for i in range(self.size)] for j in range(self.size)]
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.verbose = True # Flag to display moves.
@@ -21,6 +21,7 @@ class Grid:
         for x in range(self.size):
             for y in range(self.size):
                 if grid[x][y] != 0:
+                    self.clue[x][y] = True
                     count += 1
         self.stats.clues = count
 
@@ -50,7 +51,6 @@ class Grid:
         cp.grid = [row[:] for row in self.grid]
         cp.solution = [row[:] for row in self.solution]
         cp.valid = [row[:] for row in self.valid]
-        cp.chainColour = [row[:] for row in self.chainColour]
         cp.error = self.error
         cp.transposed = self.transposed
         cp.verbose = self.verbose
