@@ -58,7 +58,7 @@ def sectorSubsetCover(g):
                         
                         cellValid = g.getValid(cx + a, cy + b)
                         msg = tCol.header(getTitleName(len(p)))
-                        msg += " - Using " + g.printSet(valid) + " in sector"
+                        msg += " Using " + g.printSet(valid) + " in sector"
                         msg += ", reduced cell " + g.printCell(cx + a, cy + b)
                         msg += " from " + g.printSet(cellValid) + " to "
                         
@@ -72,7 +72,7 @@ def sectorSubsetCover(g):
                         if (removed):
                             g.updateCellValid(cx + a, cy + b, cellValid)
                             msg += g.printSet(cellValid)
-                            g.logMove(0, msg)
+                            g.logMove(msg)
                             success = True
 
                 if (success):
@@ -114,7 +114,7 @@ def rowSubsetCover(g):
                 if (not x in p and g.get(x,y) == 0):
                     cellValid = g.getValid(x,y)
                     msg = tCol.header(getTitleName(len(p)))
-                    msg += " - Using " + g.printSet(valid) + " in "
+                    msg += " Using " + g.printSet(valid) + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + g.printCell(x,y)
                     msg += " from " + g.printSet(cellValid) + " to "
@@ -129,7 +129,7 @@ def rowSubsetCover(g):
                     if (removed):
                         msg += g.printSet(cellValid)
                         g.updateCellValid(x, y, cellValid)
-                        g.logMove(0, msg)
+                        g.logMove(msg)
                         success = True
 
     return success

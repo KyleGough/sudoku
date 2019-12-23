@@ -47,7 +47,7 @@ def boxLineReductionRow(g):
                         msg += "column " if g.transposed else "row "
                         msg += tCol.okblue(str(y))
                         msg += ", sector " + g.printCell(s[0], s[1])
-                        g.logMove(0, msg) 
+                        g.logMove(msg) 
                         success = True
 
     return success

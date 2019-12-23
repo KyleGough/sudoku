@@ -35,10 +35,10 @@ class Grid:
     # Tests the grid against the rules and set solution.
     def testGrid(self):
         if (self.error):
-            self.log("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
+            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
             return False
         elif (not self.checkSolution):
-            self.log("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
+            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
             return False
         else:
             return True
@@ -54,7 +54,7 @@ class Grid:
         cp.error = self.error
         cp.transposed = self.transposed
         cp.verbose = self.verbose
-        cp.stats - self.stats
+        cp.stats = self.stats
         return cp
 
     # Transposes the grid and valid grid.
@@ -64,7 +64,7 @@ class Grid:
         self.valid = [list(i) for i in zip(*self.valid)]
 
     # Logs a move that yields information.
-    def logMove(self, v, msg):
+    def logMove(self, msg):
         if (self.verbose):
             print("[" + tCol.OKBLUE + " MOVE " + str(self.stats.moves) + tCol.ENDC + " ] " + msg)
         self.stats.moves += 1
@@ -84,7 +84,7 @@ class Grid:
     def printSet(self, s):
         msg = tCol.WARNING + "{"
         if (len(s) > 0):
-            for i in s:
+            for i in sorted(s):
                 msg += str(i) + ","
             msg = msg[:-1]            
         else:

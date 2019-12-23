@@ -12,7 +12,7 @@ from logger import Logger
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g, logger):
-    g.logMove(0, tCol.header("Initial Configuration"))
+    g.logMove(tCol.header("Initial Configuration"))
     found = True
 
     # Order of strategies.
@@ -23,10 +23,8 @@ def strategicSolver(g, logger):
         t.pointingPairs,
         t.boxLineReduction,
         t.xwing, ###
-        t.singlesChain,
-        t.jellyfish, ###
-        t.swordfish, ###
-        t.avoidableRect ##
+        #t.singlesChain,
+        #t.avoidableRect ###
     ]
 
     # Applies each technique to the puzzle until new information is gained.

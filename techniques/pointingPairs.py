@@ -76,7 +76,7 @@ def checkRow(g, y, n, cx, cy, count):
 
                 msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
-                g.logMove(0, msg)
+                g.logMove(msg)
                 success = True 
     return success 
 
@@ -96,6 +96,6 @@ def checkColumn(g, x, n, cx, cy, count):
 
                 msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
-                g.logMove(0, msg)
+                g.logMove(msg)
                 success = True 
     return success 
