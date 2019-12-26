@@ -25,7 +25,7 @@ def strategicSolver(g, logger):
         t.xwing,
         t.singlesChain,
         #t.avoidableRect ### Uniqueness Technique.
-        t.bivalueUniversalGrave # Unimplemented.
+        t.bivalueUniversalGrave # Uniqueness Technique.
     ]
 
     # Applies each technique to the puzzle until new information is gained.
