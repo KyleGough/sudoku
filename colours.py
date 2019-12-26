@@ -10,13 +10,13 @@ class tCol:
     UNDERLINE = '\033[4m'
 
     # Returns a colour formatted string.
-    def header(m):
-        return tCol.HEADER + m + tCol.ENDC
-    def okblue(m):
-        return tCol.OKBLUE + m + tCol.ENDC
-    def okgreen(m):
-        return tCol.OKGREEN + m + tCol.ENDC
-    def warning(m):
-        return tCol.WARNING + m + tCol.ENDC
-    def fail(m):
-        return tCol.FAIL + m + tCol.ENDC 
+    @staticmethod
+    def header(m):  return tCol.HEADER + m + tCol.ENDC
+    @staticmethod
+    def okblue(m):  return tCol.OKBLUE + m + tCol.ENDC
+    @staticmethod
+    def okgreen(m): return tCol.OKGREEN + m + tCol.ENDC
+    @staticmethod
+    def warning(m): return tCol.WARNING + m + tCol.ENDC
+    @staticmethod
+    def fail(m):    return tCol.FAIL + m + tCol.ENDC 

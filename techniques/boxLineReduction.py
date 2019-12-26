@@ -3,11 +3,7 @@ from colours import tCol
 
 # Box/Line Reduction.
 def boxLineReduction(g):
-    successRow = boxLineReductionRow(g)
-    g.transpose()
-    successCol = boxLineReductionRow(g)
-    g.transpose()
-    return (successRow or successCol) 
+    return boxLineReductionRow(g) or boxLineReductionRow(g) 
 
 # Performs Box/Line Reduction along grid rows.
 # Complexity: O(i * y * x)
@@ -42,7 +38,6 @@ def boxLineReductionRow(g):
                         msg += g.printCell(s[0] + a, s[1] + b)
                         msg += " from " + g.printSet(valid) + " to "
                         valid.discard(i)
-                        g.updateCellValid(s[0] + a, s[1] + b, valid)
                         msg += g.printSet(valid) + " using "
                         msg += "column " if g.transposed else "row "
                         msg += tCol.okblue(str(y))
@@ -50,4 +45,5 @@ def boxLineReductionRow(g):
                         g.logMove(msg) 
                         success = True
 
+    g.transpose()
     return success

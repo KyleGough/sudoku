@@ -55,8 +55,7 @@ def xwingReduce(g, n, cols, rows):
                 if (n in valid):
                     msg = tCol.header("X-Wing:") + " Reduced cell "
                     msg += g.printCell(x, y) + " from " + g.printSet(valid)
-                    valid.remove(n)
-                    g.updateCellValid(x,y,valid)
+                    valid.discard(n)
                     msg += " to " + g.printSet(valid) + " using X-Wing at "
                     msg += "cols" if g.transposed else "rows"
                     msg += " " + g.printSet(list(map(lambda x: x+1, rows))) + ", "
@@ -66,9 +65,3 @@ def xwingReduce(g, n, cols, rows):
                     success = True
     
     return success
-
-
-    # Must be at least 2 conjugate pairs.
-    # Find weak links between conjugate pairs.
-    # Can use transpose to do along rows.
-    # Modify conjugate pair code to allow for conjugate triples and quads (2 <= N <= 4)

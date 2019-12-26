@@ -70,7 +70,6 @@ def sectorSubsetCover(g):
                                 cellValid.discard(v)
                         # Update cell.            
                         if (removed):
-                            g.updateCellValid(cx + a, cy + b, cellValid)
                             msg += g.printSet(cellValid)
                             g.logMove(msg)
                             success = True
@@ -128,7 +127,6 @@ def rowSubsetCover(g):
                     # Update cell.
                     if (removed):
                         msg += g.printSet(cellValid)
-                        g.updateCellValid(x, y, cellValid)
                         g.logMove(msg)
                         success = True
 

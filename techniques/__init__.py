@@ -7,6 +7,7 @@ from techniques.pointingPairs import pointingPairs
 from techniques.boxLineReduction import boxLineReduction
 from techniques.singlesChain import singlesChain
 from techniques.avoidableRectangle import avoidableRect
+from techniques.bug import bivalueUniversalGrave
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs

@@ -52,8 +52,6 @@ def singlesChainCheck(g, n, conjugatePairs):
                         onCells.add(l)
                         # If violation in onCell set, remove all candidates of cells in the set.
                         if checkViolation(l, onCells):
-                            #print("VIOLATION ON", str(l))
-                            #print(str(onCells))
                             removeViolationCells(g, n, onCells)
                             return True
                     cellQueue.put(l)
@@ -73,7 +71,6 @@ def singlesChainCheck(g, n, conjugatePairs):
                         msg = tCol.header("Singles Chain:") + " Reduced cell "
                         msg += g.printCell(x,y) + " from " + g.printSet(valid)
                         valid.discard(n)
-                        g.updateCellValid(x, y, valid)
                         msg += " to " + g.printSet(valid) + " as can see both colours"
                         g.logMove(msg) 
                         return True
@@ -89,7 +86,6 @@ def removeViolationCells(g, n, cellSet):
         msg = tCol.header("Singles Chain:") + " Reduced cell "
         msg += g.printCell(x,y) + " from " + g.printSet(valid)
         valid.discard(n)
-        g.updateCellValid(x, y, valid)
         msg += " to " + g.printSet(valid) + " due to colour violation"
         g.logMove(msg) 
 
@@ -98,7 +94,7 @@ def checkViolation(cell, colourSet):
     # Check each cell in the set.
     for i in colourSet:
         # Ignore the newly inserted cell.
-        if cell == i:
+        if (cell == i):
             continue
         # Check row for 
         if (cell[0] == i[0]):
@@ -114,5 +110,4 @@ def checkViolation(cell, colourSet):
             iy = ((i[1] // 3) * 3) + 1
             if (cx == ix and cy == iy):
                 return True
-
     return False

@@ -70,10 +70,7 @@ def checkRow(g, y, n, cx, cy, count):
             if (n in valid):
                 msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
                 msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
-
                 valid.discard(n)
-                g.updateCellValid(x, y, valid)
-
                 msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(msg)
@@ -90,10 +87,7 @@ def checkColumn(g, x, n, cx, cy, count):
             if (n in valid):
                 msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
                 msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
-
                 valid.discard(n)
-                g.updateCellValid(x, y, valid)
-
                 msg += " to " + g.printSet(valid)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(msg)
