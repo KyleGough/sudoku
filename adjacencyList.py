@@ -9,13 +9,12 @@ class AdjacencyList:
 
     # Inserts a pair into the graph.
     def insert(self, a, b):
-        if a in self._adjacencyList and b not in self._adjacencyList[a]:
+        if (a in self._adjacencyList and b not in self._adjacencyList[a]):
             self._adjacencyList[a].append(b)
         else:
             self._adjacencyList[a] = [b]
             
-
-        if b in self._adjacencyList and a not in self._adjacencyList[b]:
+        if (b in self._adjacencyList and a not in self._adjacencyList[b]):
             self._adjacencyList[b].append(a)
         else:
             self._adjacencyList[b] = [a]
@@ -48,3 +47,24 @@ class AdjacencyList:
     def toString(self):
         return str(self._adjacencyList)
 
+
+
+class BiValueAdjacencyList(AdjacencyList):
+    def __init__(self):
+        super().__init__(self)
+
+     # Inserts a bi-value pair into the graph linked via candidate n.
+    def insert(self, a, b, n):
+        if (a in self._adjacencyList and b not in self._adjacencyList[a][0]):
+            self._adjacencyList[a][0].append(b)
+            self._adjacencyList[a][1].append(n)
+        else:
+            self._adjacencyList[a] = [[b],[n]]
+            
+        if (b in self._adjacencyList and a not in self._adjacencyList[b][0]):
+            self._adjacencyList[b][0].append(a)
+            self._adjacencyList[b][1].append(n)
+        else:
+            self._adjacencyList[b] = [[a],[n]]
+
+        self.pairs += 1
