@@ -92,7 +92,7 @@ The *singles chain* technique firstly identifies for a given candidate all the c
 
 The *X-Wing* technique is a subset of single value chaining strategies where a candidate is restricted in two cells along a column in two different columns that all share the same rows. The technique can also be expressed as two conjugate pairs joined by two weak links where the four cells form a rectangle. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
 
-* *TODO*
+* Implementing the *X-Wing* technique boosted the accuracy up to 91.1%.*
 
 
 
@@ -121,7 +121,7 @@ I have implemented only a few logical techniques, however there are far more com
 | Subset Cover       | 33732                   | 68.6             |
 | Pointing Pairs     | 40970                   | 83.4             |
 | Box/Line Reduction | 41324                   | 84.1             |
-| Singles Chain      | -                       | -                |
+| Singles Chain      | 44432                   | 90.4             |
 | X-Wing             | 44774                   | 91.1             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
