@@ -8,7 +8,7 @@ class Grid:
         self.clue = [[False for i in range(self.size)] for j in range(self.size)] # Initial clue locations.
         self.grid = [[0 for i in range(self.size)] for j in range(self.size)] # Current grid values.
         self.solution = [[0 for i in range(self.size)] for j in range(self.size)] # Solution of the puzzle.
-        self.valid = [[set() for i in range(self.size)] for j in range(self.size)] # Candidates in each cell.
+        self.candidates = [[set() for i in range(self.size)] for j in range(self.size)] # Candidates in each cell.
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.verbose = True # Flag to display moves.
@@ -44,11 +44,11 @@ class Grid:
         else:
             return True
 
-    # Transposes the grid and valid grid.
+    # Transposes the grid and candidate grid.
     def transpose(self):
         self.transposed = not self.transposed
         self.grid = [list(i) for i in zip(*self.grid)]
-        self.valid = [list(i) for i in zip(*self.valid)]
+        self.candidates = [list(i) for i in zip(*self.candidates)]
 
     # Logs a move that yields information.
     def logMove(self, msg):
@@ -79,7 +79,7 @@ class Grid:
         msg += "}" + tCol.ENDC
         return msg
 
-    # Prints valid values of the grid.
+    # Prints candidate values of the grid.
     def printGrid(self):
         hSep = tCol.okgreen("█████████████████████████████████████████████████████████████████████████")
         hPt = tCol.okgreen("█") 
@@ -90,7 +90,7 @@ class Grid:
                 for x in range(self.size):
                     for i in range(j,j+3):
                         if (self.get(x,k) == 0):
-                            if (i in self.getValid(x,k)):
+                            if (i in self.getCandidates(x,k)):
                                 if (((x // 3) + (k // 3)) % 2 == 0):
                                     print(tCol.OKBLUE, end='')
                                 else:
@@ -141,31 +141,31 @@ class Grid:
     def insert(self, x, y, n):
 
         self.grid[x][y] = n             # Assign the grid value.
-        self.updateCellValid(x,y,set()) # Cell has no more valid values.
+        self.updateCandidates(x,y,set()) # Cell has no more candidate values.
 
         # Updates row candidates.
         for i in range(self.size):
             if (x != i and self.get(i,y) == 0):
-                valid = self.getValid(i,y)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(i,y)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
 
         # Updates column candidates.
         for j in range(self.size):
             if (y != j and self.get(x,j) == 0):
-                valid = self.getValid(x,j)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(x,j)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
 
         # Updates sector candidates.
         cx, cy = self.getSectorCoord(x,y)
         for i, j in self.sectorCells():
             if ((cx + i != x or cy + j != y) and self.get(cx + i, cy + j) == 0):
-                valid = self.getValid(cx + i, cy + j)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(cx + i, cy + j)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
 
         return True
@@ -174,13 +174,13 @@ class Grid:
     def get(self, x, y):
         return self.grid[x][y]
     
-    # Gets the valid values of a cell.
-    def getValid(self, x, y):
-        return self.valid[x][y]
+    # Gets the candidate values of a cell.
+    def getCandidates(self, x, y):
+        return self.candidates[x][y]
         
-    # Updates the valid values of a cell.
-    def updateCellValid(self, x, y, valid):
-        self.valid[x][y] = valid
+    # Updates the candidate values of a cell.
+    def updateCandidates(self, x, y, candidates):
+        self.candidates[x][y] = candidates
 
     # Generator for set of all cell indexes.
     def cells(self):

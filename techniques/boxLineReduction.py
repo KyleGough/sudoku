@@ -18,7 +18,7 @@ def boxLineReductionRow(g):
                     
             # If a value can be i, add what sector the cell is in the set.
             for x in range(g.size):
-                if i in g.getValid(x,y):
+                if i in g.getCandidates(x,y):
                     cx = ((x // 3) * 3) + 1
                     sectors.add(tuple([cx, cy]))
                     count += 1
@@ -31,14 +31,14 @@ def boxLineReductionRow(g):
                     # Ignore if on same y coord.
                     if (y == s[1] + b): 
                         continue
-                    valid = g.getValid(s[0] + a, s[1] + b)
+                    candidates = g.getCandidates(s[0] + a, s[1] + b)
                     # Remove possibility of i in the sector cells.
-                    if (i in valid):
+                    if (i in candidates):
                         msg = tCol.header("Box/Line Reduction:") + " Reduced cell "
                         msg += g.printCell(s[0] + a, s[1] + b)
-                        msg += " from " + g.printSet(valid) + " to "
-                        valid.discard(i)
-                        msg += g.printSet(valid) + " using "
+                        msg += " from " + g.printSet(candidates) + " to "
+                        candidates.discard(i)
+                        msg += g.printSet(candidates) + " using "
                         msg += "column " if g.transposed else "row "
                         msg += tCol.okblue(str(y))
                         msg += ", sector " + g.printCell(s[0], s[1])

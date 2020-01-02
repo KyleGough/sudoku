@@ -14,22 +14,22 @@ def pointingPairs(g):
                 count = 0
                 # Count occurences of n in the sector.
                 for i, j in g.sectorCells():
-                    if (n in g.getValid(cx+i,cy+j)):
+                    if (n in g.getCandidates(cx+i,cy+j)):
                         count += 1
 
                 if (count != 2 and count != 3):
                     continue
                 
-                # Valid for each cell in the sector.
-                a1 = n in g.getValid(cx-1,cy-1)
-                a2 = n in g.getValid(cx,cy-1)
-                a3 = n in g.getValid(cx+1,cy-1)
-                b1 = n in g.getValid(cx-1,cy)
-                b2 = n in g.getValid(cx,cy)
-                b3 = n in g.getValid(cx+1,cy)
-                c1 = n in g.getValid(cx-1,cy+1)
-                c2 = n in g.getValid(cx,cy+1)
-                c3 = n in g.getValid(cx+1,cy+1)
+                # Candidates for each cell in the sector.
+                a1 = n in g.getCandidates(cx-1,cy-1)
+                a2 = n in g.getCandidates(cx,cy-1)
+                a3 = n in g.getCandidates(cx+1,cy-1)
+                b1 = n in g.getCandidates(cx-1,cy)
+                b2 = n in g.getCandidates(cx,cy)
+                b3 = n in g.getCandidates(cx+1,cy)
+                c1 = n in g.getCandidates(cx-1,cy+1)
+                c2 = n in g.getCandidates(cx,cy+1)
+                c3 = n in g.getCandidates(cx+1,cy+1)
 
                 # Pointing Pairs.
                 # Pair in row cy-1.
@@ -66,12 +66,12 @@ def checkRow(g, y, n, cx, cy, count):
     for x in range(g.size):
         # If cell is not in sector.
         if (abs(x - cx) > 1):
-            valid = g.getValid(x, y)
-            if (n in valid):
+            candidates = g.getCandidates(x, y)
+            if (n in candidates):
                 msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
-                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
-                valid.discard(n)
-                msg += " to " + g.printSet(valid)
+                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(candidates)
+                candidates.discard(n)
+                msg += " to " + g.printSet(candidates)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(msg)
                 success = True 
@@ -83,12 +83,12 @@ def checkColumn(g, x, n, cx, cy, count):
     for y in range(g.size):
         # If cell is not in sector.
         if (abs(y - cy) > 1):
-            valid = g.getValid(x, y)
-            if (n in valid):
+            candidates = g.getCandidates(x, y)
+            if (n in candidates):
                 msg = tCol.header("Pointing " + ("Pair:" if count == 2 else "Triple:"))
-                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(valid)
-                valid.discard(n)
-                msg += " to " + g.printSet(valid)
+                msg += " Reduced cell " + g.printCell(x,y) + " from " + g.printSet(candidates)
+                candidates.discard(n)
+                msg += " to " + g.printSet(candidates)
                 msg += " using sector " + g.printCell(cx,cy)
                 g.logMove(msg)
                 success = True 

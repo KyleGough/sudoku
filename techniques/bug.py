@@ -10,12 +10,12 @@ def bivalueUniversalGrave(g):
     # Detects a Bivalue Universal Grave.
     for x in range(g.size):
         for y in range(g.size):
-            valid = g.getValid(x,y)
-            if (len(valid) == 0):
+            candidates = g.getCandidates(x,y)
+            if (len(candidates) == 0):
                 continue
-            elif (len(valid) == 2):
+            elif (len(candidates) == 2):
                 continue
-            elif (len(valid) == 3 and foundTriple == False):
+            elif (len(candidates) == 3 and foundTriple == False):
                 foundTriple = True
                 bugCell = tuple([x,y])
             else:
@@ -26,7 +26,7 @@ def bivalueUniversalGrave(g):
         return False
 
     # Reduces the Bivalue Universal Grave.
-    for n in g.getValid(bugCell[0], bugCell[1]):
+    for n in g.getCandidates(bugCell[0], bugCell[1]):
         success = success or bugReduce(g, {n}, bugCell)
 
     return success
@@ -37,10 +37,10 @@ def bugReduce(g, n, bugCell):
     # Check column.
     candidateList = []
     for y in range(g.size):
-        valid = g.getValid(bugCell[0], y)
+        candidates = g.getCandidates(bugCell[0], y)
         if (y == bugCell[1]):
-            valid = valid.difference(n)
-        candidateList.append(list(valid))
+            candidates = candidates.difference(n)
+        candidateList.append(list(candidates))
     # Flattens the list.
     candidateList = list(chain.from_iterable(candidateList))
     # Checks candidates either do not appear or appear exactly twice.
@@ -52,10 +52,10 @@ def bugReduce(g, n, bugCell):
     # Check row.
     candidateList = []
     for x in range(g.size):
-        valid = g.getValid(x, bugCell[1])
+        candidates = g.getCandidates(x, bugCell[1])
         if (x == bugCell[0]):
-            valid = valid.difference(n)
-        candidateList.append(list(valid))
+            candidates = candidates.difference(n)
+        candidateList.append(list(candidates))
     # Flattens the list.
     candidateList = list(chain.from_iterable(candidateList))
     # Checks candidates either do not appear or appear exactly twice.
@@ -68,10 +68,10 @@ def bugReduce(g, n, bugCell):
     candidateList = []
     cx, cy = g.getSectorCoord(bugCell[0], bugCell[1])
     for i,j in g.sectorCells():
-        valid = g.getValid(cx + i, cy + j)
+        candidates = g.getCandidates(cx + i, cy + j)
         if (bugCell[0] == cx + i and bugCell[1] == cy + j):    
-            valid = valid.difference(n)
-        candidateList.append(list(valid))
+            candidates = candidates.difference(n)
+        candidateList.append(list(candidates))
     # Flattens the list.
     candidateList = list(chain.from_iterable(candidateList))
     # Checks candidates either do not appear or appear exactly twice.
@@ -84,7 +84,7 @@ def bugReduce(g, n, bugCell):
     n = n.pop()
     msg = tCol.header("BUG:") + " Set cell "
     msg += g.printCell(bugCell[0], bugCell[1]) + " to " + tCol.okblue(str(n))
-    msg += " as candidates " + g.printSet(g.getValid(bugCell[0], bugCell[1]).difference({n}))
+    msg += " as candidates " + g.printSet(g.getCandidates(bugCell[0], bugCell[1]).difference({n}))
     msg += " yield multiple solutions"
     g.insert(bugCell[0], bugCell[1], n)
     g.logMove(msg)

@@ -50,13 +50,13 @@ def xwingReduce(g, n, cols, rows):
     for y in rows:
         for x in range(g.size):
             if (not x in cols):
-                valid = g.getValid(x,y)
+                candidates = g.getCandidates(x,y)
                 # Avoids cells that form the X-Wing.
-                if (n in valid):
+                if (n in candidates):
                     msg = tCol.header("X-Wing:") + " Reduced cell "
-                    msg += g.printCell(x, y) + " from " + g.printSet(valid)
-                    valid.discard(n)
-                    msg += " to " + g.printSet(valid) + " using X-Wing at "
+                    msg += g.printCell(x, y) + " from " + g.printSet(candidates)
+                    candidates.discard(n)
+                    msg += " to " + g.printSet(candidates) + " using X-Wing at "
                     msg += "cols" if g.transposed else "rows"
                     msg += " " + g.printSet(list(map(lambda x: x+1, rows))) + ", "
                     msg += "rows" if g.transposed else "cols"

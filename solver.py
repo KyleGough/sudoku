@@ -41,7 +41,7 @@ def strategicSolver(g, logger):
 
         # Displays the grid after each move.
         if (logger.showAllGrid == "True"):
-            g.printValid()
+            g.printCandidates()
 
         # Executes each strategy in order.
         # If information has been gained, repeat from first strategy.

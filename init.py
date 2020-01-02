@@ -22,7 +22,7 @@ def checkSector(g, x, y):
         perm.add(g.get(cx + i,cy + j))
     return perm
 
-# Returns a set of valid candidates for a cell.
+# Returns a set of candidates for a cell.
 def checkCell(g, x, y):
     # Conflicting values.
     conflicts = checkRow(g, y)
@@ -35,5 +35,5 @@ def checkCell(g, x, y):
 def initGrid(g):
     for x, y in g.unfilledCells():
         candidates = checkCell(g, x, y)
-        g.updateCellValid(x, y, candidates)
+        g.updateCandidates(x, y, candidates)
     return g

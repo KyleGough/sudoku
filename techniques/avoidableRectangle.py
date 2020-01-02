@@ -44,15 +44,14 @@ def avoidableRect(g):
                     if (len(sector) != 2):
                         continue
 
-                    ###
-                    valid = g.getValid(emptyCell[0], emptyCell[1])
+                    candidates = g.getCandidates(emptyCell[0], emptyCell[1])
                     msg = tCol.header("Avoidable Rectangle:") + " Reduced cell "
                     msg += g.printCell(emptyCell[0], emptyCell[1]) + " from "
-                    msg += g.printSet(valid) + " to "
-                    newValid = valid.difference(values)
-                    if (len(valid) != len(newValid)):
-                        g.updateCellValid(emptyCell[0], emptyCell[1], newValid)
-                        msg += g.printSet(newValid) + " using cells"
+                    msg += g.printSet(candidates) + " to "
+                    newCandidates = candidates.difference(values)
+                    if (len(candidates) != len(newCandidates)):
+                        g.updateCandidates(emptyCell[0], emptyCell[1], newCandidates)
+                        msg += g.printSet(newCandidates) + " using cells"
                         for c in cells:
                             msg += " (" + str(c[0]+1) + "," + str(c[1]+1) + ")"
                         g.logMove(msg)

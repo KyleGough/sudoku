@@ -7,10 +7,10 @@ def soloCandidate(g):
     success = False
     # Iterate over each non-filled cell.
     for x, y in g.unfilledCells():
-        valid = g.getValid(x,y)
+        candidates = g.getCandidates(x,y)
         # Check for a single possibility.
-        if (len(valid) == 1):
-            value = valid.pop()
+        if (len(candidates) == 1):
+            value = candidates.pop()
             # Add value into grid.
             g.insert(x,y,value)
             g.logMove(tCol.header("Solo Candidate:") + " Set cell " + g.printCell(x,y) + " to " + tCol.okblue(str(value)))
