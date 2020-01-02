@@ -1,4 +1,3 @@
-from copy import deepcopy
 from colours import tCol
 from stats import Stats
 
