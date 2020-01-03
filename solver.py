@@ -24,7 +24,7 @@ def strategicSolver(g, logger):
         t.boxLineReduction,
         t.xwing,
         t.singlesChain,
-        #t.avoidableRect ### Uniqueness Technique.
+        #t.avoidableRect, ### Uniqueness Technique.
         t.bivalueUniversalGrave # Uniqueness Technique.
     ]
 

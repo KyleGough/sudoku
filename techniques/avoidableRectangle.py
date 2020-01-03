@@ -24,7 +24,7 @@ def avoidableRect(g):
                         value = g.get(c[0], c[1])
                         if (value == 0):
                             emptyCell = c
-                        elif (g.clue[c[0]][c[1]] == True):
+                        if (g.clue[c[0]][c[1]] == False):
                             values.add(value)
                             filledCount += 1
 
