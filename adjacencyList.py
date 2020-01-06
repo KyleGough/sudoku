@@ -3,6 +3,10 @@ class AdjacencyList:
         self.pairs = 0 # Number of conjugate pairs.
         self._adjacencyList = {} # Graph in adjacency list representation.
 
+    # Gets the adjacency list.
+    def get(self):
+        return self._adjacencyList
+
     # Gets the number of keys in the adjacency list.
     def getSize(self):
         return len(list(self._adjacencyList.keys()))
@@ -51,7 +55,7 @@ class AdjacencyList:
 
 class BiValueAdjacencyList(AdjacencyList):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
      # Inserts a bi-value pair into the graph linked via candidate n.
     def insert(self, a, b, n):

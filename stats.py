@@ -5,7 +5,7 @@ class Stats:
     def __init__(self):
         self.moves = 0
         self.clues = 0
-        self.techniqueMoves = [0,0,0,0,0,0,0,0]
+        self.techniqueMoves = [0,0,0,0,0,0,0,0,0]
         self.exitStatus = "INCOMPLETE" # {INCOMPLETE | SOLVED | EXHAUSTED | ERROR}
 
     # Prints sudoku statistics.

@@ -1,0 +1,3 @@
+For each row, column and sector, have an array for how many of each candidate there are.
+Flag for each structure to check if it has been completely filled.
+

@@ -22,7 +22,6 @@ def strategicSolver(g, logger):
         t.subsetCover,
         t.pointingPairs,
         t.boxLineReduction,
-
         t.xwing, # Single value chaining.
         t.singlesChain, # Single value chaining.
         t.ywing, # Bi-value chaining.
