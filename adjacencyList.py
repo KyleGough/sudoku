@@ -18,7 +18,7 @@ class AdjacencyList:
         else:
             self._adjacencyList[a] = [b]
             
-        if (b in self._adjacencyList and a not in self._adjacencyList[b]):
+        if b in self._adjacencyList and a not in self._adjacencyList[b]:
             self._adjacencyList[b].append(a)
         else:
             self._adjacencyList[b] = [a]

@@ -34,7 +34,7 @@ def sectorSubsetCover(g):
             empty = []
             # Iterate over cells in the sector.
             for i, j in g.sectorCells():
-                if (g.get(cx + i, cy + j) == 0) and (len(g.getValid(cx + i, cy + j)) <= 4): ###
+                if (g.get(cx + i, cy + j) == 0) and (len(g.getCandidates(cx + i, cy + j)) <= 4): ###
                     empty.append([i,j])
             if (len(empty) < 3):
                 continue
@@ -46,31 +46,31 @@ def sectorSubsetCover(g):
 
             # Test each permutation.
             for p in perm:
-                valid = set()
+                candidateSubset = set()
                 for i in p:
-                    valid.update(g.getValid(cx + i[0], cy + i[1]))
-                if (len(valid) != len(p)):
+                    candidateSubset.update(g.getCandidates(cx + i[0], cy + i[1]))
+                if (len(candidateSubset) != len(p)):
                     continue
 
                 # Uses subset cover to eliminate values in other cells of the row.
                 for a, b in g.sectorCells():
                     if (not [a, b] in p and g.get(cx + a, cy + b) == 0):
                         
-                        cellValid = g.getValid(cx + a, cy + b)
+                        cellCandidates = g.getCandidates(cx + a, cy + b)
                         msg = tCol.header(getTitleName(len(p)))
-                        msg += " Using " + g.printSet(valid) + " in sector"
+                        msg += " Using " + g.printSet(candidateSubset) + " in sector"
                         msg += ", reduced cell " + g.printCell(cx + a, cy + b)
-                        msg += " from " + g.printSet(cellValid) + " to "
+                        msg += " from " + g.printSet(cellCandidates) + " to "
                         
                         # Removes possible values if in v.
                         removed = False
-                        for v in valid:
-                            if (v in cellValid):
+                        for v in candidateSubset:
+                            if (v in cellCandidates):
                                 removed = True
-                                cellValid.discard(v)
+                                cellCandidates.discard(v)
                         # Update cell.            
                         if (removed):
-                            msg += g.printSet(cellValid)
+                            msg += g.printSet(cellCandidates)
                             g.logMove(msg)
                             success = True
 
@@ -90,7 +90,7 @@ def rowSubsetCover(g):
         empty = []
         # Iterate over cells in a row.
         for x in range(g.size):
-            if (g.get(x,y) == 0) and (len(g.getValid(x,y)) <= 4): ###
+            if (g.get(x,y) == 0) and (len(g.getCandidates(x,y)) <= 4): ###
                 empty.append(x)
         if (len(empty) < 3):
             continue
@@ -102,31 +102,31 @@ def rowSubsetCover(g):
 
         # Test each permutation.
         for p in perm:
-            valid = set()
+            candidateSubset = set()
             for i in p:
-                valid.update(g.getValid(i,y))
-            if (len(valid) != len(p)):
+                candidateSubset.update(g.getCandidates(i,y))
+            if (len(candidateSubset) != len(p)):
                 continue
 
             # Uses subset cover to eliminate values in other cells of the row.
             for x in range(g.size):
                 if (not x in p and g.get(x,y) == 0):
-                    cellValid = g.getValid(x,y)
+                    cellCandidates = g.getCandidates(x,y)
                     msg = tCol.header(getTitleName(len(p)))
-                    msg += " Using " + g.printSet(valid) + " in "
+                    msg += " Using " + g.printSet(candidateSubset) + " in "
                     msg += "column" if g.transposed else "row"
                     msg += ", reduced cell " + g.printCell(x,y)
-                    msg += " from " + g.printSet(cellValid) + " to "
+                    msg += " from " + g.printSet(cellCandidates) + " to "
                     
                     # Removes possible values if in v.
                     removed = False
-                    for v in valid:
-                        if (v in cellValid):
+                    for v in candidateSubset:
+                        if (v in cellCandidates):
                             removed = True
-                            cellValid.discard(v)
+                            cellCandidates.discard(v)
                     # Update cell.
                     if (removed):
-                        msg += g.printSet(cellValid)
+                        msg += g.printSet(cellCandidates)
                         g.logMove(msg)
                         success = True
 

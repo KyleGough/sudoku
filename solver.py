@@ -22,10 +22,16 @@ def strategicSolver(g, logger):
         t.subsetCover,
         t.pointingPairs,
         t.boxLineReduction,
+<<<<<<< HEAD
         t.xwing, # Single value chaining.
         t.singlesChain, # Single value chaining.
         t.ywing, # Bi-value chaining.
         #t.avoidableRect ### Uniqueness Technique.
+=======
+        t.xwing,
+        t.singlesChain,
+        #t.avoidableRect, ### Uniqueness Technique.
+>>>>>>> master
         t.bivalueUniversalGrave # Uniqueness Technique.
     ]
 
@@ -42,7 +48,7 @@ def strategicSolver(g, logger):
 
         # Displays the grid after each move.
         if (logger.showAllGrid == "True"):
-            g.printValid()
+            g.printCandidates()
 
         # Executes each strategy in order.
         # If information has been gained, repeat from first strategy.

@@ -63,15 +63,15 @@ def singlesChainCheck(g, n, conjugatePairs):
         for x in range(g.size):
             for y in range(g.size):
                 cell = tuple([x,y])
-                valid = g.getValid(x,y)
+                candidates = g.getCandidates(x,y)
                 # Checks cells has candidate n and not coloured.
-                if ((n in valid) and (cell not in onCells) and (cell not in offCells)):
+                if ((n in candidates) and (cell not in onCells) and (cell not in offCells)):
                     # If the cell can "see" both colours then eliminate candidate.
                     if (checkViolation(cell, onCells) and checkViolation(cell, offCells)):
                         msg = tCol.header("Singles Chain:") + " Reduced cell "
-                        msg += g.printCell(x,y) + " from " + g.printSet(valid)
-                        valid.discard(n)
-                        msg += " to " + g.printSet(valid) + " as can see both colours"
+                        msg += g.printCell(x,y) + " from " + g.printSet(candidates)
+                        candidates.discard(n)
+                        msg += " to " + g.printSet(candidates) + " as can see both colours"
                         g.logMove(msg) 
                         return True
 
@@ -82,11 +82,11 @@ def removeViolationCells(g, n, cellSet):
     for c in cellSet:
         x = c[0]
         y = c[1]
-        valid = g.getValid(x,y)
+        candidates = g.getCandidates(x,y)
         msg = tCol.header("Singles Chain:") + " Reduced cell "
-        msg += g.printCell(x,y) + " from " + g.printSet(valid)
-        valid.discard(n)
-        msg += " to " + g.printSet(valid) + " due to colour violation"
+        msg += g.printCell(x,y) + " from " + g.printSet(candidates)
+        candidates.discard(n)
+        msg += " to " + g.printSet(candidates) + " due to colour violation"
         g.logMove(msg) 
 
 # Checks if a cell can see another cell in ON or OFF state.

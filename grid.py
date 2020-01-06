@@ -1,14 +1,13 @@
-from copy import deepcopy
 from colours import tCol
 from stats import Stats
 
 class Grid:
     def __init__(self):
-        self.size = 9
-        self.clue = [[False for i in range(self.size)] for j in range(self.size)]
-        self.grid = [[0 for i in range(self.size)] for j in range(self.size)]
-        self.solution = [[0 for i in range(self.size)] for j in range(self.size)]
-        self.valid = [[set() for i in range(self.size)] for j in range(self.size)]
+        self.size = 9 # Size of the grid.
+        self.clue = [[False for i in range(self.size)] for j in range(self.size)] # Initial clue locations.
+        self.grid = [[0 for i in range(self.size)] for j in range(self.size)] # Current grid values.
+        self.solution = [[0 for i in range(self.size)] for j in range(self.size)] # Solution of the puzzle.
+        self.candidates = [[set() for i in range(self.size)] for j in range(self.size)] # Candidates in each cell.
         self.error = False # Error has occurred in the grid.
         self.transposed = False # Is the grid transposed.
         self.verbose = True # Flag to display moves.
@@ -36,37 +35,24 @@ class Grid:
     # Tests the grid against the rules and set solution.
     def testGrid(self):
         if (self.error):
-            print("[ " + tCol.FAIL + "Incorrect value inserted inconsistent with rules" + tCol.ENDC + " ]")
+            print("[ " + tCol.fail("Incorrect value inserted inconsistent with rules") + " ]")
             return False
         elif (not self.checkSolution):
-            print("[" + tCol.FAIL + "Incorrect value inserted inconsistent with solution" + tCol.ENDC + " ]")
+            print("[" + tCol.fail("Incorrect value inserted inconsistent with solution") + " ]")
             return False
         else:
             return True
 
-    # Clones the grid object.
-    def clone(self):
-        cp = Grid()
-        cp.size = self.size
-        cp.grid = [row[:] for row in self.grid]
-        cp.solution = [row[:] for row in self.solution]
-        cp.valid = [row[:] for row in self.valid]
-        cp.error = self.error
-        cp.transposed = self.transposed
-        cp.verbose = self.verbose
-        cp.stats = self.stats
-        return cp
-
-    # Transposes the grid and valid grid.
+    # Transposes the grid and candidate grid.
     def transpose(self):
         self.transposed = not self.transposed
         self.grid = [list(i) for i in zip(*self.grid)]
-        self.valid = [list(i) for i in zip(*self.valid)]
+        self.candidates = [list(i) for i in zip(*self.candidates)]
 
     # Logs a move that yields information.
     def logMove(self, msg):
         if (self.verbose):
-            print("[" + tCol.OKBLUE + " MOVE " + str(self.stats.moves) + tCol.ENDC + " ] " + msg)
+            print("[" + tCol.okblue(" MOVE " + str(self.stats.moves)) + " ] " + msg)
         self.stats.moves += 1
     
     # Checks if the grid has been filled.
@@ -80,7 +66,7 @@ class Grid:
         msg += ")" + tCol.ENDC
         return msg
 
-    # Prints a set.
+    # Prints a set object , sorted and compact.
     def printSet(self, s):
         msg = tCol.WARNING + "{"
         if (len(s) > 0):
@@ -92,7 +78,7 @@ class Grid:
         msg += "}" + tCol.ENDC
         return msg
 
-    # Prints valid values of the grid.
+    # Prints candidate values of the grid.
     def printGrid(self):
         hSep = tCol.okgreen("█████████████████████████████████████████████████████████████████████████")
         hPt = tCol.okgreen("█") 
@@ -103,7 +89,7 @@ class Grid:
                 for x in range(self.size):
                     for i in range(j,j+3):
                         if (self.get(x,k) == 0):
-                            if (i in self.getValid(x,k)):
+                            if (i in self.getCandidates(x,k)):
                                 if (((x // 3) + (k // 3)) % 2 == 0):
                                     print(tCol.OKBLUE, end='')
                                 else:
@@ -150,65 +136,50 @@ class Grid:
     def isValidMove(self, x, y, n):
         return (self.ruleRow(x,y,n) and self.ruleColumn(x,y,n) and self.ruleSector(x,y,n))
         
-    # Assigns a grid cell.
+    # Assigns a grid cell and remove candidates along corresponding row, column and sector.
     def insert(self, x, y, n):
-        if (not self.isValidMove(x,y,n)):
-            ###
-            print("######")
-            print("###ERROR###")
-            print("######")
-            ###
 
-        # Assign the grid value.
-        self.grid[x][y] = n
-        # Cell has no more valid values.
-        self.updateCellValid(x,y,set())
+        self.grid[x][y] = n             # Assign the grid value.
+        self.updateCandidates(x,y,set()) # Cell has no more candidate values.
 
-        # Updates row validities.
+        # Updates row candidates.
         for i in range(self.size):
             if (x != i and self.get(i,y) == 0):
-                valid = self.getValid(i,y)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(i,y)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
-                self.updateCellValid(i,y,valid)
 
-        # Updates column validities.
+        # Updates column candidates.
         for j in range(self.size):
             if (y != j and self.get(x,j) == 0):
-                valid = self.getValid(x,j)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(x,j)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
-                self.updateCellValid(x,j,valid)
 
-        # Updates sector validites.
+        # Updates sector candidates.
         cx, cy = self.getSectorCoord(x,y)
         for i, j in self.sectorCells():
             if ((cx + i != x or cy + j != y) and self.get(cx + i, cy + j) == 0):
-                valid = self.getValid(cx + i, cy + j)
-                valid.discard(n)
-                if (len(valid) == 0):
+                candidates = self.getCandidates(cx + i, cy + j)
+                candidates.discard(n)
+                if (len(candidates) == 0):
                     self.error = True
-                self.updateCellValid(cx + i, cy + j, valid)
-    
+
         return True
 
     # Gets the value of a cell.
     def get(self, x, y):
         return self.grid[x][y]
     
-    # Gets the valid values of a cell.
-    def getValid(self, x, y):
-        val = self.get(x,y)
-        if (val == 0):
-            return self.valid[x][y]
-        else:
-            return set()
-
-    # Updates the valid values of a cell.
-    def updateCellValid(self, x, y, valid):
-        self.valid[x][y] = valid
+    # Gets the candidate values of a cell.
+    def getCandidates(self, x, y):
+        return self.candidates[x][y]
+        
+    # Updates the candidate values of a cell.
+    def updateCandidates(self, x, y, candidates):
+        self.candidates[x][y] = candidates
 
     # Generator for set of all cell indexes.
     def cells(self):

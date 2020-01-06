@@ -16,7 +16,7 @@ def findColumnPairs(g, n, conjugatePairs):
     for x in range(g.size):
         candidateCells = []
         for y in range(g.size):
-            if (n in g.getValid(x,y)):
+            if (n in g.getCandidates(x,y)):
                 candidateCells.append(tuple([x,y]))
         # Detects a conjugate pair in the column.
         if (len(candidateCells) == 2):
@@ -27,7 +27,7 @@ def findRowPairs(g, n, conjugatePairs):
     for y in range(g.size):
         candidateCells = []
         for x in range(g.size):
-            if (n in g.getValid(x,y)):
+            if (n in g.getCandidates(x,y)):
                 candidateCells.append(tuple([x,y]))
         # Detects a conjugate pair in the row.
         if (len(candidateCells) == 2):
@@ -41,7 +41,7 @@ def findSectorPairs(g, n, conjugatePairs):
         y = 4 + (3 * b)
         candidateCells = []
         for i, j in g.sectorCells():
-            if (n in g.getValid(x + i, y + j)):
+            if (n in g.getCandidates(x + i, y + j)):
                candidateCells.append(tuple([x + i,y + j]))
         # Detects a conjugate pair in the sector.
         if (len(candidateCells) == 2):
