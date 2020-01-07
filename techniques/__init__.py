@@ -12,5 +12,5 @@ from techniques.bug import bivalueUniversalGrave
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs
-from techniques.bivaluePairs import findBiValuePairs
-from techniques.bivaluePairs2 import findBiValuePairs
+from techniques.biValuePairs import findBiValuePairs
+from techniques.weakBiValuePairs import findWeakBiValuePairs

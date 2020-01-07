@@ -1,9 +1,9 @@
 from grid import Grid
 from adjacencyList import BiValueAdjacencyList
 
-# Finds all the bi-value pairs.
+# Finds all the weak bi-value pairs.
 # Constructs an adjacency list of bi-value pairs.
-def findBiValuePairs(g):
+def findWeakBiValuePairs(g):
     # Dictionary of all bi-value pairs.
     biValuePairs = BiValueAdjacencyList()
     findColumnPairs(g, biValuePairs)

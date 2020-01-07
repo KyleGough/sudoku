@@ -1,10 +1,10 @@
 from grid import Grid
 from colours import tCol
-from techniques.bivaluePairs2 import findBiValuePairs
+from techniques.weakBiValuePairs import findWeakBiValuePairs
 
 def ywing(g):
   
-  biValuePairs = findBiValuePairs(g).get()
+  biValuePairs = findWeakBiValuePairs(g).get()
 
   # Iterate over adjacent pairs.
   for cell in biValuePairs:
