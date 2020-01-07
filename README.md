@@ -92,7 +92,27 @@ The *singles chain* technique firstly identifies for a given candidate all the c
 
 The *X-Wing* technique is a subset of single value chaining strategies where a candidate is restricted in two cells along a column in two different columns that all share the same rows. The technique can also be expressed as two conjugate pairs joined by two weak links where the four cells form a rectangle. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
 
-* Implementing the *X-Wing* technique boosted the accuracy up to 91.1%.*
+* Implementing the *X-Wing* technique boosted the accuracy up to 91.1%.
+
+
+
+
+
+##### Y-Wing
+
+The *Y-Wing* technique is a bi-value chaining strategy that uses three bi-value cells to eliminate candidates. The head of the Y-Wing has candidates AB, there are two wings that share the same structure as the head with candidates AC and BC respectively. Whatever the actual value of the head, either wing must be C. Therefore any cells that intersect with both wings can remove C as a candidate. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
+
+* Implementing the *Y-Wing* technique boosted the accuracy up to 92.4%.
+
+
+
+
+
+##### Bi-Value Universal Grave
+
+The *Bi-Value Universal Grave* (BUG) is a state that a Sudoku can reach where all unsolved cells in the Sudoku have only 2 candidates, except a single cell that has 3 candidates. The aim of this technique to detect the BUG state and use it to eliminate candidates. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm.
+
+* Implementing the *Bi-Value Universal Grave* technique boosted the accuracy up to 92.8%.
 
 
 
@@ -114,15 +134,17 @@ I have implemented only a few logical techniques, however there are far more com
 
 ##### Summary #####
 
-| Technique          | Tests Passed ( /49,151) | Tests Passed (%) |
-| ------------------ | ----------------------- | ---------------- |
-| Solo Candidate     | 0                       | 0                |
-| Hidden Candidate   | 21905                   | 44.6             |
-| Subset Cover       | 33732                   | 68.6             |
-| Pointing Pairs     | 40970                   | 83.4             |
-| Box/Line Reduction | 41324                   | 84.1             |
-| Singles Chain      | 44432                   | 90.4             |
-| X-Wing             | 44774                   | 91.1             |
+| Technique                | Tests Passed ( /49,151) | Tests Passed (%) |
+| ------------------------ | ----------------------- | ---------------- |
+| Solo Candidate           | 0                       | 0                |
+| Hidden Candidate         | 21905                   | 44.6             |
+| Subset Cover             | 33732                   | 68.6             |
+| Pointing Pairs           | 40970                   | 83.4             |
+| Box/Line Reduction       | 41324                   | 84.1             |
+| Singles Chain            | 44432                   | 90.4             |
+| X-Wing                   | 44774                   | 91.1             |
+| Y-Wing                   | 45420                   | 92.4             |
+| Bi-Value Universal Grave | 45617                   | 92.8             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
