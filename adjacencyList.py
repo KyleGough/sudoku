@@ -59,13 +59,13 @@ class BiValueAdjacencyList(AdjacencyList):
 
      # Inserts a bi-value pair into the graph linked via candidate n.
     def insert(self, a, b, n):
-        if (a in self._adjacencyList and b not in self._adjacencyList[a][0]):
+        if (a in self._adjacencyList):
             self._adjacencyList[a][0].append(b)
             self._adjacencyList[a][1].append(n)
         else:
             self._adjacencyList[a] = [[b],[n]]
             
-        if (b in self._adjacencyList and a not in self._adjacencyList[b][0]):
+        if (b in self._adjacencyList):
             self._adjacencyList[b][0].append(a)
             self._adjacencyList[b][1].append(n)
         else:

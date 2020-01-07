@@ -1,6 +1,6 @@
 from grid import Grid
 from colours import tCol
-from techniques.bivaluePairs import findBiValuePairs
+from techniques.bivaluePairs2 import findBiValuePairs
 
 def ywing(g):
   
@@ -17,31 +17,54 @@ def ywing(g):
 
     # Iterate over adjacent cells.
     for i in range(len(adjCellList)):
-      for j in range(i + 1, len(adjCellList)):
+      for j in range(len(adjCellList)):
+        # Skip duplicates.
+        if (i == j):
+          continue
         # Skip links that have the same candidate. 
         if (adjCandidateList[i] == adjCandidateList[j]):
           continue
 
-      
         iCandidates = g.getCandidates(adjCellList[i][0], adjCellList[i][1])
-        print(iCandidates)
+        jCandidates = g.getCandidates(adjCellList[j][0], adjCellList[j][1])        
+        iSing = iCandidates.difference({adjCandidateList[i]})
+        jSing = jCandidates.difference({adjCandidateList[j]})
 
-        #print("")
+        # Checks adjacent cells have a common value.
+        if (iSing.pop() in jSing):
+          sectorI = tuple(g.getSectorCoord(adjCellList[i][0], adjCellList[i][1]))
+          sectorJ = tuple(g.getSectorCoord(adjCellList[j][0], adjCellList[j][1]))
+          sectorC = tuple(g.getSectorCoord(cell[0], cell[1]))
+          sectorSet = set()
+          sectorSet.add(sectorI)
+          sectorSet.add(sectorJ)
+          sectorSet.add(sectorC)
 
-        #print(i, "", j)
-        
+          # Ignore pairs in the same sector (caught in subset cover).
+          if (len(sectorSet) == 1):
+            continue
 
+          commonCells = g.getCommonCells(adjCellList[i], adjCellList[j])
+          # Common candidate in the wings.
+          wingCandidate = jSing.pop()
 
+          for c in commonCells:
+            subFound = False
+            candidates = g.getCandidates(c[0], c[1])
+            if (wingCandidate in candidates):
+              msg = tCol.header("Y-Wing:") + " Using " + g.printCell(cell[0], cell[1])
+              msg += " with Wings at " + g.printCell(adjCellList[i][0], adjCellList[i][1])
+              msg += ", " + g.printCell(adjCellList[j][0], adjCellList[j][1])
+              msg += " reduced cell " + g.printCell(c[0], c[1])
+              msg += " from " + g.printSet(candidates)
+              
+              candidates.discard(wingCandidate)
+              subFound = True
 
-    print(adjCandidateList)
+              msg += " to " + g.printSet(candidates)
+              g.logMove(msg)
 
-
-
-
-  # For each element in the adjacency list. ###
-   # Check it has at least two pairs.
-   # Iterate over every pair of 2 links.
-   # If AB BC AC pairs then detect Y-Wing.
-   # Remove candidates that intersect two pairs.
+            if (subFound):
+              return True
 
   return False

@@ -17,8 +17,8 @@ def findColumnPairs(g, biValuePairs):
         for n in range(1, 10):
             candidateCells = []
             for y in range(g.size):
-                valid = g.getValid(x,y)
-                if (len(valid) == 2 and n in valid):
+                candidates = g.getCandidates(x,y)
+                if (len(candidates) == 2 and n in candidates):
                     candidateCells.append(tuple([x,y])) ###
             # Detects a bi-value pair in the column.
             if (len(candidateCells) == 2):
@@ -30,8 +30,8 @@ def findRowPairs(g, biValuePairs):
         for n in range(1, 10):
             candidateCells = []
             for x in range(g.size):
-                valid = g.getValid(x,y)
-                if (len(valid) == 2 and n in valid):
+                candidates = g.getCandidates(x,y)
+                if (len(candidates) == 2 and n in candidates):
                     candidateCells.append(tuple([x,y])) ###
             # Detects a bi-value pair in the row.
             if (len(candidateCells) == 2):
@@ -46,8 +46,8 @@ def findSectorPairs(g, biValuePairs):
         for n in range(1, 10):
             candidateCells = []
             for i, j in g.sectorCells():
-                valid = g.getValid(x + i, y + j)
-                if (len(valid) == 2 and n in valid):
+                candidates = g.getCandidates(x + i, y + j)
+                if (len(candidates) == 2 and n in candidates):
                     candidateCells.append(tuple([x+i,y+j])) ###
             # Detects a bi-value pair in the sector.
             if (len(candidateCells) == 2):

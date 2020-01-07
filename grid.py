@@ -169,6 +169,31 @@ class Grid:
 
         return True
 
+    # Gets a set of common cells between two cells.
+    def getCommonCells(self, cellA, cellB):
+        neighboursCellA = self.getNeighbourCells(cellA)
+        neighbourCellB = self.getNeighbourCells(cellB)
+        commonCells = neighboursCellA.intersection(neighbourCellB)
+        return commonCells
+
+    def getNeighbourCells(self, cell):
+        neighbourCells = set()
+
+        # Adds the row.
+        for x in range(self.size):
+            neighbourCells.add(tuple([x, cell[1]]))
+        # Adds the column.
+        for y in range(self.size):
+            neighbourCells.add(tuple([cell[0], y]))
+        # Adds the sector.
+        cx, cy = self.getSectorCoord(cell[0], cell[1])
+        for i,j in self.sectorCells():
+            neighbourCells.add(tuple([cx+i,cy+j]))
+
+        neighbourCells.discard(tuple([cell[0], cell[1]]))
+        return neighbourCells
+
+
     # Gets the value of a cell.
     def get(self, x, y):
         return self.grid[x][y]
