@@ -118,6 +118,16 @@ The *Bi-Value Universal Grave* (BUG) is a state that a Sudoku can reach where al
 
 
 
+##### XYZ-Wing
+
+The *XYZ-Wing* technique is an extension of the *Y-Wing* technique but with the head containing 3 candidates instead of 2. The head of the XYZ-Wing has candidates XYZ, there are two wings that share the same structure as the head with candidates XZ and YZ respectively. Any cells that intersect with all 3 cells of the XYZ-Wing cannot contain the candidate Z. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
+
+* Implementing the *XYZ-Wing* technique boosted the accuracy up to 92.9%.
+
+
+
+
+
 ##### Future Work
 
 I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudokus as solving all using only logical techniques is still an incomplete problem.
@@ -145,6 +155,7 @@ I have implemented only a few logical techniques, however there are far more com
 | X-Wing                   | 44774                   | 91.1             |
 | Y-Wing                   | 45420                   | 92.4             |
 | Bi-Value Universal Grave | 45617                   | 92.8             |
+| XYZ-Wing                 | -                       | 92.9             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
