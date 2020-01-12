@@ -4,15 +4,15 @@ from techniques.conjugatePairs import findColumnPairs, findRowPairs
 from adjacencyList import AdjacencyList
 
 # Reduces candidates using X-Wings.
-def xwing(g):
-    success = xwingDetect(g)
+def xWing(g):
+    success = xWingDetect(g)
     g.transpose()
-    success = success or xwingDetect(g)
+    success = success or xWingDetect(g)
     g.transpose()
     return success
 
 # Detects X-Wings with strong links along columns and weak links along rows.
-def xwingDetect(g):
+def xWingDetect(g):
     success = False
 
     for n in range(1, 10):

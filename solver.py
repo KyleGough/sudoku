@@ -8,6 +8,7 @@ from grid import Grid
 from init import initGrid
 from colours import tCol
 from logger import Logger
+from datetime import datetime
 
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
@@ -22,11 +23,12 @@ def strategicSolver(g, logger):
         t.subsetCover,
         t.pointingPairs,
         t.boxLineReduction,
-        t.xwing, # Single value chaining.
+        t.xWing, # Single value chaining.
         t.singlesChain, # Single value chaining.
-        t.ywing, # Bi-value chaining.
+        t.yWing, # Bi-value chaining.
         #t.avoidableRect ### Uniqueness Technique.
-        t.bivalueUniversalGrave # Uniqueness Technique.
+        t.bivalueUniversalGrave, # Uniqueness Technique.
+        t.xyzWing        
     ]
 
     # Applies each technique to the puzzle until new information is gained.
@@ -123,17 +125,16 @@ def init():
     # Test set.
     testQueue = queue.Queue()
     statQueue = queue.Queue()
+    pStart = datetime.now()
     for g, n in importTestGrids(filename, logger):
         solveGrid(g, n, logger, testQueue, statQueue)
-
+    pEnd = datetime.now()
     testAnalysis(testQueue)
     statAnalysis(statQueue)
+    timeAnalysis(pEnd - pStart)
     
 # Test Analysis.
 def testAnalysis(testQueue):
-    passCount = 0
-    failCount = 0
-
     ###
     totalCount = 0
     solveCount = 0
@@ -183,6 +184,11 @@ def statAnalysis(statQueue):
     print("\n[ " + tCol.warning("Stats") + " ]")
     print("Average Difficulty: " + str(difficultyAvg))
     print("Average Clues:      " + str(cluesAvg))
+
+# Time Analysis.
+def timeAnalysis(timeElapsed):
+    print("\n[ " + tCol.warning("Time") + " ]")
+    print("Time Elapsed:       " + str(timeElapsed.total_seconds()) + "s")
 
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue, statQueue):

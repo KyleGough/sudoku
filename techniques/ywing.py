@@ -2,7 +2,7 @@ from grid import Grid
 from colours import tCol
 from techniques.weakBiValuePairs import findWeakBiValuePairs
 
-def ywing(g):
+def yWing(g):
   
   biValuePairs = findWeakBiValuePairs(g).get()
 

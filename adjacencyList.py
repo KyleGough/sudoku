@@ -52,7 +52,6 @@ class AdjacencyList:
         return str(self._adjacencyList)
 
 
-
 class BiValueAdjacencyList(AdjacencyList):
     def __init__(self):
         super().__init__()
@@ -70,5 +69,21 @@ class BiValueAdjacencyList(AdjacencyList):
             self._adjacencyList[b][1].append(n)
         else:
             self._adjacencyList[b] = [[a],[n]]
+
+        self.pairs += 1
+
+
+class XYZAdjacencyList(AdjacencyList):
+    def __init__(self):
+        super().__init__()
+
+    # Inserts an XYZ pair into the graph.
+    def insert(self, a, b, candidates):
+        if (a in self._adjacencyList):
+            if (b not in self._adjacencyList[a]):
+                self._adjacencyList[a][0].append(b)
+                self._adjacencyList[a][1].append(candidates)
+        else:
+            self._adjacencyList[a] = [[b], [candidates]]
 
         self.pairs += 1

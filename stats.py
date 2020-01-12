@@ -5,7 +5,7 @@ class Stats:
     def __init__(self):
         self.moves = 0 # Number of moves executed to solve the grid.
         self.clues = 0 # Number of initial clues in the puzzle.
-        self.techniqueMoves = [0,0,0,0,0,0,0,0,0] # Number of times each technique is used.
+        self.techniqueMoves = [0,0,0,0,0,0,0,0,0,0] # Number of times each technique is used.
         self.exitStatus = "INCOMPLETE" # {INCOMPLETE | SOLVED | EXHAUSTED | ERROR}
 
     # Prints sudoku statistics.

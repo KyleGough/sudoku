@@ -176,6 +176,16 @@ class Grid:
         commonCells = neighboursCellA.intersection(neighbourCellB)
         return commonCells
 
+    # Gets a set of common cells that are empty between two cells.
+    def getCommonEmptyCells(self, cellA, cellB):
+        commonCells = self.getCommonCells(cellA, cellB)
+        commonEmpty = set()
+        while (len(commonCells) != 0):
+            cell = commonCells.pop()
+            if (self.get(cell[0], cell[1]) == 0):
+                commonEmpty.add(cell)
+        return commonEmpty
+
     def getNeighbourCells(self, cell):
         neighbourCells = set()
 
