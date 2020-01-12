@@ -42,7 +42,7 @@ def sectorSubsetCover(g):
             # Permutes the list of empty cells.
             perm = list(chain.from_iterable(combinations(empty, r) for r in range(len(empty))))
             # Filter permutations of length at least 2.
-            perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)]
+            perm = [i for i in perm if (len(i) >= 2 and len(i) <= 5)]
 
             # Test each permutation.
             for p in perm:
@@ -90,7 +90,7 @@ def rowSubsetCover(g):
         empty = []
         # Iterate over cells in a row.
         for x in range(g.size):
-            if (g.get(x,y) == 0) and (len(g.getCandidates(x,y)) <= 4): ###
+            if (g.get(x,y) == 0) and (len(g.getCandidates(x,y)) <= 5): ###
                 empty.append(x)
         if (len(empty) < 3):
             continue
@@ -98,7 +98,7 @@ def rowSubsetCover(g):
         # Permutes the list of empty cells.
         perm = list(chain.from_iterable(combinations(empty, r) for r in range(len(empty))))
         # Filter permutations of length at least 2.
-        perm = [i for i in perm if (len(i) >= 2 and len(i) <= 4)] 
+        perm = [i for i in perm if (len(i) >= 2 and len(i) <= 5)] 
 
         # Test each permutation.
         for p in perm:

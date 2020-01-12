@@ -52,7 +52,7 @@ The *hidden candidate* technique is another simple technique for identifying the
 
 The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=4* as any subset of size *N* greater than 4 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
 
-* Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.6%*.
+* Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.1%*.
 
 
 
@@ -62,7 +62,7 @@ The *subset cover* technique eliminates candidates within a column, row or secto
 
 The *pointing pairs/triples* technique eliminates candidates within a column or row. If a candidate occurs either two or three times within a sector and these cells are all within the same column/row, then the value must be located within the sector and cannot occur elsewhere the column/row. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in every sector must be checked for each candidate.
 
-* Implementing the *Pointing Pairs* technique boosted the accuracy by *8.9%* up to *77.5%*. 
+* Implementing the *Pointing Pairs* technique boosted the accuracy by *15.9%* up to *84.0%*. 
 
 
 
@@ -72,7 +72,17 @@ The *pointing pairs/triples* technique eliminates candidates within a column or 
 
 The *box/line intersection* technique eliminates candidates within a sector. If a candidate value in a column/row only appears within one sector, then that candidate must occur in the sector in that column/row, and so the candidate can be eliminated from the other cells in the same sector. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a column/row must be checked for every column/row.
 
-* Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* up to *77.8%*.
+* Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* up to *84.6%*.
+
+
+
+
+
+##### X-Wing #####
+
+The *X-Wing* technique is a subset of single value chaining strategies where a candidate is restricted in two cells along a column in two different columns that all share the same rows. The technique can also be expressed as two conjugate pairs joined by two weak links where the four cells form a rectangle. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
+
+* Implementing the *X-Wing* technique boosted the number of tests passed by 17, with accuracy remaining at 84.6%.
 
 
 
@@ -83,16 +93,6 @@ The *box/line intersection* technique eliminates candidates within a sector. If 
 The *singles chain* technique firstly identifies for a given candidate all the conjugate pairs. Then constructs a connected graph of conjugate pairs with nodes of alternating state (ON/OFF). The conjugate pairs are used to find either violations of cells in the graph (two cells of the same state that are in the same structure) or cells not in the graph that can see nodes of both states. This technique has been implemented using an adjacency list to store the graph on conjugate pairs leading to an algorithmic complexity of **O(N<sup>3</sup>)**.
 
 * Implementing the *Singles Chain* technique boosted the accuracy up to *90.4%*.
-
-
-
-
-
-##### X-Wing #####
-
-The *X-Wing* technique is a subset of single value chaining strategies where a candidate is restricted in two cells along a column in two different columns that all share the same rows. The technique can also be expressed as two conjugate pairs joined by two weak links where the four cells form a rectangle. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm.
-
-* Implementing the *X-Wing* technique boosted the accuracy up to 91.1%.
 
 
 
@@ -144,18 +144,18 @@ I have implemented only a few logical techniques, however there are far more com
 
 ##### Summary #####
 
-| Technique                | Tests Passed ( /49,151) | Tests Passed (%) |
-| ------------------------ | ----------------------- | ---------------- |
-| Solo Candidate           | 0                       | 0                |
-| Hidden Candidate         | 21905                   | 44.6             |
-| Subset Cover             | 33732                   | 68.6             |
-| Pointing Pairs           | 40970                   | 83.4             |
-| Box/Line Reduction       | 41324                   | 84.1             |
-| Singles Chain            | 44432                   | 90.4             |
-| X-Wing                   | 44774                   | 91.1             |
-| Y-Wing                   | 45420                   | 92.4             |
-| Bi-Value Universal Grave | 45617                   | 92.8             |
-| XYZ-Wing                 | -                       | 92.9             |
+| Technique                | Tests Passed ( /49,151) | Tests Passed (%) | Time Elapsed (s) |
+| ------------------------ | ----------------------- | ---------------- | ---------------- |
+| Solo Candidate           | 0                       | 0                | -                |
+| Hidden Candidate         | 21,905                  | 44.6             | -                |
+| Subset Cover             | 33,469                  | 68.1             | -                |
+| Pointing Pairs           | 41,302                  | 84.0             | -                |
+| Box/Line Reduction       | 41,577                  | 84.6             | -                |
+| X-Wing                   | 41,594                  | 84.6             | -                |
+| Singles Chain            | 44530                   | 90.6             | 356              |
+| Y-Wing                   | 45732                   | 93.0             | 354              |
+| Bi-Value Universal Grave | -                       | -                | -                |
+| XYZ-Wing                 | 45987                   | 93.6             | -                |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 

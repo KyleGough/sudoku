@@ -28,7 +28,7 @@ def strategicSolver(g, logger):
         t.yWing, # Bi-value chaining.
         #t.avoidableRect ### Uniqueness Technique.
         t.bivalueUniversalGrave, # Uniqueness Technique.
-        t.xyzWing        
+        #t.xyzWing        
     ]
 
     # Applies each technique to the puzzle until new information is gained.
