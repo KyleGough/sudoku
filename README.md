@@ -28,11 +28,15 @@ A logical Sudoku solver that outputs detailed descriptions of the techniques and
 
 
 
+
+
 ##### Solo Candidate #####
 
 The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm.
 
 * Using only this strategy is not sufficient enough to solve any 17-clue Sudokus.
+
+
 
 
 
@@ -48,11 +52,15 @@ The *hidden candidate* technique is another simple technique for identifying the
 
 
 
+
+
 ##### Subset Cover (Pairs/Triples/Quads) #####
 
 The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=4* as any subset of size *N* greater than 4 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
 
 * Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.1%*.
+
+
 
 
 
@@ -68,11 +76,15 @@ The *pointing pairs/triples* technique eliminates candidates within a column or 
 
 
 
+
+
 ##### Box/Line Intersection #####
 
 The *box/line intersection* technique eliminates candidates within a sector. If a candidate value in a column/row only appears within one sector, then that candidate must occur in the sector in that column/row, and so the candidate can be eliminated from the other cells in the same sector. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a column/row must be checked for every column/row.
 
 * Implementing the *Box/Line Reduction* technique boosted the accuracy by *0.3%* up to *84.6%*.
+
+
 
 
 
@@ -88,11 +100,15 @@ The *X-Wing* technique is a subset of single value chaining strategies where a c
 
 
 
+
+
 ##### Singles Chain
 
 The *singles chain* technique firstly identifies for a given candidate all the conjugate pairs. Then constructs a connected graph of conjugate pairs with nodes of alternating state (ON/OFF). The conjugate pairs are used to find either violations of cells in the graph (two cells of the same state that are in the same structure) or cells not in the graph that can see nodes of both states. This technique has been implemented using an adjacency list to store the graph on conjugate pairs leading to an algorithmic complexity of **O(N<sup>3</sup>)**.
 
 * Implementing the *Singles Chain* technique boosted the accuracy up to *90.6%*.
+
+
 
 
 
@@ -108,11 +124,15 @@ The *Y-Wing* technique is a bi-value chaining strategy that uses three bi-value 
 
 
 
+
+
 ##### Bi-Value Universal Grave
 
 The *Bi-Value Universal Grave* (BUG) is a state that a Sudoku can reach where all unsolved cells in the Sudoku have only 2 candidates, except a single cell that has 3 candidates. The aim of this technique to detect the BUG state and use it to eliminate candidates. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm.
 
 * Implementing the *Bi-Value Universal Grave* technique boosted the accuracy up to 93.4%.
+
+
 
 
 
@@ -128,9 +148,13 @@ The *XYZ-Wing* technique is an extension of the *Y-Wing* technique but with the 
 
 
 
+
+
 ##### Future Work
 
 I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudokus as solving all using only logical techniques is still an incomplete problem.
+
+
 
 
 
@@ -158,6 +182,25 @@ I have implemented only a few logical techniques, however there are far more com
 | XYZ-Wing                 | 45,987                  | 93.6             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
+
+
+
+##### Coverage and Total Occurrences
+
+This table demonstrates the percentage of test puzzles that feature at least one of each technique. Note that some harder techniques could be employed instead of multiple uses of easier techniques in certain Sudokus, however the way the solver has been implemented restarts the order of techniques upon information gain (removal of candidates, value of cell determined). 
+
+| Technique          | Coverage (%) | Occurrences |
+| ------------------ | ------------ | ----------- |
+| Solo Candidate     | 98.5         | 383,460     |
+| Hidden Candidate   | 100.0        | 270,020     |
+| Subset Cover       | 47.9         | 53,569      |
+| Pointing Pairs     | 27.0         | 15,360      |
+| Box/Line Reduction | 2.8          | 1,479       |
+| X-Wing             | 0.8          | 412         |
+| Singles Chain      | 8.1          | 4,702       |
+| Y-Wing             | 3.0          | 1,656       |
+| BUG                | 0.4          | 198         |
+| XYZ-Wing           | 0.8          | 412         |
 
 
 

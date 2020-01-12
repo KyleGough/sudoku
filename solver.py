@@ -9,6 +9,7 @@ from init import initGrid
 from colours import tCol
 from logger import Logger
 from datetime import datetime
+from stats import Stats
 
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
@@ -129,9 +130,13 @@ def init():
     for g, n in importTestGrids(filename, logger):
         solveGrid(g, n, logger, testQueue, statQueue)
     pEnd = datetime.now()
+
+    print()
     testAnalysis(testQueue)
-    statAnalysis(statQueue)
-    timeAnalysis(pEnd - pStart)
+    print()
+    count = statAnalysis(statQueue)
+    print()
+    timeAnalysis(pEnd - pStart, count)
     
 # Test Analysis.
 def testAnalysis(testQueue):
@@ -141,7 +146,7 @@ def testAnalysis(testQueue):
     exhaustCount = 0
     errorCount = 0
 
-    print("\n[ " + tCol.warning("Tests") + " ]")
+    print("[ " + tCol.warning("Tests") + " ]")
 
     # Analyses test outcomes.
     while not testQueue.empty():
@@ -163,32 +168,66 @@ def testAnalysis(testQueue):
     exhaustRate = tCol.okgreen(str(exhaustRate) + "%") if exhaustRate == "0.0" else tCol.fail(str(exhaustRate) + "%")
     errorRate = tCol.okgreen(str(errorRate) + "%") if errorRate == "0.0" else tCol.fail(str(errorRate) + "%")
 
-    print("Solved:    " + str(solveCount) + " out of " + str(totalCount) + " tests. (" + solveRate + ")")
-    print("Exhausted: " + str(exhaustCount) + " out of " + str(totalCount) + " tests. (" + exhaustRate + ")")
-    print("Error in:  " + str(errorCount) + " out of " + str(totalCount) + " tests. (" + errorRate + ")")
+    print("Solved:             " + str(solveCount) + " out of " + str(totalCount) + " tests (" + solveRate + ")")
+    print("Exhausted:          " + str(exhaustCount) + " out of " + str(totalCount) + " tests (" + exhaustRate + ")")
+    print("Errors:             " + str(errorCount) + " out of " + str(totalCount) + " tests (" + errorRate + ")")
 
 # Stat Analysis.
 def statAnalysis(statQueue):
-    count = 0
-    difficultyTotal = 0
-    clueTotal = 0
+    count = 0 # Total number of tests.
+    difficultyTotal = 0 # Total of the difficulty values.
+    clueTotal = 0 # Total number of clues.
+    techniqueCountTotal = Stats().techniqueMoves # Total amount of each technique used.
+    techniqueUsedAmount = Stats().techniqueMoves # Amount of puzzles using each technique.
 
     while not statQueue.empty():
         s = statQueue.get()
         count += 1
         difficultyTotal += s.getDifficulty()
         clueTotal += s.clues
+        techniqueCountTotal = [x + y for x, y in zip(techniqueCountTotal, s.techniqueMoves)]
+        techniqueUsedAmount = [x + 1 if y > 0 else x for x, y in zip(techniqueUsedAmount, s.techniqueMoves)]
+
 
     difficultyAvg = round(difficultyTotal / count, 0)
     cluesAvg = round(clueTotal / count, 0)
-    print("\n[ " + tCol.warning("Stats") + " ]")
-    print("Average Difficulty: " + str(difficultyAvg))
-    print("Average Clues:      " + str(cluesAvg))
+    print("[ " + tCol.warning("Stats") + " ]")
+    print("Mean Difficulty:    " + str(int(difficultyAvg)))
+    print("Mean Clues:         " + str(int(cluesAvg)))
+
+    techniqueList = [
+        "Solo Candidate:     ",
+        "Hidden Candidate:   ",
+        "Subset Cover:       ",
+        "Pointing Pairs:     ",
+        "Box/Line Reduction: ",
+        "X-Wing:             ",
+        "Singles Chain:      ",
+        "Y-Wing:             ",
+        "BUG:                ",
+        "XYZ-Wing:           ",
+    ]
+
+    for i in range(len(techniqueList)):
+        print(techniqueList[i] + printTechniqueUsed(techniqueCountTotal[i]) + " - " + "{:.1f}".format(100 * techniqueUsedAmount[i] / count) + "%")
+
+    #print(techniqueUsedAmount / count)
+    return count
+
+# Prints the number of times a technique has been used.
+def printTechniqueUsed(count):
+    if (count == 0):
+        msg = tCol.fail("False")
+    else:
+        msg = tCol.okgreen("True ")
+    return msg + " - " + str(count)
 
 # Time Analysis.
-def timeAnalysis(timeElapsed):
-    print("\n[ " + tCol.warning("Time") + " ]")
-    print("Time Elapsed:       " + str(timeElapsed.total_seconds()) + "s")
+def timeAnalysis(timeElapsed, count):
+    print("[ " + tCol.warning("Time") + " ]")
+    print("Time Elapsed:       " + "{:.2f}".format(timeElapsed.total_seconds()) + "s")
+    print("Mean Time Elapsed:  " + "{:.3f}".format(timeElapsed.total_seconds() / count) + "s")
+    
 
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue, statQueue):

@@ -48,8 +48,9 @@ def yWing(g):
           # Common candidate in the wings.
           wingCandidate = jSing.pop()
 
+          found = False
+
           for c in commonCells:
-            subFound = False
             candidates = g.getCandidates(c[0], c[1])
             if (wingCandidate in candidates):
               msg = tCol.header("Y-Wing:") + " Using " + g.printCell(cell[0], cell[1])
@@ -59,12 +60,12 @@ def yWing(g):
               msg += " from " + g.printSet(candidates)
               
               candidates.discard(wingCandidate)
-              subFound = True
+              found = True
 
               msg += " to " + g.printSet(candidates)
               g.logMove(msg)
 
-            if (subFound):
+          if (found):
               return True
 
   return False
