@@ -10,9 +10,11 @@ from techniques.ywing import yWing
 from techniques.avoidableRectangle import avoidableRect
 from techniques.bug import bivalueUniversalGrave
 from techniques.xyzWing import xyzWing
+from techniques.wxyzWing import wxyzWing
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs
 from techniques.biValuePairs import findBiValuePairs
 from techniques.weakBiValuePairs import findWeakBiValuePairs
 from techniques.xyzWingPairs import findXYZPairs
+from techniques.wxyzWingPairs import findWXYZPairs

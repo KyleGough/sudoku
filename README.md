@@ -150,6 +150,18 @@ The *XYZ-Wing* technique is an extension of the *Y-Wing* technique but with the 
 
 
 
+##### WXYZ-Wing
+
+The *WXYZ-Wing* technique is a further extension of *Y-Wing* and *XYZ-Wing* but with the head containing 4 candidates and three wings that share candidates with the head and have a single common candidate between all 4 cells. If all cells in the *WXYZ-Wing* have candidate Z, then candidate Z can be removed from every cell that intersects with all 4 cells of the *WXYZ-Wing*.
+
+* Implementing the *WXYZ-Wing* technique boosted the accuracy up to 93.8%.
+
+
+
+
+
+
+
 ##### Future Work
 
 I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudokus as solving all using only logical techniques is still an incomplete problem.
@@ -180,8 +192,11 @@ I have implemented only a few logical techniques, however there are far more com
 | Y-Wing                   | 45,732                  | 93.0             |
 | Bi-Value Universal Grave | 45,929                  | 93.4             |
 | XYZ-Wing                 | 45,987                  | 93.6             |
+| WXYZ-Wing                | 46,082                  | 93.8             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
+
+
 
 
 
@@ -191,16 +206,17 @@ This table demonstrates the percentage of test puzzles that feature at least one
 
 | Technique          | Coverage (%) | Occurrences |
 | ------------------ | ------------ | ----------- |
-| Solo Candidate     | 98.5         | 383,460     |
-| Hidden Candidate   | 100.0        | 270,020     |
-| Subset Cover       | 47.9         | 53,569      |
-| Pointing Pairs     | 27.0         | 15,360      |
-| Box/Line Reduction | 2.8          | 1,479       |
-| X-Wing             | 0.8          | 412         |
-| Singles Chain      | 8.1          | 4,702       |
-| Y-Wing             | 3.0          | 1,656       |
-| BUG                | 0.4          | 198         |
-| XYZ-Wing           | 0.8          | 412         |
+| Solo Candidate     | 98.5         | 384,082     |
+| Hidden Candidate   | 100.0        | 270,144     |
+| Subset Cover       | 47.9         | 53,627      |
+| Pointing Pairs     | 27.0         | 15,388      |
+| Box/Line Reduction | 2.8          | 1,488       |
+| X-Wing             | 0.8          | 416         |
+| Singles Chain      | 8.1          | 4,720       |
+| Y-Wing             | 3.0          | 1,667       |
+| BUG                | 0.4          | 202         |
+| XYZ-Wing           | 0.8          | 418         |
+| WXYZ-Wing          | 0.7          | 396         |
 
 
 

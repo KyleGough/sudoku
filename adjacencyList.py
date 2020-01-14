@@ -73,7 +73,7 @@ class BiValueAdjacencyList(AdjacencyList):
         self.pairs += 1
 
 
-class XYZAdjacencyList(AdjacencyList):
+class WingAdjacencyList(AdjacencyList):
     def __init__(self):
         super().__init__()
 

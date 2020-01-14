@@ -29,7 +29,8 @@ def strategicSolver(g, logger):
         t.yWing, # Bi-value chaining.
         #t.avoidableRect ### Uniqueness Technique.
         t.bivalueUniversalGrave, # Uniqueness Technique.
-        t.xyzWing        
+        t.xyzWing,
+        t.wxyzWing,
     ]
 
     # Applies each technique to the puzzle until new information is gained.
@@ -206,6 +207,7 @@ def statAnalysis(statQueue):
         "Y-Wing:             ",
         "BUG:                ",
         "XYZ-Wing:           ",
+        "WXYZ-Wing:          ",
     ]
 
     for i in range(len(techniqueList)):

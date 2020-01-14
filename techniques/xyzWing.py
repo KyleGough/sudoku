@@ -21,7 +21,7 @@ def xyzWing(g):
       for j in range(len(adjCellList)):
 
         # Skip duplicates.
-        if (i == j):
+        if (i <= j):
           continue
         # Skip links that have the same candidate. 
         if (adjCandidateList[i] == adjCandidateList[j]):
@@ -38,9 +38,11 @@ def xyzWing(g):
         
         z = z.pop()
 
-        commonCellsWings = g.getCommonEmptyCells(adjCellList[i], adjCellList[j])
-        commonCellsHeadXZ = g.getCommonEmptyCells(cell, adjCellList[i])
-        commonCells = commonCellsWings.intersection(commonCellsHeadXZ)
+        # Common cells between cells with z.
+        commonCells = g.getCommonEmptyCells(adjCellList[i], adjCellList[j])
+        if (z in headCandidates):
+          commonCellsHeadXZ = g.getCommonEmptyCells(cell, adjCellList[i])
+          commonCells = commonCells.intersection(commonCellsHeadXZ)
         
         found = False
 

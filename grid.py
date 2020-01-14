@@ -240,3 +240,14 @@ class Grid:
         cx = ((x // 3) * 3) + 1
         cy = ((y // 3) * 3) + 1
         return cx, cy
+
+    # Checks whether two cells can see each other.
+    def cellsVisible(self, a, b):
+        if (a[0] == b[0]):
+            return True
+        elif (a[1] == b[1]):
+            return True
+        else:
+            ax, ay = self.getSectorCoord(a[0], a[1])
+            bx, by = self.getSectorCoord(b[0], b[1])
+            return (ax == bx and ay == by)
