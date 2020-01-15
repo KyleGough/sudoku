@@ -54,9 +54,9 @@ The *hidden candidate* technique is another simple technique for identifying the
 
 
 
-##### Subset Cover (Pairs/Triples/Quads) #####
+##### Subset Cover (Pairs/Triples/Quads/Quints) #####
 
-The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=4* as any subset of size *N* greater than 4 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
+The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=5* as any subset of size *N* greater than 5 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
 
 * Implementing the *Subset Cover* technique boosted the accuracy by over *20%* up to *68.1%*.
 
@@ -192,7 +192,7 @@ I have implemented only a few logical techniques, however there are far more com
 | Y-Wing                   | 45,732                  | 93.0             |
 | Bi-Value Universal Grave | 45,929                  | 93.4             |
 | XYZ-Wing                 | 45,987                  | 93.6             |
-| WXYZ-Wing                | 46,082                  | 93.8             |
+| WXYZ-Wing                | 46,141                  | 93.9             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
@@ -206,17 +206,17 @@ This table demonstrates the percentage of test puzzles that feature at least one
 
 | Technique          | Coverage (%) | Occurrences |
 | ------------------ | ------------ | ----------- |
-| Solo Candidate     | 98.5         | 384,082     |
-| Hidden Candidate   | 100.0        | 270,144     |
-| Subset Cover       | 47.9         | 53,627      |
-| Pointing Pairs     | 27.0         | 15,388      |
-| Box/Line Reduction | 2.8          | 1,488       |
-| X-Wing             | 0.8          | 416         |
-| Singles Chain      | 8.1          | 4,720       |
-| Y-Wing             | 3.0          | 1,667       |
+| Solo Candidate     | 98.6         | 384,654     |
+| Hidden Candidate   | 100.0        | 271,065     |
+| Subset Cover       | 49.0         | 58,165      |
+| Pointing Pairs     | 25.3         | 14,203      |
+| Box/Line Reduction | 2.6          | 1,413       |
+| X-Wing             | 0.8          | 413         |
+| Singles Chain      | 8.1          | 4,743       |
+| Y-Wing             | 3.0          | 1,669       |
 | BUG                | 0.4          | 202         |
 | XYZ-Wing           | 0.8          | 418         |
-| WXYZ-Wing          | 0.7          | 396         |
+| WXYZ-Wing          | 0.7          | 357         |
 
 
 

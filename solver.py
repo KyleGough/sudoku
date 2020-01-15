@@ -11,27 +11,26 @@ from logger import Logger
 from datetime import datetime
 from stats import Stats
 
+# Order of strategies.
+strats = [
+    t.soloCandidate,
+    t.hiddenCandidate,
+    t.subsetCover,
+    t.pointingPairs,
+    t.boxLineReduction,
+    t.xWing, # Single value chaining.
+    t.singlesChain, # Single value chaining.
+    t.yWing, # Bi-value chaining.
+    #t.avoidableRect ### Uniqueness Technique.
+    t.bivalueUniversalGrave, # Uniqueness Technique.
+    t.xyzWing, # Extension of Y-Wing.
+    t.wxyzWing, # Extension of XYZ-Wing.
+]
 
 # Solves a sudoku by applying a list of strategies until new information is obtained.
 def strategicSolver(g, logger):
     g.logMove(tCol.header("Initial Configuration"))
     found = True
-
-    # Order of strategies.
-    strats = [
-        t.soloCandidate,
-        t.hiddenCandidate,
-        t.subsetCover,
-        t.pointingPairs,
-        t.boxLineReduction,
-        t.xWing, # Single value chaining.
-        t.singlesChain, # Single value chaining.
-        t.yWing, # Bi-value chaining.
-        #t.avoidableRect ### Uniqueness Technique.
-        t.bivalueUniversalGrave, # Uniqueness Technique.
-        t.xyzWing,
-        t.wxyzWing,
-    ]
 
     # Applies each technique to the puzzle until new information is gained.
     while (found):
@@ -141,7 +140,7 @@ def init():
     
 # Test Analysis.
 def testAnalysis(testQueue):
-    ###
+    
     totalCount = 0
     solveCount = 0
     exhaustCount = 0
@@ -181,6 +180,8 @@ def statAnalysis(statQueue):
     techniqueCountTotal = Stats().techniqueMoves # Total amount of each technique used.
     techniqueUsedAmount = Stats().techniqueMoves # Amount of puzzles using each technique.
 
+    techniqueRequiredCount = Stats().techniqueMoves # Number of puzzles requiring featuring a technique.
+
     while not statQueue.empty():
         s = statQueue.get()
         count += 1
@@ -188,6 +189,10 @@ def statAnalysis(statQueue):
         clueTotal += s.clues
         techniqueCountTotal = [x + y for x, y in zip(techniqueCountTotal, s.techniqueMoves)]
         techniqueUsedAmount = [x + 1 if y > 0 else x for x, y in zip(techniqueUsedAmount, s.techniqueMoves)]
+
+        for x in range(len(techniqueRequiredCount)):
+            if (s.techniqueMoves[x] > 0):
+                techniqueRequiredCount[x] += 1
 
 
     difficultyAvg = round(difficultyTotal / count, 0)
@@ -210,19 +215,26 @@ def statAnalysis(statQueue):
         "WXYZ-Wing:          ",
     ]
 
-    for i in range(len(techniqueList)):
-        print(techniqueList[i] + printTechniqueUsed(techniqueCountTotal[i]) + " - " + "{:.1f}".format(100 * techniqueUsedAmount[i] / count) + "%")
+    padLength = len(str(count)) + 2
 
-    #print(techniqueUsedAmount / count)
+    for i in range(len(techniqueList)):
+        msg = techniqueList[i] + printTechniqueUsed(techniqueCountTotal[i])
+        msg += str(techniqueCountTotal[i]).rjust(padLength, ' ')
+        usedAmount = "{:.1f}".format(100 * techniqueUsedAmount[i] / count) + "%" 
+        usedAmount = usedAmount.rjust(8, ' ')
+        msg +=  tCol.okblue(usedAmount)
+        msg += str(techniqueRequiredCount[i]).rjust(padLength, ' ')
+        print(msg)
+
     return count
 
 # Prints the number of times a technique has been used.
 def printTechniqueUsed(count):
     if (count == 0):
-        msg = tCol.fail("False")
+        msg = tCol.fail("False ")
     else:
-        msg = tCol.okgreen("True ")
-    return msg + " - " + str(count)
+        msg = tCol.okgreen("True  ")
+    return msg
 
 # Time Analysis.
 def timeAnalysis(timeElapsed, count):

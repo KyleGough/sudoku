@@ -19,8 +19,10 @@ def getTitleName(n):
         return "Subset Cover (Pairs):"
     elif (n == 3):
         return "Subset Cover (Triples):"
-    else:
+    elif (n == 4):
         return "Subset Cover (Quads):"
+    else:
+        return "Subset Cover (Quints):"   
     
 # Sector subset cover.
 def sectorSubsetCover(g):
@@ -34,7 +36,7 @@ def sectorSubsetCover(g):
             empty = []
             # Iterate over cells in the sector.
             for i, j in g.sectorCells():
-                if (g.get(cx + i, cy + j) == 0) and (len(g.getCandidates(cx + i, cy + j)) <= 4): ###
+                if (g.get(cx + i, cy + j) == 0) and (len(g.getCandidates(cx + i, cy + j)) <= 5):
                     empty.append([i,j])
             if (len(empty) < 3):
                 continue
@@ -90,7 +92,7 @@ def rowSubsetCover(g):
         empty = []
         # Iterate over cells in a row.
         for x in range(g.size):
-            if (g.get(x,y) == 0) and (len(g.getCandidates(x,y)) <= 5): ###
+            if (g.get(x,y) == 0) and (len(g.getCandidates(x,y)) <= 5):
                 empty.append(x)
         if (len(empty) < 3):
             continue
