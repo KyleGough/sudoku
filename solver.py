@@ -22,6 +22,7 @@ strats = [
     t.singlesChain, # Single value chaining.
     t.yWing, # Bi-value chaining.
     t.swordfish, # Extension of X-Wing.
+    t.jellyfish, # Extension of X-Wing and Swordfish.
     #t.avoidableRect ### Uniqueness Technique.
     t.bivalueUniversalGrave, # Uniqueness Technique.
     t.xyzWing, # Extension of Y-Wing.
@@ -226,6 +227,7 @@ def statAnalysis(statQueue):
         "Singles Chain:      ",
         "Y-Wing:             ",
         "Swordfish:          ",
+        "Jellyfish:          ",
         "BUG:                ",
         "XYZ-Wing:           ",
         "WXYZ-Wing:          ",

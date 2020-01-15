@@ -138,6 +138,14 @@ The *Swordfish* technique is an extension of the *X-Wing* technique but where a 
 
 
 
+##### Jellyfish
+
+
+
+
+
+
+
 ##### Bi-Value Universal Grave
 
 The *Bi-Value Universal Grave* (BUG) is a state that a Sudoku can reach where all unsolved cells in the Sudoku have only 2 candidates, except a single cell that has 3 candidates. The aim of this technique to detect the BUG state and use it to eliminate candidates. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm.
@@ -203,9 +211,10 @@ I have implemented only a few logical techniques, however there are far more com
 | Singles Chain            | 44,530                  | 90.6             |
 | Y-Wing                   | 45,732                  | 93.0             |
 | Swordfish                | -                       | -                |
+| Jellyfish                | -                       | -                |
 | Bi-Value Universal Grave | 45,929                  | 93.4             |
 | XYZ-Wing                 | -                       | -                |
-| WXYZ-Wing                | 46,165                  | 93.9             |
+| WXYZ-Wing                | 46,170                  | 93.9             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
@@ -219,17 +228,19 @@ This table demonstrates the percentage of test puzzles that feature at least one
 
 | Technique          | Coverage (%) | Occurrences |
 | ------------------ | ------------ | ----------- |
-| Solo Candidate     | 98.6         | 384,654     |
-| Hidden Candidate   | 100.0        | 271,065     |
-| Subset Cover       | 49.0         | 58,165      |
-| Pointing Pairs     | 25.3         | 14,203      |
-| Box/Line Reduction | 2.6          | 1,413       |
-| X-Wing             | 0.8          | 413         |
-| Singles Chain      | 8.1          | 4,743       |
-| Y-Wing             | 3.0          | 1,669       |
-| BUG                | 0.4          | 202         |
-| XYZ-Wing           | 0.8          | 418         |
-| WXYZ-Wing          | 0.7          | 357         |
+| Solo Candidate     | 98.6         | 384,825     |
+| Hidden Candidate   | 100.0        | 271,095     |
+| Subset Cover       | 49.0         | 58,202      |
+| Pointing Pairs     | 25.3         | 14,211      |
+| Box/Line Reduction | 2.7          | 1,416       |
+| X-Wing             | 0.8          | 412         |
+| Singles Chain      | 8.1          | 4,752       |
+| Y-Wing             | 3.0          | 1,279       |
+| Swordfish          | 0.2          | 138         |
+| Jellyfish          | 0.0          | 7           |
+| BUG                | 0.4          | 204         |
+| XYZ-Wing           | 0.8          | 419         |
+| WXYZ-Wing          | 0.7          | 359         |
 
 
 

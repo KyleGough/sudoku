@@ -12,6 +12,7 @@ from techniques.bug import bivalueUniversalGrave
 from techniques.xyzWing import xyzWing
 from techniques.wxyzWing import wxyzWing
 from techniques.swordfish import swordfish
+from techniques.jellyfish import jellyfish
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs

@@ -1,9 +1,7 @@
 from grid import Grid
 from colours import tCol
-from techniques.conjugatePairs import findColumnPairs, findRowPairs
-from adjacencyList import AdjacencyList
 
-# Reduces candidates using X-Wings.
+# Reduces candidates using Swordfish.
 def swordfish(g):
     success = swordfishDetect(g)
     g.transpose()
@@ -11,7 +9,7 @@ def swordfish(g):
     g.transpose()
     return success
 
-# Detects X-Wings with strong links along columns and weak links along rows.
+# Detects Swordfish with strong links along columns and weak links along rows.
 def swordfishDetect(g):
     success = False
 
