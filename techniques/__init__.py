@@ -11,6 +11,7 @@ from techniques.avoidableRectangle import avoidableRect
 from techniques.bug import bivalueUniversalGrave
 from techniques.xyzWing import xyzWing
 from techniques.wxyzWing import wxyzWing
+from techniques.swordfish import swordfish
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs

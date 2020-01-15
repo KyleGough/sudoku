@@ -21,6 +21,7 @@ strats = [
     t.xWing, # Single value chaining.
     t.singlesChain, # Single value chaining.
     t.yWing, # Bi-value chaining.
+    t.swordfish, # Extension of X-Wing.
     #t.avoidableRect ### Uniqueness Technique.
     t.bivalueUniversalGrave, # Uniqueness Technique.
     t.xyzWing, # Extension of Y-Wing.
@@ -180,6 +181,7 @@ def statAnalysis(statQueue):
     count = 0 # Total number of tests.
     difficultyTotal = 0 # Total of the difficulty values.
     clueTotal = 0 # Total number of clues.
+    difficultyMin = 1000000 # Minimum difficulty.
     difficultyMax = 0 # Maximum difficulty.
     techniqueCountTotal = Stats().techniqueMoves # Total amount of each technique used.
     techniqueUsedAmount = Stats().techniqueMoves # Amount of puzzles using each technique.
@@ -194,6 +196,8 @@ def statAnalysis(statQueue):
         difficultyTotal += difficulty
         if (difficulty > difficultyMax):
             difficultyMax = difficulty
+        if (difficulty < difficultyMin):
+            difficultyMin = difficulty
         clueTotal += s.clues
         techniqueCountTotal = [x + y for x, y in zip(techniqueCountTotal, s.techniqueMoves)]
         techniqueUsedAmount = [x + 1 if y > 0 else x for x, y in zip(techniqueUsedAmount, s.techniqueMoves)]
@@ -209,6 +213,7 @@ def statAnalysis(statQueue):
     print("[ " + tCol.warning("Stats") + " ]")
     print("Mean Clues:         " + str(int(cluesAvg)))
     print("Mean Difficulty:    " + str(int(difficultyAvg)))
+    print("Min Difficulty:     " + str(difficultyMin))
     print("Max Difficulty:     " + str(difficultyMax))
 
     techniqueList = [
@@ -220,6 +225,7 @@ def statAnalysis(statQueue):
         "X-Wing:             ",
         "Singles Chain:      ",
         "Y-Wing:             ",
+        "Swordfish:          ",
         "BUG:                ",
         "XYZ-Wing:           ",
         "WXYZ-Wing:          ",
