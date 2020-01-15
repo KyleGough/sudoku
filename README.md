@@ -126,6 +126,18 @@ The *Y-Wing* technique is a bi-value chaining strategy that uses three bi-value 
 
 
 
+##### Swordfish
+
+The *Swordfish* technique is an extension of the *X-Wing* technique but where a candidate is restricted in three cells along a column in three different columns that all share the same rows.
+
+* ###
+
+
+
+
+
+
+
 ##### Bi-Value Universal Grave
 
 The *Bi-Value Universal Grave* (BUG) is a state that a Sudoku can reach where all unsolved cells in the Sudoku have only 2 candidates, except a single cell that has 3 candidates. The aim of this technique to detect the BUG state and use it to eliminate candidates. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm.
@@ -184,15 +196,16 @@ I have implemented only a few logical techniques, however there are far more com
 | ------------------------ | ----------------------- | ---------------- |
 | Solo Candidate           | 0                       | 0                |
 | Hidden Candidate         | 21,905                  | 44.6             |
-| Subset Cover             | 33,469                  | 68.1             |
+| Subset Cover             | -                       | -                |
 | Pointing Pairs           | 41,302                  | 84.0             |
 | Box/Line Reduction       | 41,577                  | 84.6             |
 | X-Wing                   | 41,594                  | 84.6             |
 | Singles Chain            | 44,530                  | 90.6             |
 | Y-Wing                   | 45,732                  | 93.0             |
+| Swordfish                | -                       | -                |
 | Bi-Value Universal Grave | 45,929                  | 93.4             |
-| XYZ-Wing                 | 45,987                  | 93.6             |
-| WXYZ-Wing                | 46,141                  | 93.9             |
+| XYZ-Wing                 | -                       | -                |
+| WXYZ-Wing                | 46,165                  | 93.9             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
 
