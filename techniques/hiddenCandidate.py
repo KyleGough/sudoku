@@ -26,7 +26,7 @@ def hiddenCandidateColumn(g):
             # If a value occurs only once in the column.
             if (count == 1):
                 for y in range(g.size):
-                    if i in candidates[y]:
+                    if (i in candidates[y]):
                         g.insert(x,y,i)
                         msg = "row" if g.transposed else "column"
                         g.logMove(tCol.header("Hidden Candidate:") + " Set cell " + g.printCell(x,y) + " to " + tCol.okblue(str(i)) + " as only candidate in " + msg)

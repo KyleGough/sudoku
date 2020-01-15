@@ -50,7 +50,10 @@ def strategicSolver(g, logger):
         # Executes each strategy in order.
         # If information has been gained, repeat from first strategy.
         for i in range(len(strats)):
+            pStart = datetime.now()
             found = strats[i](g)
+            pEnd = datetime.now()
+            g.stats.techniqueTimes[i] += (pEnd - pStart).total_seconds()
             if (found):
                 g.stats.techniqueMoves[i] += 1
                 break
@@ -177,29 +180,36 @@ def statAnalysis(statQueue):
     count = 0 # Total number of tests.
     difficultyTotal = 0 # Total of the difficulty values.
     clueTotal = 0 # Total number of clues.
+    difficultyMax = 0 # Maximum difficulty.
     techniqueCountTotal = Stats().techniqueMoves # Total amount of each technique used.
     techniqueUsedAmount = Stats().techniqueMoves # Amount of puzzles using each technique.
 
     techniqueRequiredCount = Stats().techniqueMoves # Number of puzzles requiring featuring a technique.
+    techniqueTotalTimes = Stats().techniqueTimes # Total time spend on each technique.
 
     while not statQueue.empty():
         s = statQueue.get()
         count += 1
-        difficultyTotal += s.getDifficulty()
+        difficulty = s.getDifficulty()
+        difficultyTotal += difficulty
+        if (difficulty > difficultyMax):
+            difficultyMax = difficulty
         clueTotal += s.clues
         techniqueCountTotal = [x + y for x, y in zip(techniqueCountTotal, s.techniqueMoves)]
         techniqueUsedAmount = [x + 1 if y > 0 else x for x, y in zip(techniqueUsedAmount, s.techniqueMoves)]
-
-        for x in range(len(techniqueRequiredCount)):
-            if (s.techniqueMoves[x] > 0):
-                techniqueRequiredCount[x] += 1
+        techniqueTotalTimes = [x + y for x, y in zip(techniqueTotalTimes, s.techniqueTimes)]
+        if (s.exitStatus == "SOLVED"):
+            for x in range(len(techniqueRequiredCount)):
+                if (s.techniqueMoves[x] > 0):
+                    techniqueRequiredCount[x] += 1
 
 
     difficultyAvg = round(difficultyTotal / count, 0)
     cluesAvg = round(clueTotal / count, 0)
     print("[ " + tCol.warning("Stats") + " ]")
-    print("Mean Difficulty:    " + str(int(difficultyAvg)))
     print("Mean Clues:         " + str(int(cluesAvg)))
+    print("Mean Difficulty:    " + str(int(difficultyAvg)))
+    print("Max Difficulty:     " + str(difficultyMax))
 
     techniqueList = [
         "Solo Candidate:     ",
@@ -216,6 +226,7 @@ def statAnalysis(statQueue):
     ]
 
     padLength = len(str(count)) + 2
+    timeThreshold = sorted(techniqueTotalTimes, reverse=True)[4]
 
     for i in range(len(techniqueList)):
         msg = techniqueList[i] + printTechniqueUsed(techniqueCountTotal[i])
@@ -224,6 +235,11 @@ def statAnalysis(statQueue):
         usedAmount = usedAmount.rjust(8, ' ')
         msg +=  tCol.okblue(usedAmount)
         msg += str(techniqueRequiredCount[i]).rjust(padLength, ' ')
+        totalTime = techniqueTotalTimes[i]
+        if (totalTime >= timeThreshold and totalTime > 0):
+            msg += tCol.fail("  {:.2f}s".format(totalTime))
+        else:
+            msg += tCol.okgreen("  {:.2f}s".format(totalTime))
         print(msg)
 
     return count
