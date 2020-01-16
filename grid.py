@@ -61,7 +61,7 @@ class Grid:
 
     # Prints the cell position, corrects for if the grid is transposed.
     def printCell(self, x, y):
-        msg = tCol.OKBLUE + "("
+        msg = tCol.OKGREEN + "("
         msg += str(y+1) + "," + str(x+1) if self.transposed else str(x+1) + "," + str(y+1)
         msg += ")" + tCol.ENDC
         return msg
