@@ -11,8 +11,7 @@ def soloCandidate(g):
         # Check for a single possibility.
         if (len(candidates) == 1):
             value = candidates.pop()
-            # Add value into grid.
-            g.insert(x,y,value)
+            g.insert(x, y, value) # Add value into grid.
             g.logMove(tCol.header("Solo Candidate:") + " Set cell " + g.printCell(x,y) + " to " + tCol.okblue(str(value)))
             success = True
     return success
