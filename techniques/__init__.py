@@ -13,6 +13,7 @@ from techniques.xyzWing import xyzWing
 from techniques.wxyzWing import wxyzWing
 from techniques.swordfish import swordfish
 from techniques.jellyfish import jellyfish
+from techniques.ur import ur
 
 # Helper modules.
 from techniques.conjugatePairs import findConjugatePairs, findColumnPairs, findRowPairs, findSectorPairs

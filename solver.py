@@ -21,6 +21,7 @@ strats = [
     t.xWing, # Single value chaining.
     t.singlesChain, # Single value chaining.
     t.yWing, # Bi-value chaining.
+    t.ur, # Unique Rectangles.
     t.swordfish, # Extension of X-Wing.
     t.jellyfish, # Extension of X-Wing and Swordfish.
     #t.avoidableRect ### Uniqueness Technique.
@@ -165,11 +166,17 @@ def testAnalysis(testQueue):
         elif t[1] == "ERROR":
             errorCount += 1
 
-    solveRate = str(round(100 * solveCount / totalCount, 1))
+    solveRate = round(100 * solveCount / totalCount, 1)
     exhaustRate = str(round(100 * exhaustCount / totalCount, 1))
     errorRate = str(round(100 * errorCount / totalCount, 1))
 
-    solveRate = tCol.okgreen(str(solveRate) + "%") if solveRate == "100.0" else tCol.fail(str(solveRate) + "%")
+    if (solveRate >= 100):
+        solveRate = tCol.okgreen(str(solveRate) + "%")
+    elif (solveRate >= 90):
+        solveRate = tCol.warning(str(solveRate) + "%")
+    else:
+        solveRate = tCol.fail(str(solveRate) + "%") 
+
     exhaustRate = tCol.okgreen(str(exhaustRate) + "%") if exhaustRate == "0.0" else tCol.fail(str(exhaustRate) + "%")
     errorRate = tCol.okgreen(str(errorRate) + "%") if errorRate == "0.0" else tCol.fail(str(errorRate) + "%")
 
@@ -226,6 +233,7 @@ def statAnalysis(statQueue):
         "X-Wing:             ",
         "Singles Chain:      ",
         "Y-Wing:             ",
+        "Unique Rectangles:  ",
         "Swordfish:          ",
         "Jellyfish:          ",
         "BUG:                ",
@@ -234,7 +242,8 @@ def statAnalysis(statQueue):
     ]
 
     padLength = len(str(count)) + 2
-    timeThreshold = sorted(techniqueTotalTimes, reverse=True)[4]
+    timeTop5Threshold = sorted(techniqueTotalTimes, reverse=True)[4]
+    timeTop3Threshold = sorted(techniqueTotalTimes, reverse=True)[2]
 
     for i in range(len(techniqueList)):
         msg = techniqueList[i] + printTechniqueUsed(techniqueCountTotal[i])
@@ -244,8 +253,10 @@ def statAnalysis(statQueue):
         msg +=  tCol.okblue(usedAmount)
         msg += str(techniqueRequiredCount[i]).rjust(padLength, ' ')
         totalTime = techniqueTotalTimes[i]
-        if (totalTime >= timeThreshold and totalTime > 0):
+        if (totalTime >= timeTop3Threshold and totalTime > 0):
             msg += tCol.fail("  {:.2f}s".format(totalTime))
+        elif (totalTime >= timeTop5Threshold and totalTime > 0):
+            msg += tCol.warning("  {:.2f}s".format(totalTime))
         else:
             msg += tCol.okgreen("  {:.2f}s".format(totalTime))
         print(msg)
