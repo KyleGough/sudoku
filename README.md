@@ -1,6 +1,6 @@
 # Logical Sudoku Solver
 
-A logical Sudoku solver that outputs detailed descriptions of the techniques and moves required at each step to solve unique solution 9x9 Sudokus. No backtracking or brute forcing will be used, only logical reasoning. The solver can read *.csv* files to solve multiple puzzles in a batch. Simple difficulty analysis has been implemented based on the number of moves requires, initial clues and technical strategies required to solve the puzzle.
+CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads csv files where each puzzle can be separated by newline characters to allow batch solving. After processing all Sudoku in a given file, in-depth analysis is displayed including but not limited to: difficulty rating, occurrences of each technique, probability of each technique, processing time for each technique and total processing time.
 
 
 
@@ -18,7 +18,7 @@ A logical Sudoku solver that outputs detailed descriptions of the techniques and
 
 * Candidates - *The possible values a cell can be. Various techniques will aim to reduce to number of candidates for each cell using logical reasoning.*
 * Simple Sudoku - *A Sudoku that can be solved only using the solo candidate and hidden candidate techniques.*
-* Minimum Sudoku - *A Sudoku where removing a clue from the initial configuration produces a Sudoku without a unique solution.*
+* Minimum Sudoku - *A Sudoku where removing a clue from the initial configuration produces a Sudoku without a unique solution. Minimum Sudoku must have at least 17 clues.*
 * Conjugate Pair - *Where a candidate is only valid in exactly two cells within a structure, the two cells form a conjugate pair.*
 * Weak Pair - *Two cells part of two different conjugate pairs that share the same row, column or sector.*
 
@@ -36,13 +36,13 @@ A logical Sudoku solver that outputs detailed descriptions of the techniques and
 
 ##### Solo Candidate #####
 
-The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm. Using only this strategy is not sufficient enough to solve any 17-clue Sudokus.
+The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm. Using only this strategy is not sufficient enough to solve any 17-clue Sudoku.
 
 
 
 ##### Hidden Candidate ###
 
-The *hidden candidate* technique is another simple technique for identifying the value of cells. If a candidate is valid in only one cell within a column, row or sector then that cell must be that value. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a structure (column, row, sector) must be checked against each candidate. Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudokus were solved. However, these two strategies are sufficient enough to solve every simple Sudoku.
+The *hidden candidate* technique is another simple technique for identifying the value of cells. If a candidate is valid in only one cell within a column, row or sector then that cell must be that value. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a structure (column, row, sector) must be checked against each candidate. Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudoku were solved. However, these two strategies are sufficient enough to solve every simple Sudoku.
 
 
 
@@ -120,7 +120,7 @@ The *WXYZ-Wing* technique is a further extension of *Y-Wing* and *XYZ-Wing* but 
 
 ##### Future Work
 
-I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudokus as solving all using only logical techniques is still an incomplete problem.
+I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudoku as solving all using only logical techniques is still an incomplete problem.
 
 
 
@@ -159,7 +159,7 @@ I have implemented only a few logical techniques, however there are far more com
 
 ##### Coverage and Total Occurrences
 
-This table demonstrates the percentage of test puzzles that feature at least one of each technique. Note that some harder techniques could be employed instead of multiple uses of easier techniques in certain Sudokus, however the way the solver has been implemented restarts the order of techniques upon information gain (removal of candidates, value of cell determined). 
+This table demonstrates the percentage of test puzzles that feature at least one of each technique. Note that some harder techniques could be employed instead of multiple uses of easier techniques in certain Sudoku, however the solver has been implemented to ensure that easier techniques are prioritised over the more difficult techniques. 
 
 | Technique          | Coverage (%) | Occurrences |
 | ------------------ | ------------ | ----------- |
@@ -184,23 +184,23 @@ This table demonstrates the percentage of test puzzles that feature at least one
 
 ##### Datasets
 
-Datasets of different Sudoku puzzles were tested against the solution in order to test completeness, speed and efficiency.
+Datasets of different Sudoku puzzles were tested against the solver in order to test completeness, speed and efficiency.
 
 
 
-- [Gordon Royle's list of all known 17-clue Sudoku puzzles][2]
-  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have whilst maintaining a unique solution.
+- [Gordon Royle's list of all currently known 17-clue minimal Sudoku puzzles][2]
+  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have such that it has a unique solution.
   - ~~Currently the goal is to achieve 90+% accuracy across the whole set by implementing new strategies.~~
-  - Testing all 49,151 puzzles is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes.
-  - This dataset will be used as the primary benchmark dataset.
+  - Testing all 49,151 puzzles repeatedly is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes. Testing of all 49,151 is performed when relevant milestones are reached.
+  - This dataset will be used as the primary benchmark as the dataset contains a wide range of puzzle difficulties.
 
 
 
 
 - [1 million Simple Sudoku games][1]
   - All Sudokus in this dataset are simple (require only solo candidate and hidden candidate to solve).
-  - The solver successfully solves 100% of the Sudokus in this dataset.
-  - A subset of 1000 of these puzzles are used to check for errors.
+  - The solver successfully solves 100% of the Sudoku in this dataset.
+  - A subset of 1000 of these puzzles are used to check for errors during development.
 
 
 
@@ -240,15 +240,15 @@ At the end of execution the following is output.
 * Percentage of tests solved.
 * Percentage of tests exhausted - *Tests which were not solved.*
 * Percentage of tests that encountered errors - *Hopefully should be 0%.*
-* Mean number of clues in the test puzzles.
-* Mean, minimum, maximum difficulty scores for the test puzzles.
+* Mean number of clues in the provided puzzles.
+* Mean, minimum, and maximum difficulty scores for the test puzzles.
 * For each technique the following is output:
-  * *(i)* Whether or not the technique was encountered.
+  * *(i)* True or False: whether or not the technique was encountered.
   * *(ii)* Number of occurrences of the technique.
   * *(iii)* Percentage of puzzles the technique is used in.  
   * *(iv)* Number of solved puzzles the technique was used at least once on.
-  *  *(v)* Total time in seconds of execution when using the technique. The top 3 longest duration techniques are coloured red, and the top 5 are coloured yellow, whilst the remaining techniques are coloured green.
-* Total time elapsed.
+  *  *(v)* Total execution time in seconds processing the technique. The top 3 longest duration techniques are coloured red, the top 5 are coloured yellow, whilst the remaining techniques are coloured green.
+* Total time elapsed in seconds.
 * Mean time elapsed per puzzle.
 
 
@@ -298,8 +298,8 @@ The output should look something like this.
 
 There are two optional flags:
 
-* [-m] - Will display the moves and techniques used at each stage of solving the sudoku.
-* [-o] - Will display the initial grid and solution in the terminal.
+* [-m] - Displays the moves and techniques used at each stage of solving the Sudoku.
+* [-o] - Displays the initial grid and solution in the terminal.
 
 ```
 ./sudoku -m -o tests/simple-1000.csv
@@ -314,4 +314,4 @@ There are two optional flags:
 ## References ##
 
 [1]: https://www.kaggle.com/bryanpark/sudoku	"1,000,000 Sudoku"
-[2]: http://staffhome.ecm.uwa.edu.au/~00013890/sudokumin.php	"17-Clue Sudokus"
+[2]: http://staffhome.ecm.uwa.edu.au/~00013890/sudokumin.php	"17-Clue Sudoku"
