@@ -119,31 +119,6 @@ def importTestGrids(filename, logger):
         if (len(ds.columns) == 2): g.solution = solution
         yield g, n + 1
 
-# Imports grid, and solves it.
-def init():
-    g = Grid()
-    logger = Logger()
-
-    # Command Line Arguments.
-    filename = str(sys.argv[1])
-    logger.showOutput = True if (sys.argv[2] == "0") else False
-    logger.showMoves = True if (sys.argv[3] == "0") else False
-
-    # Test set.
-    testQueue = queue.Queue()
-    statQueue = queue.Queue()
-    pStart = datetime.now()
-    for g, n in importTestGrids(filename, logger):
-        solveGrid(g, n, logger, testQueue, statQueue)
-    pEnd = datetime.now()
-
-    print()
-    testAnalysis(testQueue)
-    print()
-    count = statAnalysis(statQueue)
-    print()
-    timeAnalysis(pEnd - pStart, count)
-    
 # Test Analysis.
 def testAnalysis(testQueue):
     
@@ -277,7 +252,6 @@ def timeAnalysis(timeElapsed, count):
     print("Time Elapsed:       " + "{:.2f}".format(timeElapsed.total_seconds()) + "s")
     print("Mean Time Elapsed:  " + "{:.3f}".format(timeElapsed.total_seconds() / count) + "s")
     
-
 # Attempts the solve the given grid.
 def solveGrid(g, n, logger, testQueue, statQueue):
     # Initial Grid.
@@ -303,6 +277,34 @@ def solveGrid(g, n, logger, testQueue, statQueue):
     testQueue.put([n, g.stats.exitStatus])
     # Adds to the stats queue.
     statQueue.put(stats)
+
+# Imports grid, and solves it.
+def init():
+    g = Grid()
+    logger = Logger()
+
+    # Command Line Arguments.
+    filename = str(sys.argv[1])
+    logger.showOutput = True if (sys.argv[2] == "0") else False
+    logger.showMoves = True if (sys.argv[3] == "0") else False
+   
+    # Test set.
+    testQueue = queue.Queue()
+    statQueue = queue.Queue()
+
+    # Measures total processing time.
+    pStart = datetime.now()
+    for g, n in importTestGrids(filename, logger):
+        solveGrid(g, n, logger, testQueue, statQueue)
+    pEnd = datetime.now()
+
+    print()
+    testAnalysis(testQueue)
+    print()
+    count = statAnalysis(statQueue)
+    print()
+    timeAnalysis(pEnd - pStart, count)
+
 
 if __name__ == "__main__":
     init()    

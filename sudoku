@@ -10,11 +10,11 @@ while getopts 'om' OPTION; do
       # Show initial grid and final solution.
       o)
         SHOWOUTPUT="0"
-	;;
+	    ;;
       # Show moves.
       m)
-	SHOWMOVES="0"
-        ;;
+	      SHOWMOVES="0"
+      ;;
       # Invalid flag.
       ?)
 	echo "Script usage: $(basename $0) [-o] [-m]"
@@ -34,5 +34,5 @@ then
     echo "Too many arguments. Expected 1, Recieved $#."
 # Executes python script.
 else
-  python solver.py $1 $SHOWOUTPUT $SHOWMOVES
+  python3 solver.py $1 $SHOWOUTPUT $SHOWMOVES
 fi

@@ -32,7 +32,7 @@ class Grid:
                 return False
         return True
     
-    # Tests the grid against the rules and set solution.
+    # Tests the grid against the ruleset and solution (if provided).
     def testGrid(self):
         if (self.error):
             print("[ " + tCol.fail("Incorrect value inserted inconsistent with rules") + " ]")
@@ -51,8 +51,9 @@ class Grid:
 
     # Logs a move that yields information.
     def logMove(self, msg):
+        msg = "[" + tCol.okblue(" MOVE " + str(self.stats.moves)) + " ] " + msg
         if (self.verbose):
-            print("[" + tCol.okblue(" MOVE " + str(self.stats.moves)) + " ] " + msg)
+            print(msg)
         self.stats.moves += 1
     
     # Checks if the grid has been filled.
@@ -61,21 +62,23 @@ class Grid:
 
     # Prints the cell position, corrects for if the grid is transposed.
     def printCell(self, x, y):
-        msg = tCol.OKGREEN + "("
+        msg = "("
         msg += str(y+1) + "," + str(x+1) if self.transposed else str(x+1) + "," + str(y+1)
-        msg += ")" + tCol.ENDC
+        msg += ")"
+        msg = tCol.okgreen(msg)
         return msg
 
     # Prints a set object , sorted and compact.
     def printSet(self, s):
-        msg = tCol.WARNING + "{"
+        msg = "{"
         if (len(s) > 0):
             for i in sorted(s):
                 msg += str(i) + ","
             msg = msg[:-1]            
         else:
             msg += "{}"
-        msg += "}" + tCol.ENDC
+        msg += "}"
+        msg = tCol.warning(msg)
         return msg
 
     # Prints candidate values of the grid.
