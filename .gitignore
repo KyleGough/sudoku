@@ -1,5 +1,5 @@
 __pycache__
-techniques/__pycache__
+src/techniques/__pycache__
 datasets
-techniques/GPUCache
+src/techniques/GPUCache
 notes.txt
