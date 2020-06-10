@@ -34,5 +34,5 @@ then
     echo "Too many arguments. Expected 1, Recieved $#."
 # Executes python script.
 else
-  python3 solver.py $1 $SHOWOUTPUT $SHOWMOVES
+  python3 src/solver.py $1 $SHOWOUTPUT $SHOWMOVES
 fi
