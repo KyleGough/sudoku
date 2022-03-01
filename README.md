@@ -10,9 +10,9 @@ View additonal information on the logical techniques used [here](https://www.kyl
 
 <br />
 
-<p align='center'>
+<div align='center'>
   <img src='./images/results.png' alt='Sudoku Solver' />
-</p>
+</div>
 
 <br />
 
@@ -104,18 +104,9 @@ Datasets of different Sudoku puzzles were tested against the solver in order to 
 - [Gordon Royle's list of all currently known 17-clue minimal Sudoku puzzles](http://staffhome.ecm.uwa.edu.au/~00013890/sudokumin.php) - used as the primary benchmark as contains a wide range of puzzle difficulties. 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have such that it has a unique solution. Testing all 49,151 puzzles repeatedly is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes. Testing of all 49,151 is performed when relevant milestones are reached.
 - [1 million Simple Sudoku games](https://www.kaggle.com/bryanpark/sudoku) - the solver successfully solves 100% of the Sudoku in this dataset. A subset of 1000 of these puzzles are used to check for errors during development.
 
-
-Here is a partially solved Sudoku:
-
-* Cells with only one value (Yellow/Purple) are cells which the value is known to be the value in the cell.
-
-* Cells with one or more values (Blue/Red) are cells which the value could be one of the values in the cell.
-* Different colours are used to differentiate between the 3x3 sectors.
-
-
+<br />
 
 ## Example Output
-
 
 At each step the following information is output:
 
@@ -123,7 +114,7 @@ At each step the following information is output:
 * Cells and structures used to gain information.
 * Cell(s) it affects.
 
-<div align="center">
+<div align='center'>
   <img src='./images/moves.png' alt='Example Move Output' />
 </div>
 
