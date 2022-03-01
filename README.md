@@ -12,7 +12,7 @@ CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logi
   <img src='./images/results.png' alt='Sudoku Solver' />
 </p>
 
-------
+<br />
 
 ## Terminology
 
@@ -22,30 +22,29 @@ CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logi
 * **Conjugate Pair** - Where a candidate is only valid in exactly two cells within a structure, the two cells form a conjugate pair.
 * **Weak Pair** - Two cells part of two different conjugate pairs that share the same row, column or sector.
 
-------
+<br />
 
 ## Solution Techniques
 
 ### Solo Candidate
 
 The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm. Using only this strategy is not sufficient enough to solve any 17-clue Sudoku.
-
+<br />
 
 ### Hidden Candidate
 
 The *hidden candidate* technique is another simple technique for identifying the value of cells. If a candidate is valid in only one cell within a column, row or sector then that cell must be that value. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a structure (column, row, sector) must be checked against each candidate. Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudoku were solved. However, these two strategies are sufficient enough to solve every simple Sudoku.
+<br />
 
 ### Subset Cover
 
 The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=5* as any subset of size *N* greater than 5 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
-
-
+<br />
 
 ### Pointing Pairs/Triples
 
 The *pointing pairs/triples* technique eliminates candidates within a column or row. If a candidate occurs either two or three times within a sector and these cells are all within the same column/row, then the value must be located within the sector and cannot occur elsewhere the column/row. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in every sector must be checked for each candidate.
-
-
+<br />
 
 ### Box/Line Intersection
 
@@ -110,16 +109,9 @@ The *WXYZ-Wing* technique is a further extension of *Y-Wing* and *XYZ-Wing* but 
 ### Future Work
 
 I have implemented only a few logical techniques, however there are far more complex and advanced techniques available but occur very rarely in practice. I may implement additional techniques as I come to understand them. Unfortunately I cannot hope to be able to solve all known Sudoku as solving all using only logical techniques is still an incomplete problem.
-
-
-
-------
-
-
+<br />
 
 ## Benchmarking and Testing
-
-
 
 ### Summary
 
@@ -141,10 +133,7 @@ I have implemented only a few logical techniques, however there are far more com
 | WXYZ-Wing                | 46,265                  | 94.1             |
 
 *Note: Accuracy is determined by applying the corresponding technique and all previous techniques across all 49,151 17-clue Sudokus.*
-
-
-
-
+<br />
 
 ### Coverage and Total Occurrences
 
@@ -166,10 +155,7 @@ This table demonstrates the percentage of test puzzles that feature at least one
 | BUG                | 0.4          | 204         |
 | XYZ-Wing           | 0.8          | 419         |
 | WXYZ-Wing          | 0.7          | 359         |
-
-
-
-
+<br />
 
 ### Datasets
 
@@ -201,10 +187,6 @@ Here is a partially solved Sudoku:
 
 * Cells with one or more values (Blue/Red) are cells which the value could be one of the values in the cell.
 * Different colours are used to differentiate between the 3x3 sectors.
-
-
-
-------
 
 
 
