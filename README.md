@@ -8,7 +8,7 @@ CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logi
 
 <br />
 
-View additonal information on the logical techniques used ![here](https://www.kylegough.co.uk/projects/sudoku).
+View additonal information on the logical techniques used [here](https://www.kylegough.co.uk/projects/sudoku).
 
 <br />
 
@@ -103,19 +103,8 @@ This table demonstrates the percentage of test puzzles that feature at least one
 
 Datasets of different Sudoku puzzles were tested against the solver in order to test completeness, speed and efficiency.
 
-
-
-- [Gordon Royle's list of all currently known 17-clue minimal Sudoku puzzles][2]
-  - 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have such that it has a unique solution.
-  - ~~Currently the goal is to achieve 90+% accuracy across the whole set by implementing new strategies.~~
-  - Testing all 49,151 puzzles repeatedly is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes. Testing of all 49,151 is performed when relevant milestones are reached.
-  - This dataset will be used as the primary benchmark as the dataset contains a wide range of puzzle difficulties.
-
-
-
-
+- [Gordon Royle's list of all currently known 17-clue minimal Sudoku puzzles](http://staffhome.ecm.uwa.edu.au/~00013890/sudokumin.php) - used as the primary benchmark as contains a wide range of puzzle difficulties. 17 clues (initial numbers on the grid) is the minimum number of clues any Sudoku can have such that it has a unique solution. Testing all 49,151 puzzles repeatedly is time-consuming, so a subset of 1000 of these puzzles are used for continual testing purposes. Testing of all 49,151 is performed when relevant milestones are reached.
 - [1 million Simple Sudoku games](https://www.kaggle.com/bryanpark/sudoku) - the solver successfully solves 100% of the Sudoku in this dataset. A subset of 1000 of these puzzles are used to check for errors during development.
-
 
 
 Here is a partially solved Sudoku:
@@ -159,17 +148,9 @@ At the end of execution the following is output.
 * Total time elapsed in seconds.
 * Mean time elapsed per puzzle.
 
+<br />
 
-
-------
-
-
-
-## Getting Started
-
-
-
-#### Running the Solver
+## Running the Solver
 
 Run the solver on 1000 simple Sudoku.
 
@@ -177,13 +158,16 @@ Run the solver on 1000 simple Sudoku.
 
 > The solver will run on .csv files where each 81-character line can represent one puzzle. 0's represent missing/unknown cells and the order of the cells goes from top to bottom, left to right.
 
+<br />
 
-The output should look something like this.
+The output should look something like this:
 
 ```
 [ Tests ]
  - Solved 1000 out of 1000 tests. (100.0%)
 ```
+
+<br />
 
 There are two optional flags:
 
@@ -192,10 +176,3 @@ There are two optional flags:
 
 
 `./sudoku -m -o tests/simple-1000.csv`
-
-------
-
-## References
-
-[1]: https://www.kaggle.com/bryanpark/sudoku	"1,000,000 Sudoku"
-[2]: http://staffhome.ecm.uwa.edu.au/~00013890/sudokumin.php	"17-Clue Sudoku"
