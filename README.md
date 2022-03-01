@@ -1,6 +1,4 @@
-<p align="center">
-  <h1>Logical Sudoku Solver</h1>
-</p>
+# Logical Sudoku Solver
 
 <br />
 
@@ -12,7 +10,7 @@ View additonal information on the logical techniques used [here](https://www.kyl
 
 <br />
 
-<p align="center">
+<p align='center'>
   <img src='./images/results.png' alt='Sudoku Solver' />
 </p>
 
@@ -119,34 +117,15 @@ Here is a partially solved Sudoku:
 ## Example Output
 
 
-
 At each step the following information is output:
 
 * Techniques used to gain information and what deductions have been made.
 * Cells and structures used to gain information.
 * Cell(s) it affects.
 
-
-
-![exampleoutput](/home/kyle/Documents/sudoku/images/exampleoutput.png)
-
-
-
-At the end of execution the following is output.
-
-* Percentage of tests solved.
-* Percentage of tests exhausted - *Tests which were not solved.*
-* Percentage of tests that encountered errors - *Hopefully should be 0%.*
-* Mean number of clues in the provided puzzles.
-* Mean, minimum, and maximum difficulty scores for the test puzzles.
-* For each technique the following is output:
-  * *(i)* True or False: whether or not the technique was encountered.
-  * *(ii)* Number of occurrences of the technique.
-  * *(iii)* Percentage of puzzles the technique is used in.  
-  * *(iv)* Number of solved puzzles the technique was used at least once on.
-  *  *(v)* Total execution time in seconds processing the technique. The top 3 longest duration techniques are coloured red, the top 5 are coloured yellow, whilst the remaining techniques are coloured green.
-* Total time elapsed in seconds.
-* Mean time elapsed per puzzle.
+<div align="center">
+  <img src='./images/moves.png' alt='Example Move Output' />
+</div>
 
 <br />
 
