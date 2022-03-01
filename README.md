@@ -2,7 +2,7 @@
 
 <br />
 
-CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads csv files where each puzzle can be separated by newline characters to allow batch solving. After processing all Sudoku in a given file, in-depth analysis is displayed including but not limited to: difficulty rating, occurrences of each technique, probability of each technique, processing time for each technique and total processing time.
+Logical Sudoku solver written in Python that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads CSV files where each puzzle can be separated by newline characters to allow batch solving. In-depth analysis is provided regarding techniques, difficulty and processing time.
 
 View additonal information on the logical techniques used [here](https://www.kylegough.co.uk/projects/sudoku).
 
