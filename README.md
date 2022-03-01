@@ -2,7 +2,7 @@
 
 CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads csv files where each puzzle can be separated by newline characters to allow batch solving. After processing all Sudoku in a given file, in-depth analysis is displayed including but not limited to: difficulty rating, occurrences of each technique, probability of each technique, processing time for each technique and total processing time.
 
-![Sudoku Solver](./images/results)
+![Sudoku Solver](./images/results.png)
 
 ------
 
@@ -18,12 +18,12 @@ CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logi
 
 ## Solution Techniques ##
 
-##### Solo Candidate #####
+### Solo Candidate ###
 
 The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm. Using only this strategy is not sufficient enough to solve any 17-clue Sudoku.
 
 
-##### Hidden Candidate ###
+### Hidden Candidate ###
 
 The *hidden candidate* technique is another simple technique for identifying the value of cells. If a candidate is valid in only one cell within a column, row or sector then that cell must be that value. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a structure (column, row, sector) must be checked against each candidate. Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudoku were solved. However, these two strategies are sufficient enough to solve every simple Sudoku.
 
