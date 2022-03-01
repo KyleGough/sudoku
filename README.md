@@ -2,42 +2,25 @@
 
 CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads csv files where each puzzle can be separated by newline characters to allow batch solving. After processing all Sudoku in a given file, in-depth analysis is displayed including but not limited to: difficulty rating, occurrences of each technique, probability of each technique, processing time for each technique and total processing time.
 
-
-
-<img src="/home/kyle/Documents/sudoku/images/summary.png" alt="summary" style="zoom:75%;" />
-
-
+![Sudoku Solver](./images/results)
 
 ------
-
-
 
 ## Terminology
 
-
-
-* Candidates - *The possible values a cell can be. Various techniques will aim to reduce to number of candidates for each cell using logical reasoning.*
-* Simple Sudoku - *A Sudoku that can be solved only using the solo candidate and hidden candidate techniques.*
-* Minimum Sudoku - *A Sudoku where removing a clue from the initial configuration produces a Sudoku without a unique solution. Minimum Sudoku must have at least 17 clues.*
-* Conjugate Pair - *Where a candidate is only valid in exactly two cells within a structure, the two cells form a conjugate pair.*
-* Weak Pair - *Two cells part of two different conjugate pairs that share the same row, column or sector.*
-
-
+* **Candidates** - The possible values a cell can be. Various techniques will aim to reduce to number of candidates for each cell using logical reasoning.
+* **Simple Sudoku** - A Sudoku that can be solved only using the solo candidate and hidden candidate techniques.
+* **Minimum Sudoku** - A Sudoku where removing a clue from the initial configuration produces a Sudoku without a unique solution. Minimum Sudoku must have at least 17 clues.
+* **Conjugate Pair** - Where a candidate is only valid in exactly two cells within a structure, the two cells form a conjugate pair.
+* **Weak Pair** - Two cells part of two different conjugate pairs that share the same row, column or sector.
 
 ------
 
-
-
 ## Solution Techniques ##
-
-
-
-
 
 ##### Solo Candidate #####
 
 The *solo candidate* technique is a simple technique for identifying the value of cells where a cell has only one candidate, therefore the cell must be that candidate. This technique has been implemented using a **O(N<sup>2</sup>)** complexity algorithm as every cell in the grid must be checked. Multiple solo candidates can be observed in one pass of the algorithm. Using only this strategy is not sufficient enough to solve any 17-clue Sudoku.
-
 
 
 ##### Hidden Candidate ###
@@ -294,18 +277,13 @@ The output should look something like this.
  - Solved 1000 out of 1000 tests. (100.0%)
 ```
 
-
-
 There are two optional flags:
 
-* [-m] - Displays the moves and techniques used at each stage of solving the Sudoku.
-* [-o] - Displays the initial grid and solution in the terminal.
-
-```
-./sudoku -m -o tests/simple-1000.csv
-```
+* `-m` - Displays the moves and techniques used at each stage of solving the Sudoku.
+* `-o` - Displays the initial grid and solution in the terminal.
 
 
+`./sudoku -m -o tests/simple-1000.csv`
 
 ------
 
