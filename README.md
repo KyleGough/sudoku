@@ -1,8 +1,12 @@
+<p align="center">
 # Logical Sudoku Solver
+</p>
 
 CLI logical Sudoku solver that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads csv files where each puzzle can be separated by newline characters to allow batch solving. After processing all Sudoku in a given file, in-depth analysis is displayed including but not limited to: difficulty rating, occurrences of each technique, probability of each technique, processing time for each technique and total processing time.
 
+<p align="center">
 ![Sudoku Solver](./images/results.png)
+</p>
 
 ------
 
@@ -27,9 +31,7 @@ The *solo candidate* technique is a simple technique for identifying the value o
 
 The *hidden candidate* technique is another simple technique for identifying the value of cells. If a candidate is valid in only one cell within a column, row or sector then that cell must be that value. This technique has been implemented using a **O(N<sup>3</sup>)** complexity algorithm as each cell in a structure (column, row, sector) must be checked against each candidate. Using only the *Single Candidate* and *Hidden Candidate* techniques, *44.6%* of the 49,151 17-clue Sudoku were solved. However, these two strategies are sufficient enough to solve every simple Sudoku.
 
-
-
-##### Subset Cover (Pairs/Triples/Quads/Quints) #####
+### Subset Cover ###
 
 The *subset cover* technique eliminates candidates within a column, row or sector. If a subset of *N* cells within a structure covers *N* different candidates (i.e. union of candidates in the *N* cells is of size *N*) then the candidates must be contained within these *N* cells and cannot appear elsewhere in the structure. This technique is only valid for *2<=N<=5* as any subset of size *N* greater than 5 will automatically be composed of a smaller subset of size *(9-N)* which will be simpler to solve.
 
