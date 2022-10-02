@@ -41,8 +41,8 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Subset Cover             | 34,269                  | 69.7             |
 | Pointing Pairs           | 41,376                  | 84.2             |
 | Box/Line Reduction       | 41,628                  | 84.7             |
-| X-Wing                   | -                       | -                |
-| Singles Chain            | -                       | -                |
+| X-Wing                   | 41,643                  | 84.7             |
+| Singles Chain            | 44,597                  | 90.7             |
 | Y-Wing                   | -                       | -                |
 | Unique Rectangles        | -                       | -                |
 | Swordfish                | -                       | -                |
