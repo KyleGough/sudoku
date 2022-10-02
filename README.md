@@ -47,7 +47,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Unique Rectangles        | 45,885                  | 93.3             |
 | Swordfish                | 45,907                  | 93.4             |
 | Jellyfish                | 45,912                  | 93.4             |
-| Bi-Value Universal Grave | -                       | -                |
+| Bi-Value Universal Grave | 46,118                  | 93.8             |
 | XYZ-Wing                 | -                       | -                |
 | WXYZ-Wing                | -                       | -                |
 
