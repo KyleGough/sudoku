@@ -48,7 +48,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Swordfish                | 45,907                  | 93.4             |
 | Jellyfish                | 45,912                  | 93.4             |
 | Bi-Value Universal Grave | 46,118                  | 93.8             |
-| XYZ-Wing                 | -                       | -                |
+| XYZ-Wing                 | 46,174                  | 93.9             |
 | WXYZ-Wing                | -                       | -                |
 
 ## Technique Coverage and Occurrences
