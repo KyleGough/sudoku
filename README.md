@@ -39,17 +39,17 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Solo Candidate           | 0                       | 0                |
 | Hidden Candidate         | 21,905                  | 44.6             |
 | Subset Cover             | 34,269                  | 69.7             |
-| Pointing Pairs           | 41,302                  | 84.0             |
-| Box/Line Reduction       | 41,577                  | 84.6             |
-| X-Wing                   | 41,594                  | 84.6             |
-| Singles Chain            | 44,530                  | 90.6             |
-| Y-Wing                   | 45,732                  | 93.0             |
+| Pointing Pairs           | 41,376                  | 84.2             |
+| Box/Line Reduction       | -                       | -                |
+| X-Wing                   | -                       | -                |
+| Singles Chain            | -                       | -                |
+| Y-Wing                   | -                       | -                |
 | Unique Rectangles        | -                       | -                |
 | Swordfish                | -                       | -                |
 | Jellyfish                | -                       | -                |
-| Bi-Value Universal Grave | 45,929                  | 93.4             |
+| Bi-Value Universal Grave | -                       | -                |
 | XYZ-Wing                 | -                       | -                |
-| WXYZ-Wing                | 46,265                  | 94.1             |
+| WXYZ-Wing                | -                       | -                |
 
 ## Technique Coverage and Occurrences
 
