@@ -1,5 +1,7 @@
 <h1>Logical Sudoku Solver</h1>
 
+<img src="https://img.shields.io/badge/Solve%20Rate-94.1%25-informational?style=for-the-badge" />
+
 Logical Sudoku solver written in Python that can solve expert level 9x9 Sudoku using only logical techniques and reasoning (in other words no brute forcing, guessing or backtracking). The program outputs a detailed description of the techniques and moves required at each step to solve unique solution Sudoku. The solver reads CSV files where each puzzle can be separated by newline characters to allow batch solving. In-depth analysis is provided regarding techniques, difficulty and processing time.
 
 View additonal information on the logical techniques used [here](https://www.kylegough.co.uk/projects/sudoku).
@@ -49,7 +51,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Jellyfish                | 45,912                  | 93.4             |
 | Bi-Value Universal Grave | 46,118                  | 93.8             |
 | XYZ-Wing                 | 46,174                  | 93.9             |
-| WXYZ-Wing                | -                       | -                |
+| WXYZ-Wing                | 46,265                  | 94.1             |
 
 ## Technique Coverage and Occurrences
 
