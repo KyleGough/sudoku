@@ -44,7 +44,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | X-Wing                   | 41,643                  | 84.7             |
 | Singles Chain            | 44,597                  | 90.7             |
 | Y-Wing                   | 45,798                  | 93.2             |
-| Unique Rectangles        | -                       | -                |
+| Unique Rectangles        | 45,885                  | 93.3             |
 | Swordfish                | -                       | -                |
 | Jellyfish                | -                       | -                |
 | Bi-Value Universal Grave | -                       | -                |
