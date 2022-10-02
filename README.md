@@ -43,7 +43,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Box/Line Reduction       | 41,628                  | 84.7             |
 | X-Wing                   | 41,643                  | 84.7             |
 | Singles Chain            | 44,597                  | 90.7             |
-| Y-Wing                   | -                       | -                |
+| Y-Wing                   | 45,798                  | 93.2             |
 | Unique Rectangles        | -                       | -                |
 | Swordfish                | -                       | -                |
 | Jellyfish                | -                       | -                |
