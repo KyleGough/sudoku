@@ -38,7 +38,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | ------------------------ | ----------------------- | ---------------- |
 | Solo Candidate           | 0                       | 0                |
 | Hidden Candidate         | 21,905                  | 44.6             |
-| Subset Cover             | -                       | -                |
+| Subset Cover             | 34,269                  | 69.7             |
 | Pointing Pairs           | 41,302                  | 84.0             |
 | Box/Line Reduction       | 41,577                  | 84.6             |
 | X-Wing                   | 41,594                  | 84.6             |
