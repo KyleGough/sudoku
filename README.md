@@ -40,7 +40,7 @@ Accuracy is determined by applying the corresponding technique and all previous 
 | Hidden Candidate         | 21,905                  | 44.6             |
 | Subset Cover             | 34,269                  | 69.7             |
 | Pointing Pairs           | 41,376                  | 84.2             |
-| Box/Line Reduction       | -                       | -                |
+| Box/Line Reduction       | 41,628                  | 84.7             |
 | X-Wing                   | -                       | -                |
 | Singles Chain            | -                       | -                |
 | Y-Wing                   | -                       | -                |
