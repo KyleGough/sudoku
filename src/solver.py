@@ -24,7 +24,6 @@ strats = [
     t.ur, # Unique Rectangles.
     t.swordfish, # Extension of X-Wing.
     t.jellyfish, # Extension of X-Wing and Swordfish.
-    #t.avoidableRect ### Uniqueness Technique.
     t.bivalueUniversalGrave, # Uniqueness Technique.
     t.xyzWing, # Extension of Y-Wing.
     t.wxyzWing, # Extension of XYZ-Wing.

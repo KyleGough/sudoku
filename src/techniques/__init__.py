@@ -7,7 +7,6 @@ from techniques.boxLineReduction import boxLineReduction
 from techniques.xwing import xWing
 from techniques.singlesChain import singlesChain
 from techniques.ywing import yWing
-from techniques.avoidableRectangle import avoidableRect
 from techniques.bug import bivalueUniversalGrave
 from techniques.xyzWing import xyzWing
 from techniques.wxyzWing import wxyzWing
