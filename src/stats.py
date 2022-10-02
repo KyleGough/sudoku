@@ -13,7 +13,6 @@ class Stats:
     def print(self): 
         msg = "Moves: " + tCol.warning(str(self.moves))
         msg += ", Clues: " + tCol.warning(str(self.clues))
-        msg += ", Techniques: " + tCol.okblue(str(self.techniqueMoves))
         msg += ", Difficulty: " + tCol.fail(str(self.getDifficulty()))
         print(msg)
 
